@@ -18,7 +18,10 @@ import {
     useDisclosure,
     Image,
     InputGroup,
-    InputLeftElement
+    InputLeftElement,
+    useColorModeValue,
+    Badge,
+    // StarIcon
 } from '@chakra-ui/react';
 import { SearchIcon } from "@chakra-ui/icons";
 import axios from "axios";
@@ -28,6 +31,7 @@ import food from '../../food.png';
 import { useParams } from 'react-router-dom';
 import { useToast } from "@chakra-ui/react";
 import Pagination from '../Pagination/pagination';
+import { StarIcon } from '@chakra-ui/icons';
 
 const Catalog = () => {
 
@@ -142,6 +146,17 @@ const Catalog = () => {
     };
 
 
+    const property = {
+        imageUrl: 'https://bit.ly/2Z4KKcF',
+        imageAlt: 'Rear view of modern home with pool',
+        beds: 3,
+        baths: 2,
+        title: 'Modern home in city center in the heart of historic Los Angeles',
+        formattedPrice: '$1,900.00',
+        reviewCount: 34,
+        rating: 4,
+    }
+
 
     return (
         <>
@@ -162,7 +177,7 @@ const Catalog = () => {
                             <SearchIcon color='gray.300' />
                         </InputLeftElement>
                         <Input
-                            width="1200px"
+                            width="1190px"
                             placeholder="Search items..."
                             mb={4}
                             value={searchQuery}
@@ -171,8 +186,115 @@ const Catalog = () => {
                         />
                     </InputGroup>
 
-
                     {
+                        catalogItems.length ?
+                            <Box>
+                                <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width={"100%"} >
+                                    {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery))).map((item) => (
+                                        <GridItem key={item._id} >
+                                            {/* <Box
+                                                _hover={{
+                                                    bg: 'green.100',
+                                                    cursor: 'pointer',
+                                                }}
+                                                border="1px"
+                                                p={4}
+                                                borderRadius="md"
+                                                boxShadow="md"
+                                            > */}
+                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }}>
+                                                <Box
+                                                    onClick={() => {
+                                                        setSelectedItem(item);
+                                                        onOpen();
+                                                    }}
+
+                                                >
+                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                                                    {/* <Box
+                                                                w="200px"
+                                                                h="200px"
+                                                                borderRadius="full"
+                                                                overflow="hidden"
+                                                                color="white"
+                                                                display="flex"
+                                                                align="center"
+                                                                justify="center"
+                                                                ml={"20%"}
+                                                                mt={2}
+                                                                position="relative"
+                                                            >
+                                                                <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                                                            </Box> */}
+
+                                                    <Box p='6'>
+                                                        <Box display='flex' alignItems='baseline'>
+                                                            <Badge borderRadius='full' px='2' colorScheme='teal'>
+                                                                New
+                                                            </Badge>
+                                                            <Box
+                                                                color='gray.500'
+                                                                fontWeight='semibold'
+                                                                letterSpacing='wide'
+                                                                fontSize='xs'
+                                                                textTransform='uppercase'
+                                                                ml='2'
+                                                            >
+                                                                {item?.name}
+                                                            </Box>
+                                                        </Box>
+
+                                                        <Box
+                                                            mt='1'
+                                                            fontWeight='semibold'
+                                                            as='h4'
+                                                            lineHeight='tight'
+                                                            noOfLines={1}
+                                                        >
+                                                            {item?.description}
+                                                        </Box>
+
+                                                        <Box>
+                                                            <Box as='span' color='black.400' fontWeight='semibold'>
+                                                                Price:  {item?.price} RS
+                                                            </Box>
+                                                        </Box>
+
+                                                        <Box display='flex' mt='2' alignItems='center'>
+                                                            {Array(5)
+                                                                .fill('')
+                                                                .map((_, i) => (
+                                                                    <StarIcon
+                                                                        key={i}
+                                                                        color={i < item?.rating ? 'teal.500' : 'gray.300'}
+                                                                    />
+                                                                ))}
+                                                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                                                {item?.reviews.length} reviews
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                            {/* </Box> */}
+                                        </GridItem>
+                                    ))}
+                                </Grid>
+
+                                {
+                                    (catalogItems.length > 6) &&
+                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                                }
+                            </Box>
+                            :
+                            <Box align={'center'} color={"red"}  >
+                                -- No Items --
+                            </Box>
+                    }
+
+                    {/* ============================================================================================================================================================================== */}
+
+                    {/* {
                         catalogItems.length ?
                             <Box>
                                 <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width={"100%"}>
@@ -187,7 +309,7 @@ const Catalog = () => {
                                                 p={4}
                                                 borderRadius="md"
                                                 boxShadow="md">
-                                                <Flex height="450px" overflowY="auto" maxW={"350px"}>
+                                                <Flex height="420px" overflowY="auto" maxW={"350px"}>
                                                     <Box width="350px" >
                                                         <Box
                                                             onClick={() => {
@@ -200,9 +322,27 @@ const Catalog = () => {
                                                             <Heading as="h3" size="lg" mb={2}>
                                                                 {item.name}
                                                             </Heading>
-                                                            <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'150px'} aspectRatio={3 / 2} objectFit={'contain'} width={"100%"} height={"100%"} />
+                                                            <Box
+                                                                w="200px"
+                                                                h="200px"
+                                                                borderRadius="full"
+                                                                overflow="hidden"
+                                                                // bg="green"
+                                                                color="white"
+                                                                display="flex"
+                                                                align="center"
+                                                                justify="center"
+                                                                ml={"20%"}
+                                                                position="relative"
+                                                            >
+
+                                                                <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                                                            </Box>
                                                             <Text fontSize="xl" color="black">
                                                                 Price: {item?.price.toFixed(2)} Rs
+                                                            </Text>
+                                                            <Text fontSize="xl" color="black">
+                                                                Rating: {item?.rating}
                                                             </Text>
                                                             <Text fontSize="xl" color="black" mb={4} >
                                                                 Description: {item?.description}
@@ -213,6 +353,7 @@ const Catalog = () => {
                                                             mt={6}
                                                             colorScheme="blue"
                                                             onClick={(e) => { AddtoCart(item) }}
+                                                            ml={"33%"}
                                                         >
                                                             Add to Cart
                                                         </Button>
@@ -232,9 +373,13 @@ const Catalog = () => {
                             <Box align={'center'} color={"red"}  >
                                 -- No Items --
                             </Box>
-                    }
+                    } */}
+
+
+                    {/* ========================================================================================================================================================================== */}
+
                 </Box>
-            </Flex>
+            </Flex >
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
@@ -242,15 +387,80 @@ const Catalog = () => {
                     <ModalHeader align={"center"} fontSize={40} fontWeight="bold" >{selectedItem?.name}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Flex direction="column" alignItems="center" textAlign="center">
-                            <Image src={food} alt={selectedItem?.name} mb={4} />
+                        <Box p='6'>
+                            <Image src={selectedItem?.imageLink ? selectedItem?.imageLink : food} alt={selectedItem?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                            <Box display='flex' alignItems='baseline'>
+                                <Badge borderRadius='full' px='2' colorScheme='teal'>
+                                    New
+                                </Badge>
+                                <Box
+                                    color='gray.500'
+                                    fontWeight='semibold'
+                                    letterSpacing='wide'
+                                    fontSize='xs'
+                                    textTransform='uppercase'
+                                    ml='2'
+                                >
+                                    {selectedItem?.name}
+                                </Box>
+                            </Box>
+
+                            <Box
+                                mt='1'
+                                fontWeight='semibold'
+                                as='h4'
+                                lineHeight='tight'
+                                noOfLines={1}
+                            >
+                                {selectedItem?.description}
+                            </Box>
+
+                            <Box>
+                                <Box as='span' color='black.400' fontWeight='semibold'>
+                                    Price:  {selectedItem?.price} RS
+                                </Box>
+                            </Box>
+
+                            <Box display='flex' mt='2' alignItems='center'>
+                                {Array(5)
+                                    .fill('')
+                                    .map((_, i) => (
+                                        <StarIcon
+                                            key={i}
+                                            color={i < selectedItem?.rating ? 'teal.500' : 'gray.300'}
+                                        />
+                                    ))}
+                                <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                    {selectedItem?.reviews.length} reviews
+                                </Box>
+                            </Box>
+                        </Box>
+                        {/* <Flex direction="column" alignItems="center" textAlign="center">
+                            <Box
+                                w="200px"
+                                h="200px"
+                                borderRadius="full"
+                                overflow="hidden"
+                                // bg="green"
+                                color="white"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                // ml={"35%"}
+                                position="relative"
+                            >
+                                <Image src={selectedItem?.imageLink} alt={selectedItem?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                            </Box>
                             <Text fontSize="xl" color="black">
                                 Price: {selectedItem?.price.toFixed(2)} Rs
+                            </Text>
+                            <Text fontSize="xl" color="black">
+                                rating: {selectedItem?.rating}
                             </Text>
                             <Text fontSize="xl" color="black" mb={4} width="500px" overflowY="auto">
                                 Description: {selectedItem?.description}
                             </Text>
-                        </Flex>
+                        </Flex> */}
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>

@@ -114,6 +114,8 @@ const UserProfile = () => {
             //     config
             // );
 
+            setEdit(false);
+
         } catch (error) {
             toast({
                 title: "Unable to Update Profile",
@@ -124,10 +126,12 @@ const UserProfile = () => {
                 position: "bottom",
             });
         }
+
     };
 
 
     const [flag, setFlag] = useState(false);
+    const [edit, setEdit] = useState(false);
     const [selectedImage, setSelectedImage] = useState(profile);
     const [selectedNewImage, setSelectedNewImage] = useState(null);
 
@@ -160,6 +164,7 @@ const UserProfile = () => {
     //     setSelectedImage(selectedNewImage);
     //     setFlag(false);
     // }
+
     const handleUpdateImage = (e) => {
         e.preventDefault();
         if (selectedNewImage) {
@@ -171,6 +176,7 @@ const UserProfile = () => {
                 position: "bottom",
             });
             setSelectedImage(selectedNewImage);
+            setSelectedNewImage(null)
             setFlag(false);
         } else {
             toast({
@@ -186,6 +192,11 @@ const UserProfile = () => {
     const handleDeleteImage = (e) => {
         e.preventDefault();
         setFlag(false);
+    }
+
+    const handleEdit = (e) => {
+        e.preventDefault();
+        setEdit(true);
     }
 
     return (
@@ -223,6 +234,11 @@ const UserProfile = () => {
                             justifyContent="center"
                             ml={"35%"}
                             position="relative"
+                            boxShadow="5px 1px 25px black"
+                            _hover={{
+                                cursor: "pointer",
+                                transform: useColorModeValue('scale(1.1)', 'scale(1.1)')
+                            }}
                         >
                             <Image
                                 src={selectedImage}
@@ -282,33 +298,36 @@ const UserProfile = () => {
                                     />
                                 </FormControl>
                             }
-                            <FormControl id="name" isRequired>
+                            <FormControl id="name" isRequired={edit}>
                                 <FormLabel>Name of User</FormLabel>
                                 <Input
                                     type="text"
                                     placeholder="Enter Name of User"
                                     value={userName}
                                     onChange={(e) => { setUserName(e.target.value) }}
+                                    readOnly={!edit}
                                 />
                             </FormControl>
 
-                            <FormControl id="age" isRequired>
+                            <FormControl id="age" isRequired={edit} >
                                 <FormLabel>Age of User</FormLabel>
                                 <Input
                                     type="text"
                                     placeholder="Enter Age of User"
                                     value={userAge}
                                     onChange={(e) => { setUserAge(e.target.value) }}
+                                    readOnly={!edit}
                                 />
                             </FormControl>
 
-                            <FormControl id="description" isRequired>
+                            <FormControl id="description" isRequired={edit}>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
                                     size="md"
                                     placeholder="Enter Description of User"
                                     value={userDescription}
                                     onChange={(e) => { setUserDescription(e.target.value) }}
+                                    readOnly={!edit}
                                 />
                             </FormControl>
 
@@ -335,9 +354,18 @@ const UserProfile = () => {
                                     </Box>
                                 )}
                             </FormControl> */}
-                            <Button mt={2} onClick={handleUpdate} colorScheme="blue" width={"50%"} >
-                                Update
-                            </Button>
+                            {
+                                !edit &&
+                                <Button mt={2} onClick={handleEdit} width={"50%"} >
+                                    Edit Profile
+                                </Button>
+                            }
+                            {
+                                edit &&
+                                <Button mt={2} onClick={handleUpdate} colorScheme="blue" width={"50%"} >
+                                    Save
+                                </Button>
+                            }
                         </Stack>
                     </Box>
                 </Stack>

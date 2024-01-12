@@ -20,6 +20,7 @@ const AddItem = () => {
         description: '',
         price: 0,
         photo: null,
+        rating: 0
     });
 
 
@@ -58,7 +59,7 @@ const AddItem = () => {
                     "quantity": 1,
                     "availabilityStatus": true,
                     "description": item.description,
-                    "rating": 4,
+                    "rating": item.rating,
                     "reviews": ["reviews"]
                 },
                 config
@@ -71,6 +72,7 @@ const AddItem = () => {
                     description: '',
                     price: 0,
                     photo: null,
+                    rating: 0
                 })
                 toast({
                     title: "Item Added Successful",
@@ -197,6 +199,16 @@ const AddItem = () => {
                                     placeholder="Price"
                                     value={item.price}
                                     onChange={(e) => setItem({ ...item, price: e.target.value })}
+                                />
+                            </FormControl>
+                            <FormControl id="rating" isRequired>
+                                <FormLabel>Rating</FormLabel>
+                                <Input
+
+                                    type="number"
+                                    placeholder="Rating"
+                                    value={item.rating}
+                                    onChange={(e) => setItem({ ...item, rating: e.target.value })}
                                 />
                             </FormControl>
 

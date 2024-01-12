@@ -48,7 +48,6 @@ const HotelProfile = () => {
     };
 
 
-
     const postDetails = (pics) => {
 
         if (pics.type === "image/jpeg" || pics.type === "image/png") {
@@ -123,6 +122,8 @@ const HotelProfile = () => {
             //     config
             // );
 
+            setEdit(false);
+
         } catch (error) {
             toast({
                 title: "Unable to Update Profile",
@@ -137,6 +138,7 @@ const HotelProfile = () => {
 
 
     const [flag, setFlag] = useState(false);
+    const [edit, setEdit] = useState(false);
     const [selectedImage, setSelectedImage] = useState(profile);
     const [selectedNewImage, setSelectedNewImage] = useState(null);
 
@@ -197,6 +199,11 @@ const HotelProfile = () => {
         setFlag(false);
     }
 
+    const handleEdit = (e) => {
+        e.preventDefault();
+        setEdit(true);
+    }
+
     return (
         <>
             <Header />
@@ -219,6 +226,7 @@ const HotelProfile = () => {
                         boxShadow="5px 10px 18px #888888"
                         p={8}
                     >
+
                         <Box
                             w="200px"
                             h="200px"
@@ -231,6 +239,11 @@ const HotelProfile = () => {
                             justifyContent="center"
                             ml={"35%"}
                             position="relative"
+                            boxShadow="5px 1px 25px black"
+                            _hover={{
+                                cursor: "pointer",
+                                transform: useColorModeValue('scale(1.1)', 'scale(1.1)')
+                            }}
                         >
                             <Image
                                 src={selectedImage}
@@ -277,6 +290,7 @@ const HotelProfile = () => {
                                 </Box>
                             </Flex>
                         )}
+
                         <Stack spacing={4} align={"center"}>
                             {
                                 flag &&
@@ -290,37 +304,41 @@ const HotelProfile = () => {
                                     />
                                 </FormControl>
                             }
-                            <FormControl id="name" isRequired>
+
+                            <FormControl id="name" isRequired={edit}>
                                 <FormLabel>Name of Hotel</FormLabel>
                                 <Input
                                     type="text"
                                     placeholder="Enter Name of Hotel"
                                     value={hotelName}
                                     onChange={(e) => { setHotelName(e.target.value) }}
+                                    readOnly={!edit}
                                 />
                             </FormControl>
 
-                            <FormControl id="rating" isRequired>
+                            <FormControl id="rating" isRequired={edit}>
                                 <FormLabel>Rating of Hotel</FormLabel>
                                 <Input
                                     type="number"
                                     placeholder="Enter Rating of Hotel"
                                     value={hotelRating}
                                     onChange={(e) => { setHotelRating(e.target.value) }}
+                                    readOnly={!edit}
                                 />
                             </FormControl>
 
-                            <FormControl id="description" isRequired>
+                            <FormControl id="description" isRequired={edit}>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
                                     size="md"
                                     placeholder="Enter Description of Hotel"
                                     value={hotelDescription}
                                     onChange={(e) => { setHotelDescription(e.target.value) }}
+                                    readOnly={!edit}
                                 />
                             </FormControl>
 
-                            <FormControl id="uploadimage" isRequired>
+                            <FormControl id="uploadimage" isRequired={edit}>
                                 <FormLabel>Upload Images</FormLabel>
                                 <Input
                                     p={1.5}
@@ -328,6 +346,7 @@ const HotelProfile = () => {
                                     multiple
                                     accept=".jpg, .jpeg, .png, .pdf"
                                     onChange={handleFileChange}
+                                    isDisabled={!edit}
                                 />
                                 {selectedFiles.length > 0 && (
                                     <Box mt={2}>
@@ -336,21 +355,33 @@ const HotelProfile = () => {
                                             {Array.from(selectedFiles).map((file, index) => (
                                                 <Flex p={2}>
                                                     <li key={index}> {file.slice(0, 20)} ....</li>
-                                                    <Button ml={2} height={"30px"} onClick={() => { handleDelete(index) }}> <FontAwesomeIcon icon={faTrash} /></Button>
+                                                    {
+                                                        edit &&
+                                                        <Button ml={2} height={"30px"} onClick={() => { handleDelete(index) }}> <FontAwesomeIcon icon={faTrash} /></Button>
+                                                    }
+
                                                 </Flex>
                                             ))}
                                         </ul>
                                     </Box>
                                 )}
                             </FormControl>
-                            <Button mt={2} onClick={handleUpdate} colorScheme="blue" width={"50%"} >
-                                Update
-                            </Button>
+                            {
+                                !edit &&
+                                <Button mt={2} onClick={handleEdit} width={"50%"} >
+                                    Edit Profile
+                                </Button>
+                            }
+                            {
+                                edit &&
+                                <Button mt={2} onClick={handleUpdate} colorScheme="blue" width={"50%"} >
+                                    Save
+                                </Button>
+                            }
                         </Stack>
                     </Box>
                 </Stack>
             </Flex>
-
             <Footer />
         </>
     )
