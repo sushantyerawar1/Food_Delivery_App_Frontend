@@ -54,8 +54,8 @@ const Payment = () => {
                         boxShadow="5px 10px 18px #888888"
                         p={5}
                     >
-                        <Heading as="h2" size="xl" align={'center'} color={"black.300"} mb={3}>
-                            Shipping Information
+                        <Heading as={"h1"} fontSize='60px' align={'center'} color={"#4c4e56"} mb={3}>
+                            Confirm Order
                         </Heading>
 
                         <Box display={"flex"} >
