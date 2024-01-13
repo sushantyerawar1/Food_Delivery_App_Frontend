@@ -18,13 +18,13 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
-    Image
+    Image,
+    Badge
 } from '@chakra-ui/react'
 
+import { FaShoppingCart } from 'react-icons/fa';
 import ProfileModal from "./Profile/profilemodal"
-import { ChevronDownIcon, SearchIcon, AddIcon } from "@chakra-ui/icons";
 import logo from "../logo.png"
-import { addtocart } from "../addtocart.svg"
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 
@@ -52,6 +52,8 @@ const Header = () => {
     useEffect(() => {
         if (path == "verifymail") localStorage.removeItem("userInfo");
     }, [])
+
+    const numberOfItemsInCart = 3;
 
     return (
 
@@ -238,9 +240,22 @@ const Header = () => {
                                 {user && role == "user" && (
                                     path != "/" &&
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/addtocart`) }}>
-                                        Cart
+                                        <FaShoppingCart />
+                                        {numberOfItemsInCart > 0 && (
+                                            <Badge
+                                                colorScheme="red"
+                                                borderRadius="50%"
+                                                ml="2"
+                                                position="absolute"
+                                                top="-5px"
+                                                right="-5px"
+                                            >
+                                                {numberOfItemsInCart}
+                                            </Badge>
+                                        )}
                                     </Button>
                                 )}
+
 
                                 <Button colorScheme='blue' size='sm' variant='outline' onClick={logoutHandler}>
                                     Logout

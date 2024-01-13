@@ -273,8 +273,18 @@ const Catalog = () => {
                                                                 {item?.reviews.length} reviews
                                                             </Box>
                                                         </Box>
+
                                                     </Box>
                                                 </Box>
+                                                <Button
+                                                    mt={3}
+                                                    colorScheme="blue"
+                                                    onClick={(e) => { AddtoCart(item) }}
+                                                    ml={"33%"}
+                                                    mb={2}
+                                                >
+                                                    Add to Cart
+                                                </Button>
                                             </Box>
                                             {/* </Box> */}
                                         </GridItem>
@@ -379,7 +389,7 @@ const Catalog = () => {
                     {/* ========================================================================================================================================================================== */}
 
                 </Box>
-            </Flex >
+            </Flex>
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />

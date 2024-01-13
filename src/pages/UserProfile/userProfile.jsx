@@ -156,8 +156,6 @@ const UserProfile = () => {
         setFlag(true)
     }
 
-
-
     // const handleUpdateImage = (e) => {
     //     e.preventDefault();
     //     alert("Uploaded Successfully");
@@ -234,7 +232,7 @@ const UserProfile = () => {
                             justifyContent="center"
                             ml={"35%"}
                             position="relative"
-                            boxShadow="5px 1px 25px black"
+                            boxShadow="5px 1px 20px gray"
                             _hover={{
                                 cursor: "pointer",
                                 transform: useColorModeValue('scale(1.1)', 'scale(1.1)')
@@ -255,7 +253,6 @@ const UserProfile = () => {
                                             position: 'absolute',
                                             bottom: "0%",
                                             cursor: 'pointer',
-
                                         }}
                                         onClick={ToggleButton}
                                     />
@@ -354,6 +351,7 @@ const UserProfile = () => {
                                     </Box>
                                 )}
                             </FormControl> */}
+
                             {
                                 !edit &&
                                 <Button mt={2} onClick={handleEdit} width={"50%"} >
