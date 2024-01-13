@@ -114,6 +114,20 @@ const SignUp = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
 
+        const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/
+
+        if (!pattern.test(email)) {
+            toast({
+                title: "Invalid Email",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+
+            return;
+        }
+
         if (!username || !email || !password) {
             toast({
                 title: "Please Fill all the fields",

@@ -238,7 +238,7 @@ const Header = () => {
 
 
                                 {user && role == "user" && (
-                                    path != "/" &&
+                                    (path != "/" && path != "/userorders") &&
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/addtocart`) }}>
                                         <FaShoppingCart />
                                         {numberOfItemsInCart > 0 && (

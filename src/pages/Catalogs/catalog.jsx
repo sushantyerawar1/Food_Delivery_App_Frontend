@@ -397,51 +397,54 @@ const Catalog = () => {
                     <ModalHeader align={"center"} fontSize={40} fontWeight="bold" >{selectedItem?.name}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Box p='6'>
+                        <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10}>
                             <Image src={selectedItem?.imageLink ? selectedItem?.imageLink : food} alt={selectedItem?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
-                            <Box display='flex' alignItems='baseline'>
-                                <Badge borderRadius='full' px='2' colorScheme='teal'>
-                                    New
-                                </Badge>
+                            <Box ml={3} mb={2}>
+
+                                <Box display='flex' alignItems='baseline' >
+                                    <Badge borderRadius='full' px='2' colorScheme='teal'>
+                                        New
+                                    </Badge>
+                                    <Box
+                                        color='gray.500'
+                                        fontWeight='semibold'
+                                        letterSpacing='wide'
+                                        fontSize='xs'
+                                        textTransform='uppercase'
+                                        ml='2'
+                                    >
+                                        {selectedItem?.name}
+                                    </Box>
+                                </Box>
+
                                 <Box
-                                    color='gray.500'
+                                    mt='1'
                                     fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='xs'
-                                    textTransform='uppercase'
-                                    ml='2'
+                                    as='h4'
+                                    lineHeight='tight'
+                                    noOfLines={1}
                                 >
-                                    {selectedItem?.name}
+                                    {selectedItem?.description}
                                 </Box>
-                            </Box>
 
-                            <Box
-                                mt='1'
-                                fontWeight='semibold'
-                                as='h4'
-                                lineHeight='tight'
-                                noOfLines={1}
-                            >
-                                {selectedItem?.description}
-                            </Box>
-
-                            <Box>
-                                <Box as='span' color='black.400' fontWeight='semibold'>
-                                    Price:  {selectedItem?.price} RS
+                                <Box>
+                                    <Box as='span' color='black.400' fontWeight='semibold'>
+                                        Price:  {selectedItem?.price} RS
+                                    </Box>
                                 </Box>
-                            </Box>
 
-                            <Box display='flex' mt='2' alignItems='center'>
-                                {Array(5)
-                                    .fill('')
-                                    .map((_, i) => (
-                                        <StarIcon
-                                            key={i}
-                                            color={i < selectedItem?.rating ? 'teal.500' : 'gray.300'}
-                                        />
-                                    ))}
-                                <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                    {selectedItem?.reviews.length} reviews
+                                <Box display='flex' mt='2' alignItems='center'>
+                                    {Array(5)
+                                        .fill('')
+                                        .map((_, i) => (
+                                            <StarIcon
+                                                key={i}
+                                                color={i < selectedItem?.rating ? 'teal.500' : 'gray.300'}
+                                            />
+                                        ))}
+                                    <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                        {selectedItem?.reviews.length} reviews
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
