@@ -10,11 +10,13 @@ import {
     Flex,
     useColorModeValue,
     Center,
-    Heading
+    Heading,
+    Image
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import Header from '../../Header/Header';
 import Footer from '../../Footer/footer';
+import image from "../../creditcard.png"
 
 const Payment = () => {
 
@@ -45,6 +47,95 @@ const Payment = () => {
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 
                     <Box
+                        width={"100%"}
+                        rounded={'lg'}
+                        bg={useColorModeValue('white', 'gray.700')}
+                        border="1px solid"
+                        boxShadow="5px 10px 18px #888888"
+                        p={5}
+                    >
+                        <Heading as="h2" size="xl" align={'center'} color={"black.300"} mb={3}>
+                            Shipping Information
+                        </Heading>
+
+                        <Box display={"flex"} >
+                            <FormControl id="personName" isRequired width="60%">
+                                <FormLabel>Person Name</FormLabel>
+                                <Input
+                                    type="text"
+                                    placeholder="Enter user name"
+                                    value={userName}
+                                    onChange={(e) => setUserName(e.target.value)}
+                                />
+                            </FormControl>
+
+                            <FormControl id="cvc" isRequired width="40%" ml={3}>
+                                <FormLabel>CVC</FormLabel>
+                                <Input
+                                    type="text"
+                                    placeholder="Enter CVC"
+                                    value={cvc}
+                                    onChange={(e) => setCVC(e.target.value)}
+                                />
+                            </FormControl>
+                        </Box>
+
+                        <Box display={"flex"} >
+                            <FormControl id="cardNumber" isRequired width="60%">
+                                <FormLabel>Card Number</FormLabel>
+                                <Input
+                                    type="text"
+                                    placeholder="Enter card number"
+                                    value={cardNumber}
+                                    onChange={(e) => setCardNumber(e.target.value)}
+                                />
+                            </FormControl>
+
+                            <FormControl id="expiryDate" isRequired width="40%" ml={3}>
+                                <FormLabel>Expiry Date</FormLabel>
+                                <Input
+                                    type="text"
+                                    placeholder="MM/YY"
+                                    value={expiryDate}
+                                    onChange={(e) => setExpiryDate(e.target.value)}
+                                />
+                            </FormControl>
+
+                        </Box>
+                        <Box display='flex'>
+                            <FormControl id="amount" width="60%">
+                                <FormLabel>Total Amount</FormLabel>
+                                <Box border="1px blur" borderWidth={2} rounded={'lg'} padding={2} >
+                                    {amount}
+                                </Box>
+                            </FormControl>
+
+                            <Box mt={9} width="40%" height={"100%"} ml={3}>
+                                <Image src={image} />
+                            </Box>
+
+                        </Box>
+                        <Center >
+                            <Button colorScheme="green" size="lg" fontSize="md" mt="4" width={500} onClick={handlePayment}>
+                                Confirm
+                            </Button>
+
+                        </Center>
+                    </Box>
+
+
+
+
+
+
+
+
+
+
+
+                    {/* =============================================================================================================================================== */}
+
+                    {/* <Box
                         width={"150%"}
                         rounded={'lg'}
                         bg={useColorModeValue('white', 'gray.700')}
@@ -122,9 +213,15 @@ const Payment = () => {
 
                         </Center>
 
-                    </Box>
+                    </Box> */}
+
+                    {/* ====================================================================================================================================== */}
+
+
+
+
                 </Stack>
-            </Flex >
+            </Flex>
             <Footer />
         </>
 

@@ -47,8 +47,6 @@ const AddToCart = () => {
                 config
             );
 
-            console.log(data, "datadata")
-
             var amount1 = 0;
             for (let i = 0; i < data.items.length; i++) {
                 amount1 += (data.items[i].price) * (data.items[i].quantity)
