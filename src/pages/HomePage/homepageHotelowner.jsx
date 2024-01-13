@@ -66,6 +66,7 @@ const HomePageHotelOwner = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
+                bg="gray"
             >
                 <Box p={20}>
                     <Box bg="green.500" p={4} color="white">
@@ -74,7 +75,7 @@ const HomePageHotelOwner = () => {
                         </Heading>
                     </Box>
                     <Box p={4}>
-                        <Text fontSize="xl">{hotelDescription}</Text>
+                        <Text fontSize="xl" color="white">{hotelDescription}</Text>
                         <Badge variant="solid" colorScheme="teal" fontSize="md" mt={2}>
                             Rating: {hotelRating}
                         </Badge>
