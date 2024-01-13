@@ -315,7 +315,7 @@ const HotelItems = () => {
                                                             fontWeight='semibold'
                                                             as='h4'
                                                             lineHeight='tight'
-                                                            noOfLines={1}
+                                                            noOfLines={4}
                                                         >
                                                             {item?.description}
                                                         </Box>

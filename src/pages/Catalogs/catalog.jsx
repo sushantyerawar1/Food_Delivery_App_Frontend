@@ -249,7 +249,7 @@ const Catalog = () => {
                                                             fontWeight='semibold'
                                                             as='h4'
                                                             lineHeight='tight'
-                                                            noOfLines={1}
+                                                            noOfLines={4}
                                                         >
                                                             {item?.description}
                                                         </Box>
@@ -422,7 +422,7 @@ const Catalog = () => {
                                     fontWeight='semibold'
                                     as='h4'
                                     lineHeight='tight'
-                                    noOfLines={1}
+                                    noOfLines={4}
                                 >
                                     {selectedItem?.description}
                                 </Box>
