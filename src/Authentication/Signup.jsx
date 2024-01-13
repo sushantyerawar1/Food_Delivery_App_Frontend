@@ -128,6 +128,20 @@ const SignUp = () => {
             return;
         }
 
+        if (password.length < 6) {
+            toast({
+                title: "password should be minimum 6 characters",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+
+            return;
+        }
+
+
+
         if (!username || !email || !password) {
             toast({
                 title: "Please Fill all the fields",

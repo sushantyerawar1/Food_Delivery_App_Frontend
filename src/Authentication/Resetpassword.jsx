@@ -56,6 +56,19 @@ const ResetPassword = () => {
 
 
     const handleSubmit = async () => {
+
+        if (password.length < 6) {
+            toast({
+                title: "password should be minimum 6 characters",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+
+            return;
+        }
+
         if (!password || !confirmpassword) {
             toast({
                 title: "Please Enter a password",
