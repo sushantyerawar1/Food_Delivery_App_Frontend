@@ -22,7 +22,7 @@ import {
     Badge
 } from '@chakra-ui/react'
 
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaSignOutAlt, FaSignInAlt, FaHome } from 'react-icons/fa';
 import ProfileModal from "./Profile/profilemodal"
 import logo from "../logo.png"
 import { useNavigate } from 'react-router-dom'
@@ -220,13 +220,6 @@ const Header = () => {
                                         onClick={() => { navigate(`/hotelprofile/${user?._id}`) }}
                                     />} /> */}
 
-                                {
-                                    role == "user" &&
-                                    <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/userprofile/${user?._id}`) }}>
-                                        Profile
-                                    </Button>
-
-                                }
                                 {/* <IconButton icon={<Image
                                         boxSize='40px'
                                         src={logo}
@@ -256,9 +249,16 @@ const Header = () => {
                                     </Button>
                                 )}
 
+                                {
+                                    role == "user" &&
+                                    <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/userprofile/${user?._id}`) }}>
+                                        <FaUser />
+                                    </Button>
+
+                                }
 
                                 <Button colorScheme='blue' size='sm' variant='outline' onClick={logoutHandler}>
-                                    Logout
+                                    <FaSignOutAlt />
                                 </Button>
                             </>
 
@@ -269,7 +269,7 @@ const Header = () => {
                                     :
 
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => navigate('/login')}>
-                                        Login
+                                        <FaSignInAlt />
                                     </Button>
                             )
                     }

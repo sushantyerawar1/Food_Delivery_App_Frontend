@@ -64,6 +64,7 @@ const HomePageUser = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
+                bg="gray"
             >
                 <Box p={20}>
                     <Heading as="h2" size="xl" mb={5} align={'center'} color={"green.300"} >
