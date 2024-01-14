@@ -213,7 +213,7 @@ const SignUp = () => {
                 padding={10}>
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
                     <Stack align={'center'}>
-                        <Heading fontSize={'5xl'}>Create an Account </Heading>
+                        <Text fontSize={'5xl'} color="white">Create an Account </Text>
                     </Stack>
                     <Box
                         rounded={'lg'}
