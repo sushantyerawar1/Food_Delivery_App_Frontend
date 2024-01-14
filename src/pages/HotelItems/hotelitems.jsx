@@ -128,6 +128,28 @@ const HotelItems = () => {
         const answer = window.confirm('Do you want to Update?');
         if (answer) {
 
+            if (selectedItem.rating > 5 || selectedItem.rating < 1) {
+                toast({
+                    title: "Rating Should be between 1 and 5 (both included)",
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+                return;
+            }
+
+            if (selectedItem.name === '' || selectedItem.description === '' || selectedItem.price === 0 || selectedItem.photo === null || selectedItem.rating == 0) {
+                toast({
+                    title: "Please Fill all fields",
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+                return;
+            }
+
             try {
                 const config = {
                     headers: {
@@ -235,13 +257,14 @@ const HotelItems = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
+                bg="gray"
             >
                 <Box p={20}>
 
 
-                    <Heading as="h2" size="xl" mb={5} align={'center'} color={"green.300"} >
+                    <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
                         Items
-                    </Heading>
+                    </Text>
 
 
                     <InputGroup   >
@@ -249,6 +272,7 @@ const HotelItems = () => {
                             <SearchIcon color='gray.300' />
                         </InputLeftElement>
                         <Input
+                            color="white"
                             width="1190px"
                             placeholder="Search items..."
                             mb={4}
@@ -274,7 +298,7 @@ const HotelItems = () => {
                                                 borderRadius="md"
                                                 boxShadow="md"
                                             > */}
-                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', }}>
+                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
                                                 <Box>
                                                     <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
                                                     {/* <Box
@@ -299,7 +323,7 @@ const HotelItems = () => {
                                                                 New
                                                             </Badge>
                                                             <Box
-                                                                color='gray.500'
+                                                                color='white'
                                                                 fontWeight='semibold'
                                                                 letterSpacing='wide'
                                                                 fontSize='xs'
@@ -476,19 +500,20 @@ const HotelItems = () => {
                     {/* ============================================================================================================================================================================== */}
 
                 </Box>
-            </Flex >
+            </Flex>
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader align={"center"} fontSize={40} fontWeight="bold" >{selectedItem?.name}</ModalHeader>
+                <ModalContent bg='gray'>
+                    <ModalHeader align={"center"} fontSize={40} fontWeight="bold" color="white">{selectedItem?.name}</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
-                        <Stack spacing={4}>
+                    <ModalBody >
+                        <Stack spacing={4} >
 
                             <FormControl id="name" isRequired>
                                 <FormLabel>Name of Item</FormLabel>
                                 <Input
+                                    color="white"
                                     type="text"
                                     placeholder="Name of Item"
                                     value={selectedItem?.name}
@@ -499,6 +524,7 @@ const HotelItems = () => {
                             <FormControl id="description" isRequired>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
+                                    color="white"
                                     placeholder="Description"
                                     mb={4}
                                     value={selectedItem?.description}
@@ -509,6 +535,7 @@ const HotelItems = () => {
                             <FormControl id="price" isRequired>
                                 <FormLabel>Price</FormLabel>
                                 <Input
+                                    color="white"
                                     type="number"
                                     placeholder="Price"
                                     value={selectedItem?.price}
@@ -519,6 +546,7 @@ const HotelItems = () => {
                             <FormControl id="rating" isRequired>
                                 <FormLabel>Rating</FormLabel>
                                 <Input
+                                    color="white"
                                     type="number"
                                     placeholder="Rating"
                                     value={selectedItem?.rating}
@@ -529,6 +557,7 @@ const HotelItems = () => {
                             <FormControl id="pic" isRequired>
                                 <FormLabel>Upload your Picture</FormLabel>
                                 <Input
+                                    color="white"
                                     type="file"
                                     p={1.5}
                                     accept="image/*"

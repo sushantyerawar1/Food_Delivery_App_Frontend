@@ -208,7 +208,7 @@ const Header = () => {
                                 {
                                     role == "hotel" &&
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/hotelprofile/${user?._id}`) }}>
-                                        Profile
+                                        <FaUser />
                                     </Button>
 
                                 }
@@ -275,8 +275,8 @@ const Header = () => {
                     }
                 </HStack>
 
-            </Flex >
-        </Box >
+            </Flex>
+        </Box>
 
     )
 }

@@ -31,7 +31,18 @@ const AddItem = () => {
 
     const handleAddItem = async () => {
 
-        if (item.name === '' || item.description === '' || item.price === 0 || item.photo === null) {
+        if (item.rating > 5 || item.rating < 1) {
+            toast({
+                title: "Rating Should be between 1 and 5 (both included)",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+            return;
+        }
+
+        if (item.name === '' || item.description === '' || item.price === 0 || item.photo === null || item.rating == 0) {
             toast({
                 title: "Please Fill all fields",
                 status: "warning",
@@ -156,8 +167,9 @@ const AddItem = () => {
                 minH={'80vh'}
                 align={'center'}
                 justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}
+                // bg={useColorModeValue('gray.50', 'gray.800')}
                 padding={9}
+                bg="green.400"
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
                     <Stack align={'center'}>
@@ -165,15 +177,17 @@ const AddItem = () => {
                     </Stack>
                     <Box
                         rounded={'lg'}
-                        bg={useColorModeValue('white', 'gray.700')}
+                        // bg={useColorModeValue('white', 'gray.700')}
                         border="1px solid"
                         boxShadow="5px 10px 18px #888888"
-                        p={8}>
+                        p={8}
+                        bg="gray.600">
                         <Stack spacing={4}>
 
                             <FormControl id="name" isRequired>
                                 <FormLabel>Name of Item</FormLabel>
                                 <Input
+                                    color="white"
                                     type="text"
                                     placeholder="Name of Item"
                                     value={item.name}
@@ -184,6 +198,7 @@ const AddItem = () => {
                             <FormControl id="description" isRequired>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
+                                    color="white"
                                     placeholder="Description"
                                     mb={4}
                                     value={item.description}
@@ -194,7 +209,7 @@ const AddItem = () => {
                             <FormControl id="price" isRequired>
                                 <FormLabel>Price</FormLabel>
                                 <Input
-
+                                    color="white"
                                     type="number"
                                     placeholder="Price"
                                     value={item.price}
@@ -204,7 +219,7 @@ const AddItem = () => {
                             <FormControl id="rating" isRequired>
                                 <FormLabel>Rating</FormLabel>
                                 <Input
-
+                                    color="white"
                                     type="number"
                                     placeholder="Rating"
                                     value={item.rating}
@@ -215,6 +230,7 @@ const AddItem = () => {
                             <FormControl id="pic" isRequired>
                                 <FormLabel>Upload your Picture</FormLabel>
                                 <Input
+                                    color="white"
                                     ref={fileInput}
                                     type="file"
                                     p={1.5}

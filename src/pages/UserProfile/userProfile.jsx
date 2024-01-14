@@ -14,7 +14,8 @@ import {
     Textarea,
     Button,
     Image,
-    Tooltip
+    Tooltip,
+    Text
 } from '@chakra-ui/react'
 import { useToast } from "@chakra-ui/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -206,18 +207,19 @@ const UserProfile = () => {
                 justify={'center'}
                 padding={10}
                 width={"100%"}
-
+                bg="green.400"
             >
-                <Stack spacing={8} mx={'auto'} width={'50%'} py={12} px={6} >
-                    <Stack align={'center'}>
-                        <Heading fontSize={'60px'}>Profile</Heading>
+                <Stack spacing={8} mx={'auto'} width={'50%'} py={12} px={6}>
+                    <Stack align={'center'} color="white">
+                        <Text fontSize={'60px'}>Profile</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}
-                        bg={useColorModeValue('white', 'gray.700')}
+                        // bg={useColorModeValue('white', 'gray.700')}
                         border="1px solid"
                         boxShadow="5px 10px 18px #888888"
                         p={8}
+                        bg="gray"
                     >
 
                         <Box
@@ -288,6 +290,7 @@ const UserProfile = () => {
                                 <FormControl id="image" isRequired>
                                     <FormLabel>Upload Profile Image</FormLabel>
                                     <Input
+                                        color="white"
                                         p={1.5}
                                         type="file"
                                         accept=".jpg, .jpeg, .png"
@@ -296,8 +299,9 @@ const UserProfile = () => {
                                 </FormControl>
                             }
                             <FormControl id="name" isRequired={edit}>
-                                <FormLabel>Name of User</FormLabel>
+                                <FormLabel >Name of User</FormLabel>
                                 <Input
+                                    color="white"
                                     type="text"
                                     placeholder="Enter Name of User"
                                     value={userName}
@@ -307,9 +311,10 @@ const UserProfile = () => {
                             </FormControl>
 
                             <FormControl id="age" isRequired={edit} >
-                                <FormLabel>Age of User</FormLabel>
+                                <FormLabel >Age of User</FormLabel>
                                 <Input
-                                    type="text"
+                                    color="white"
+                                    type="number"
                                     placeholder="Enter Age of User"
                                     value={userAge}
                                     onChange={(e) => { setUserAge(e.target.value) }}
@@ -320,6 +325,7 @@ const UserProfile = () => {
                             <FormControl id="description" isRequired={edit}>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
+                                    color="white"
                                     size="md"
                                     placeholder="Enter Description of User"
                                     value={userDescription}

@@ -260,14 +260,14 @@ const AddToCart = () => {
     return (
         <>
             <Header />
-            <Flex minH={'80vh'} p={20}>
+            <Flex minH={'80vh'} p={20} bg="gray">
                 <Box width={"100%"} padding={30} align={'center'}
                     justify={'center'}>
                     {
                         cartItems.length > 0 &&
-                        <Heading as="h2" size="xl" align={'center'} color={"green.300"} mb={3}>
+                        <Text fontSize={"50px"} align={'center'} color={"white"} mb={3}>
                             Catalogs Added
-                        </Heading>
+                        </Text>
                     }
                     {cartItems.length > 0 ? (
                         <Flex>
@@ -353,7 +353,7 @@ const AddToCart = () => {
                             </Box>
                         </Flex>
                     ) : (
-                        <Text fontSize="xl" color="red" align={"center"}>-- Nothing is Added to the Cart --</Text>
+                        <Text fontSize="xl" color="white" align={"center"}>-- Nothing is Added to the Cart --</Text>
                     )}
                 </Box>
             </Flex>

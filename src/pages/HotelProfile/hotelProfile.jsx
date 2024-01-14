@@ -213,18 +213,19 @@ const HotelProfile = () => {
                 justify={'center'}
                 padding={10}
                 width={"100%"}
-
+                bg="green.400"
             >
                 <Stack spacing={8} mx={'auto'} width={'50%'} py={12} px={6} >
                     <Stack align={'center'}>
-                        <Heading fontSize={'60px'}>Profile</Heading>
+                        <Text fontSize={'60px'} color="white">Profile</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}
-                        bg={useColorModeValue('white', 'gray.700')}
+                        // bg={useColorModeValue('white', 'gray.700')}
                         border="1px solid"
                         boxShadow="5px 10px 18px #888888"
                         p={8}
+                        bg="gray"
                     >
 
                         <Box
@@ -244,6 +245,7 @@ const HotelProfile = () => {
                                 cursor: "pointer",
                                 transform: useColorModeValue('scale(1.1)', 'scale(1.1)')
                             }}
+
                         >
                             <Image
                                 src={selectedImage}
@@ -297,6 +299,7 @@ const HotelProfile = () => {
                                 <FormControl id="image" isRequired>
                                     <FormLabel>Upload Profile Image</FormLabel>
                                     <Input
+                                        color="white"
                                         p={1.5}
                                         type="file"
                                         accept=".jpg, .jpeg, .png"
@@ -308,6 +311,7 @@ const HotelProfile = () => {
                             <FormControl id="name" isRequired={edit}>
                                 <FormLabel>Name of Hotel</FormLabel>
                                 <Input
+                                    color="white"
                                     type="text"
                                     placeholder="Enter Name of Hotel"
                                     value={hotelName}
@@ -319,6 +323,7 @@ const HotelProfile = () => {
                             <FormControl id="rating" isRequired={edit}>
                                 <FormLabel>Rating of Hotel</FormLabel>
                                 <Input
+                                    color="white"
                                     type="number"
                                     placeholder="Enter Rating of Hotel"
                                     value={hotelRating}
@@ -330,6 +335,7 @@ const HotelProfile = () => {
                             <FormControl id="description" isRequired={edit}>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
+                                    color="white"
                                     size="md"
                                     placeholder="Enter Description of Hotel"
                                     value={hotelDescription}
@@ -347,10 +353,11 @@ const HotelProfile = () => {
                                     accept=".jpg, .jpeg, .png, .pdf"
                                     onChange={handleFileChange}
                                     isDisabled={!edit}
+                                    color="white"
                                 />
                                 {selectedFiles.length > 0 && (
                                     <Box mt={2}>
-                                        <Text fontWeight={"bold"}>Uploaded Files:</Text>
+                                        <Text fontWeight={"bold"} >Uploaded Files:</Text>
                                         <ul>
                                             {Array.from(selectedFiles).map((file, index) => (
                                                 <Flex p={2}>

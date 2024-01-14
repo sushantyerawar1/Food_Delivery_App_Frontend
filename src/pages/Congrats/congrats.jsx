@@ -36,11 +36,12 @@ const Congrats = () => {
                 align={'left'}
                 justify={'center'}
                 mt={10}
+                bg="gray"
             >
                 <Box mt={10}>
-                    <Heading as="h2" size="xl" align={'center'} color={"green.300"} mb={3}>
+                    <Text fontSize={"50px"} align={'center'} color={"white"} mb={3}>
                         Congratulation !
-                    </Heading>
+                    </Text>
 
                     <Flex
                         direction="column"
@@ -67,7 +68,7 @@ const Congrats = () => {
                             <Text>We are Pleased to confirm your order no {OrderNo}.</Text>
                             <Text>Thank you for shopping with Food Delivery Service!</Text>
 
-                            <Button fontSize="md" width={200} colorScheme="blue" mt={2} >
+                            <Button fontSize="md" width={200} colorScheme="blue" mt={2} ml={10}>
                                 Manage Your Order
                             </Button>
                         </Stack>

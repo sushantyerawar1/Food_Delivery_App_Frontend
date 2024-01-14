@@ -142,10 +142,12 @@ const ResetPassword = () => {
                 minH={'80vh'}
                 align={'center'}
                 justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}>
+                // bg={useColorModeValue('gray.50', 'gray.800')}
+                bg="gray"
+            >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                     <Stack align={'center'}>
-                        <Heading fontSize={'4xl'}>Reset Password</Heading>
+                        <Text fontSize={'50px'} color="white" >Reset Password</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}

@@ -74,9 +74,9 @@ const HomePageHotelOwner = () => {
             >
                 <Box p={20}>
                     <Box bg="green.500" p={4} color="white">
-                        <Heading as="h1" size="xl" align="center">
+                        <Text fontSize={"50px"} align="center">
                             Food Delivery App
-                        </Heading>
+                        </Text>
                     </Box>
                     <Box p={4}>
                         <Text fontSize="xl" color="white">{appDescription}</Text>

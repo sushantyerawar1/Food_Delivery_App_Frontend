@@ -67,9 +67,9 @@ const HomePageUser = () => {
                 bg="gray"
             >
                 <Box p={20}>
-                    <Heading as="h2" size="xl" mb={5} align={'center'} color={"green.300"} >
+                    <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
                         Hotels
-                    </Heading>
+                    </Text>
 
                     <InputGroup   >
                         <InputLeftElement pointerEvents='none'>
@@ -95,15 +95,15 @@ const HomePageUser = () => {
                                         <GridItem key={item.id} height="50%" maxH={"50%"}>
                                             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
                                                 <Box p='6' onClick={() => { navigate(`/catalog/${item.id}`) }} >
-                                                    <Heading as="h3" size="lg" mb={2} align="center" textTransform='uppercase'>
+                                                    <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="white">
                                                         {item.name}
-                                                    </Heading>
+                                                    </Text>
                                                     <Box display='flex' alignItems='baseline'>
                                                         <Badge borderRadius='full' px='2' colorScheme='teal'>
                                                             New
                                                         </Badge>
                                                         <Box
-                                                            color='gray.500'
+                                                            color='white'
                                                             fontWeight='semibold'
                                                             letterSpacing='wide'
                                                             fontSize='xs'

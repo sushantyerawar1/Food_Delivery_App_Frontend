@@ -16,9 +16,11 @@ const VerifiedMail = () => {
                 minH={'80vh'}
                 align={'center'}
                 justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}>
+                // bg={useColorModeValue('gray.50', 'gray.800')}
+                bg="gray"
+            >
                 <div>
-                    <Text fontSize={"50px"} textAlign={"center"}>Verify Your Email</Text>
+                    <Text fontSize={"50px"} textAlign={"center"} color="white">Verify Your Email</Text>
                     <Image
                         src={verifyemail}
                         alt='verifyemail'

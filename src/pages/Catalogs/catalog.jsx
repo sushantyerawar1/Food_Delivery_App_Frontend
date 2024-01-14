@@ -165,12 +165,12 @@ const Catalog = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
-            // bg="gray"
+                bg="gray"
             >
                 <Box p={20}>
-                    <Heading as="h2" size="xl" mb={5} align={'center'} color={"green.300"} >
+                    <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
                         Catalogs
-                    </Heading>
+                    </Text>
 
 
                     <InputGroup   >
@@ -178,6 +178,7 @@ const Catalog = () => {
                             <SearchIcon color='gray.300' />
                         </InputLeftElement>
                         <Input
+                            color="white"
                             width="1190px"
                             placeholder="Search items..."
                             mb={4}
@@ -203,7 +204,7 @@ const Catalog = () => {
                                                 borderRadius="md"
                                                 boxShadow="md"
                                             > */}
-                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }}>
+                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.300', cursor: "pointer" }}>
                                                 <Box
                                                     onClick={() => {
                                                         setSelectedItem(item);
@@ -234,7 +235,7 @@ const Catalog = () => {
                                                                 New
                                                             </Badge>
                                                             <Box
-                                                                color='gray.500'
+                                                                color='white'
                                                                 fontWeight='semibold'
                                                                 letterSpacing='wide'
                                                                 fontSize='xs'
@@ -394,8 +395,8 @@ const Catalog = () => {
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader align={"center"} fontSize={40} fontWeight="bold" >{selectedItem?.name}</ModalHeader>
+                <ModalContent bg="gray">
+                    <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedItem?.name}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10}>
@@ -407,7 +408,7 @@ const Catalog = () => {
                                         New
                                     </Badge>
                                     <Box
-                                        color='gray.500'
+                                        color='white'
                                         fontWeight='semibold'
                                         letterSpacing='wide'
                                         fontSize='xs'
