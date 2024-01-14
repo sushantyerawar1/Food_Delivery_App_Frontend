@@ -285,45 +285,23 @@ const HotelItems = () => {
                     {
                         catalogItems.length ?
                             <Box>
-                                <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width={"100%"}>
+
+                                <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4}>
                                     {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery))).map((item) => (
-                                        <GridItem key={item._id} >
-                                            {/* <Box
-                                                _hover={{
-                                                    bg: 'green.100',
-                                                    cursor: 'pointer',
-                                                }}
-                                                border="1px"
-                                                p={4}
-                                                borderRadius="md"
-                                                boxShadow="md"
-                                            > */}
-                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
+                                        <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
+                                            <Box>
                                                 <Box>
                                                     <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
-                                                    {/* <Box
-                                                                w="200px"
-                                                                h="200px"
-                                                                borderRadius="full"
-                                                                overflow="hidden"
-                                                                color="white"
-                                                                display="flex"
-                                                                align="center"
-                                                                justify="center"
-                                                                ml={"20%"}
-                                                                mt={2}
-                                                                position="relative"
-                                                            >
-                                                                <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
-                                                            </Box> */}
 
-                                                    <Box p='6'>
+
+                                                    <Box p='4'>
                                                         <Box display='flex' alignItems='baseline'>
-                                                            <Badge borderRadius='full' px='2' colorScheme='teal'>
-                                                                New
+                                                            <Badge borderRadius='10px' px='2' bg='green.600'>
+                                                                <Text color="white" p={"2px"}>{item?.rating}★</Text>
                                                             </Badge>
                                                             <Box
-                                                                color='white'
+                                                                width="70%"
+                                                                color='black'
                                                                 fontWeight='semibold'
                                                                 letterSpacing='wide'
                                                                 fontSize='xs'
@@ -332,36 +310,42 @@ const HotelItems = () => {
                                                             >
                                                                 {item?.name}
                                                             </Box>
+
+                                                            {/* <Box> */}
+                                                            <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
+                                                                ₹{item?.price} for one
+                                                            </Box>
+                                                            {/* </Box> */}
                                                         </Box>
+
+
 
                                                         <Box
                                                             mt='1'
                                                             fontWeight='semibold'
                                                             as='h4'
                                                             lineHeight='tight'
-                                                            noOfLines={4}
+                                                            noOfLines={2}
                                                         >
                                                             {item?.description}
                                                         </Box>
 
-                                                        <Box>
-                                                            <Box as='span' color='black.400' fontWeight='semibold'>
-                                                                Price:  {item?.price} RS
-                                                            </Box>
-                                                        </Box>
 
                                                         <Box display='flex' mt='2' alignItems='center'>
-                                                            {Array(5)
+                                                            {/* {Array(5)
                                                                 .fill('')
                                                                 .map((_, i) => (
                                                                     <StarIcon
                                                                         key={i}
                                                                         color={i < item?.rating ? 'teal.500' : 'gray.300'}
                                                                     />
-                                                                ))}
-                                                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                                                {item?.reviews.length} reviews
-                                                            </Box>
+                                                                ))} */}
+                                                            {
+                                                                item?.reviews.length > 0 &&
+                                                                <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                                                    {item?.reviews.length} reviews
+                                                                </Box>
+                                                            }
                                                         </Box>
 
                                                         <Flex justify={"space-between"}>
@@ -499,8 +483,8 @@ const HotelItems = () => {
 
                     {/* ============================================================================================================================================================================== */}
 
-                </Box>
-            </Flex>
+                </Box >
+            </Flex >
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />

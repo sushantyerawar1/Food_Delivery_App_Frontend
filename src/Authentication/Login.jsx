@@ -278,7 +278,7 @@ const Login = () => {
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} >
                     <Stack align={'center'}>
-                        <Text fontSize={'40px'} color="white">Sign in to your account</Text>
+                        <Text fontSize={'60px'} color="white">Sign in</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}
