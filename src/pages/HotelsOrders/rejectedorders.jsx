@@ -86,6 +86,7 @@ const RejectedOrders = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
+                bg="gray"
             >
                 {orders.length > 0 ?
                     <Box p={20} width="70%">

@@ -19,15 +19,15 @@ const UserOrders = () => {
 
 
     const orders = [
-        { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted' },
-        { id: 3, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected' },
-        { id: 4, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 5, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted' },
-        { id: 6, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected' },
-        { id: 7, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 8, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted' },
-        { id: 9, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected' },
+        { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending', hotelName: "Tech cafe", },
+        { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted', hotelName: "Tech cafe", },
+        { id: 3, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected', hotelName: "Tech cafe", },
+        { id: 4, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending', hotelName: "Tech cafe", },
+        { id: 5, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted', hotelName: "Tech cafe", },
+        { id: 6, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected', hotelName: "Tech cafe", },
+        { id: 7, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending', hotelName: "Tech cafe", },
+        { id: 8, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted', hotelName: "Tech cafe", },
+        { id: 9, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected', hotelName: "Tech cafe", },
     ];
 
     const handleAccept = (orderId) => {
@@ -64,21 +64,23 @@ const UserOrders = () => {
                     <Box p={20} width="70%">
 
                         <Table variant="striped">
-                            <Thead>
+                            <Thead >
                                 <Tr >
                                     <Th>ID</Th>
                                     <Th>Name</Th>
                                     <Th>Items</Th>
+                                    <Th>Hotel Name</Th>
                                     <Th>Status</Th>
                                     <Th>Actions</Th>
                                 </Tr>
                             </Thead>
-                            <Tbody>
+                            <Tbody >
                                 {currentOrders.map((order) => (
                                     <Tr key={order.id}>
                                         <Td>{order.id}</Td>
                                         <Td>{order.name}</Td>
                                         <Td>{order.items.join(', ')}</Td>
+                                        <Td >{order.hotelName}</Td>
                                         <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td>
                                         <Td>
                                             <Flex justify={"space-between"}>

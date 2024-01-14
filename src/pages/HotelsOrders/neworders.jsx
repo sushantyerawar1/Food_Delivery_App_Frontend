@@ -110,7 +110,7 @@ const NewOrders = () => {
     return (
         <>
             <Header />
-            <Flex minH={'80vh'} align={'left'} justify={'center'}>
+            <Flex minH={'80vh'} align={'left'} justify={'center'} bg="gray">
                 {orders.length > 0 ? (
                     <Box p={20} width="70%">
                         <Table variant="striped">
