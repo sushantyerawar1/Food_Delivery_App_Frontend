@@ -202,7 +202,8 @@ const Catalog = () => {
                                                     }}
 
                                                 >
-                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                                                    {/* <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} /> */}
+                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} ml={"10%"} p={2} aspectRatio={3 / 2} objectFit={'cover'} height={"100%"} />
 
 
                                                     <Box p='4'>
@@ -383,7 +384,7 @@ const Catalog = () => {
                     <ModalCloseButton />
                     <ModalBody>
                         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
-                            <Image src={selectedItem?.imageLink ? selectedItem?.imageLink : food} alt={selectedItem?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
+                            <Image src={selectedItem?.imageLink ? selectedItem?.imageLink : food} alt={selectedItem?.name} mb={4} boxSize={'90%'} aspectRatio={3 / 2} objectFit={'cover'} p={2} ml="5%" height={"100%"} />
                             <Box ml={3} mb={2}>
 
                                 <Box display='flex' alignItems='baseline'>

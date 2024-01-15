@@ -291,8 +291,8 @@ const HotelItems = () => {
                                         <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
                                             <Box>
                                                 <Box>
-                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} />
-
+                                                    {/* <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} aspectRatio={3 / 2} objectFit={'cover'} p={2} ml="25%" height={"100%"} /> */}
+                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} ml={"10%"} p={2} aspectRatio={3 / 2} objectFit={'cover'} height={"100%"} />
 
                                                     <Box p='4'>
                                                         <Box display='flex' alignItems='baseline'>
