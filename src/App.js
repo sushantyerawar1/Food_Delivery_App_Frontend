@@ -20,6 +20,7 @@ import UserOrders from './pages/UserOrders/userorders';
 import Congrats from './pages/Congrats/congrats';
 import HotelProfile from './pages/HotelProfile/hotelProfile';
 import UserProfile from './pages/UserProfile/userProfile';
+import DeliveryLocationMap from './pages/DeliveryMap/deliveryMap';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path="/congrats/:id" element={<Congrats />} />
         <Route path="/hotelprofile/:id" element={<HotelProfile />} />
         <Route path="/userprofile/:id" element={<UserProfile />} />
+        {/* <Route path="/deliverymap" element={<DeliveryLocationMap />} /> */}
       </Routes>
     </BrowserRouter>
   );
