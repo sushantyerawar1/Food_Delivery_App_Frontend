@@ -255,7 +255,8 @@ const AddToCart = () => {
         GetAllItems()
     }, []);
 
-    console.log(cartItems)
+    console.log(hotelid)
+
 
     return (
         <>
@@ -353,7 +354,11 @@ const AddToCart = () => {
                             </Box>
                         </Flex>
                     ) : (
-                        <Text fontSize="xl" color="white" align={"center"}>-- Nothing is Added to the Cart --</Text>
+
+                        hotelid ?
+                            <Text fontSize="xl" color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
+                            <Text fontSize="xl" color="white" align={"center"}>-- Please Select Hotel --</Text>
+
                     )}
                 </Box>
             </Flex>
