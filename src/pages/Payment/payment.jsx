@@ -11,7 +11,8 @@ import {
     useColorModeValue,
     Center,
     Heading,
-    Image
+    Image,
+    Text
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import Header from '../../Header/Header';
@@ -41,8 +42,9 @@ const Payment = () => {
                 minH={'80vh'}
                 align={'center'}
                 justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}
+                // bg={useColorModeValue('gray.50', 'gray.800')}
                 padding={10}
+                bg="gray"
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 
@@ -54,9 +56,9 @@ const Payment = () => {
                         boxShadow="5px 10px 18px #888888"
                         p={5}
                     >
-                        <Heading as={"h1"} fontSize='60px' align={'center'} color={"#4c4e56"} mb={3}>
+                        <Text fontSize='60px' align={'center'} color={"#4c4e56"} mb={3}>
                             Confirm Order
-                        </Heading>
+                        </Text>
 
                         <Box display={"flex"} >
                             <FormControl id="personName" isRequired width="60%">
