@@ -86,7 +86,8 @@ const UserOrders = () => {
                                         <Td>{order.name}</Td>
                                         <Td>{order.items.join(', ')}</Td>
                                         <Td >{order.hotelName}</Td>
-                                        <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td>
+                                        {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"62%"} p={3} color="white" bg="green.500">{order.status}</Box></Td>
                                         <Td>
                                             <Flex justify={"space-between"}>
                                                 <Button ml={2} colorScheme="red" onClick={() => handleReject(order.id)} isDisabled={(order.status == "Rejected") || (order.status == "Accepted") ? true : false}>
