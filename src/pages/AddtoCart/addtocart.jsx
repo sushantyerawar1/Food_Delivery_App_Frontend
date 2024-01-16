@@ -262,8 +262,7 @@ const AddToCart = () => {
         <>
             <Header />
             <Flex minH={'80vh'} p={20} bg="gray">
-                <Box width={"100%"} padding={30} align={'center'}
-                    justify={'center'}>
+                <Box width={"100%"} padding={30} align={'center'} justify={'center'}>
                     {
                         cartItems.length > 0 &&
                         <Text fontSize={"50px"} align={'center'} color={"white"} mb={3}>
@@ -356,8 +355,8 @@ const AddToCart = () => {
                     ) : (
 
                         hotelid ?
-                            <Text fontSize="xl" color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
-                            <Text fontSize="xl" color="white" align={"center"}>-- Please Select Hotel --</Text>
+                            <Text fontSize={"50px"} color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
+                            <Text fontSize={"50px"} color="white" align={"center"}>-- Please Select Hotel --</Text>
 
                     )}
                 </Box>

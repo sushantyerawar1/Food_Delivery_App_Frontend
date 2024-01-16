@@ -9,6 +9,7 @@ import {
     Th,
     Thead,
     Tr,
+    Text
 } from '@chakra-ui/react';
 
 import Header from '../../Header/Header';
@@ -82,15 +83,12 @@ const RejectedOrders = () => {
     return (
         <>
             <Header />
-            <Flex
-                minH={'80vh'}
-                align={'left'}
-                justify={'center'}
-                bg="gray"
-            >
+            <Flex minH={'80vh'} align={'left'} justify={'center'} bg="gray" p={20}>
                 {orders.length > 0 ?
-                    <Box p={20} width="70%">
-
+                    <Box p={8} width="70%" bg="white" borderRadius="md" boxShadow="md">
+                        <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                            Rejected Orders
+                        </Text>
                         <Table variant="striped">
                             <Thead>
                                 <Tr >
@@ -106,7 +104,7 @@ const RejectedOrders = () => {
                                         <Td>{order.id}</Td>
                                         <Td>{order.name}</Td>
                                         <Td>{order.items.join(', ')}</Td>
-                                        <Td color="red">{order.status}</Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"41%"} p={3} color="black" bg="green.300">{order.status}</Box></Td>
                                     </Tr>
                                 ))}
                             </Tbody>

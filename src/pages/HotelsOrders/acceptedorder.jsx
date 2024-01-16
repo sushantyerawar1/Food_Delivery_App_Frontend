@@ -8,7 +8,8 @@ import {
     Th,
     Thead,
     Tr,
-    Button
+    Button,
+    Text
 } from '@chakra-ui/react';
 
 import Header from '../../Header/Header';
@@ -91,17 +92,81 @@ const AcceptedOrders = () => {
     };
 
     return (
+
         <>
             <Header />
             <Flex
                 minH={'80vh'}
-                align={'left'}
+                align={'center'}
                 justify={'center'}
                 bg="gray"
+                p={20}
+            >
+                {orders.length > 0 ? (
+                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                        <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                            Accepted Orders
+                        </Text>
+                        <Table variant="striped">
+                            <Thead>
+                                <Tr >
+                                    <Th>ID</Th>
+                                    <Th>Name</Th>
+                                    <Th>Items</Th>
+                                    <Th>Status</Th>
+                                    <Th>Status Update</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {currentOrders.map((order) => (
+                                    <Tr key={order.id}>
+                                        <Td color="black">{order.id}</Td>
+                                        <Td color="black">{order.name}</Td>
+                                        <Td color="black">{order.items.join(', ')}</Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">{order.status}</Box></Td>
+                                        <Td>
+                                            <Button
+                                                isDisabled={order.status == "Process..." ? false : true}
+                                                colorScheme="green"
+                                                onClick={() => UpdateStatus(order.id)}
+                                            >
+                                                Delivered Order
+                                            </Button>
+                                        </Td>
+                                    </Tr>
+                                ))}
+                            </Tbody>
+                        </Table>
+
+                        {orders.length > 6 && (
+                            <Pagination
+                                totalPages={totalPages}
+                                currentPage={currentPage}
+                                handlePageChange={handlePageChange}
+                            />
+                        )}
+                    </Box>
+                ) : (
+                    <Text p={8} fontSize="2xl" color="gray.600" align="center">
+                        -- No Orders Accepted--
+                    </Text>
+                )}
+            </Flex>
+            <Footer />
+
+            {/* <Header />
+            <Flex
+                minH={'80vh'}
+                align={'center'}
+                justify={'center'}
+                bg="gray"
+                p={20}
             >
                 {orders.length > 0 ?
-                    <Box p={20} width="70%">
-
+                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                        <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                            New Orders
+                        </Text>
                         <Table variant="striped">
                             <Thead>
                                 <Tr >
@@ -144,7 +209,7 @@ const AcceptedOrders = () => {
 
                 }
             </Flex>
-            <Footer />
+            <Footer /> */}
         </>
     );
 };

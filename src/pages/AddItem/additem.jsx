@@ -173,7 +173,7 @@ const AddItem = () => {
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
                     <Stack align={'center'}>
-                        <Heading fontSize={'5xl'}>Add New Item </Heading>
+                        <Text fontSize={"50px"} color="white">Add New Item </Text>
                     </Stack>
                     <Box
                         rounded={'lg'}

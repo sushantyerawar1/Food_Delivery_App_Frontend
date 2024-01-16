@@ -21,6 +21,7 @@ import Congrats from './pages/Congrats/congrats';
 import HotelProfile from './pages/HotelProfile/hotelProfile';
 import UserProfile from './pages/UserProfile/userProfile';
 import DeliveryLocationMap from './pages/DeliveryMap/deliveryMap';
+import Notifications from './pages/Notifications/notification';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Route path="/congrats/:id" element={<Congrats />} />
         <Route path="/hotelprofile/:id" element={<HotelProfile />} />
         <Route path="/userprofile/:id" element={<UserProfile />} />
+        <Route path="/notification" element={<Notifications />} />
         {/* <Route path="/deliverymap" element={<DeliveryLocationMap />} /> */}
       </Routes>
     </BrowserRouter>

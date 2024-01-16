@@ -22,7 +22,7 @@ import {
     Badge
 } from '@chakra-ui/react'
 
-import { FaShoppingCart, FaUser, FaSignOutAlt, FaSignInAlt, FaHome } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaSignOutAlt, FaSignInAlt, FaHome, FaBell } from 'react-icons/fa';
 import ProfileModal from "./Profile/profilemodal"
 import logo from "../logo.png"
 import { useNavigate } from 'react-router-dom'
@@ -52,6 +52,12 @@ const Header = () => {
     useEffect(() => {
         if (path == "verifymail") localStorage.removeItem("userInfo");
     }, [])
+
+    useEffect(() => {
+        // if (path == "verifymail") localStorage.removeItem("userInfo");
+    }, [hotelid])
+
+
 
     const numberOfItemsInCart = 3;
 
@@ -175,8 +181,9 @@ const Header = () => {
                                 Add Item
                             </Box>
                         }
+
                         {
-                            (role != "hotel" && user) &&
+                            (role == "user" && user) &&
                             <Box as="a" href={'/userorders'}
                                 color={path == "/userorders" ? "green" : null}
                                 _hover={{
@@ -189,6 +196,8 @@ const Header = () => {
                                 Orders
                             </Box>
                         }
+
+
                     </Stack>
                 </HStack>
 
@@ -231,7 +240,7 @@ const Header = () => {
 
 
                                 {user && role == "user" && (
-                                    (path != "/" && path != "/userorders") &&
+                                    (path != "/" && hotelid) &&
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/addtocart`) }}>
                                         <FaShoppingCart />
                                         {numberOfItemsInCart > 0 && (
@@ -248,6 +257,26 @@ const Header = () => {
                                         )}
                                     </Button>
                                 )}
+
+                                {
+                                    role == "user" &&
+                                    <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/notification`) }}>
+                                        <FaBell />
+                                        {numberOfItemsInCart > 0 && (
+                                            <Badge
+                                                colorScheme="red"
+                                                borderRadius="50%"
+                                                ml="2"
+                                                position="absolute"
+                                                top="-5px"
+                                                right="-5px"
+                                            >
+                                                {numberOfItemsInCart}
+                                            </Badge>
+                                        )}
+                                    </Button>
+
+                                }
 
                                 {
                                     role == "user" &&
