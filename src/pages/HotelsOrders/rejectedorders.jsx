@@ -104,7 +104,7 @@ const RejectedOrders = () => {
                                         <Td>{order.id}</Td>
                                         <Td>{order.name}</Td>
                                         <Td>{order.items.join(', ')}</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"41%"} p={3} color="black" bg="green.300">{order.status}</Box></Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"41%"} p={3} color="black" bg="red.300">{order.status}</Box></Td>
                                     </Tr>
                                 ))}
                             </Tbody>
