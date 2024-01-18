@@ -16,7 +16,7 @@ import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import { FaTimes } from 'react-icons/fa';
-
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
 
 
 const Notifications = () => {
@@ -92,11 +92,26 @@ const Notifications = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'center'}
-                justify={'center'}
-                bg="gray"
                 p={20}
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'center'}
+            // justify={'center'}
+            // bg="gray"
+            // p={20}
+            // minH={'80vh'}
+            // align={'center'}
+            // justify={'center'}
+            // bg="gray"
+            // p={20}
             >
                 {listofnotifications.length > 0 ? (
                     <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
@@ -113,7 +128,7 @@ const Notifications = () => {
                             <Tbody>
                                 {currentNotifications.map((notification) => (
                                     <Tr key={notification.id}>
-                                        <Td>{notification.description}</Td>
+                                        <Td color="black">{notification.description}</Td>
                                         <Td>
                                             <Button
                                                 colorScheme="red"

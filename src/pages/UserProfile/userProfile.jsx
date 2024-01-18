@@ -21,7 +21,7 @@ import { useToast } from "@chakra-ui/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import profile from "../../profile.png";
-
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
 
 
 const UserProfile = () => {
@@ -202,12 +202,28 @@ const UserProfile = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'left'}
-                justify={'center'}
-                padding={10}
-                width={"100%"}
-                bg="green.400"
+                // p={20}
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'center'}
+            // justify={'center'}
+            // bg="gray"
+            // p={20}
+
+            // minH={'80vh'}
+            // align={'left'}
+            // justify={'center'}
+            // padding={10}
+            // width={"100%"}
+            // bg="green.400"
             >
                 <Stack spacing={8} mx={'auto'} width={'50%'} py={12} px={6}>
                     <Stack align={'center'} color="white">
@@ -219,7 +235,8 @@ const UserProfile = () => {
                         border="1px solid"
                         boxShadow="5px 10px 18px #888888"
                         p={8}
-                        bg="gray"
+                        // bg="gray"
+                        bg="rgba(0, 0, 0, 0.8)"
                     >
 
                         <Box
