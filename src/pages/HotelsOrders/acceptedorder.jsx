@@ -16,6 +16,9 @@ import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import axios from "axios"
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+
+
 const AcceptedOrders = () => {
 
 
@@ -96,14 +99,30 @@ const AcceptedOrders = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'center'}
-                justify={'center'}
-                bg="gray"
                 p={20}
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'center'}
+            // justify={'center'}
+            // bg="gray"
+            // p={20}
             >
                 {orders.length > 0 ? (
-                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                    <Box
+                        p={8}
+                        width="80%"
+                        bg="white"
+                        borderRadius="md"
+                        boxShadow="md"
+                    >
                         <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
                             Accepted Orders
                         </Text>

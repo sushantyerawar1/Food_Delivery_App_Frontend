@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react'
 import Header from "../../Header/header";
 import Footer from "../../Footer/footer";
-
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
 const AddItem = () => {
 
     const fileInput = useRef(null);
@@ -164,12 +164,22 @@ const AddItem = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'center'}
-                justify={'center'}
-                // bg={useColorModeValue('gray.50', 'gray.800')}
-                padding={9}
-                bg="green.400"
+                p={14}
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'center'}
+            // justify={'center'}
+            // // bg={useColorModeValue('gray.50', 'gray.800')}
+            // padding={9}
+            // bg="green.400"
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
                     <Stack align={'center'}>

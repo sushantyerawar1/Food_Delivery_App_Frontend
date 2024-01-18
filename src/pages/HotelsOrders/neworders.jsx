@@ -16,6 +16,8 @@ import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import axios from "axios"
 import { FaTimes, FaCheck } from 'react-icons/fa';
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+
 const NewOrders = () => {
 
 
@@ -111,7 +113,23 @@ const NewOrders = () => {
     return (
         <>
             <Header />
-            <Flex minH={'80vh'} align={'left'} justify={'center'} bg="gray" p={20}>
+            <Flex
+                p={20}
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'left'}
+            // justify={'center'}
+            // bg="gray"
+            // p={20}
+            >
                 {orders.length > 0 ? (
                     <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
                         <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
@@ -131,9 +149,9 @@ const NewOrders = () => {
                             <Tbody>
                                 {currentOrders.map((order) => (
                                     <Tr key={order.id}>
-                                        <Td>{order.id}</Td>
-                                        <Td>{order.name}</Td>
-                                        <Td>{order.items.join(', ')}</Td>
+                                        <Td color="black">{order.id}</Td>
+                                        <Td color="black">{order.name}</Td>
+                                        <Td color="black">{order.items.join(', ')}</Td>
                                         <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">{order.status}</Box></Td>
                                         <Td>
 
