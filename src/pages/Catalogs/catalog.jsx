@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { SearchIcon } from "@chakra-ui/icons";
 import axios from "axios";
-import Header from '../../Header/Header';
+import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import food from '../../food.png';
 import { useParams } from 'react-router-dom';

@@ -1,7 +1,7 @@
 import react, { useState, useEffect } from "react"
 import { Flex, useToast, useColorModeValue, Image, Text } from "@chakra-ui/react";
 import axios from "axios";
-import Header from "../Header/Header";
+import Header from "../Header/header";
 import Footer from "../Footer/footer";
 import verifyemail from "../verifyemail.png"
 

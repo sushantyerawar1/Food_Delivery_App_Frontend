@@ -11,10 +11,9 @@ import {
     useColorModeValue,
     Image
 } from '@chakra-ui/react'
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
+import { FaInstagram, FaTwitter, FaYoutube, FaLinkedin } from 'react-icons/fa'
 import { BiMailSend } from 'react-icons/bi'
 import logo from "../logo.png"
-
 
 
 const SocialButton = ({ label, href, children }) => {
@@ -71,21 +70,22 @@ const Footer = () => {
                             <SocialButton label={'Instagram'} href={'#'}>
                                 <FaInstagram />
                             </SocialButton>
+                            <SocialButton label={'Linkedin'} href={'#'}>
+                                <FaLinkedin />
+                            </SocialButton>
                         </Stack>
                     </Stack>
                     <Stack align={'flex-start'}>
                         <Box><b>Company</b></Box>
-                        <Box as="a" href={'#'}>
+                        <Box as="a" href={'/about-us'}>
                             About us
                         </Box>
-                        <Box as="a" href={'#'}>
+                        <Box as="a" href={'blogs'}>
                             Blog
                         </Box>
-                        <Box as="a" href={'#'}>
+                        <Box as="a" href={'/contact-us'}>
                             Contact us
                         </Box>
-
-
                     </Stack>
                     <Stack align={'flex-start'}>
                         <Box><b>Support</b></Box>

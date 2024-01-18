@@ -19,7 +19,8 @@ import {
     InputGroup,
     InputLeftElement,
     Image,
-    Badge
+    Badge,
+    Select
 } from '@chakra-ui/react'
 
 import { FaShoppingCart, FaUser, FaSignOutAlt, FaSignInAlt, FaHome, FaBell } from 'react-icons/fa';
@@ -27,6 +28,9 @@ import ProfileModal from "./Profile/profilemodal"
 import logo from "../logo.png"
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import Clock from '../pages/Timer/timer';
+
+
 
 const Header = () => {
 
@@ -42,6 +46,8 @@ const Header = () => {
     const isAdmin = user?.isAdmin;
     const role = user?.role;
     const hotelid = JSON.parse(localStorage.getItem('hotelid'));
+
+
 
     const logoutHandler = () => {
         localStorage.removeItem("userInfo");
@@ -197,15 +203,15 @@ const Header = () => {
                             </Box>
                         }
 
-
                     </Stack>
                 </HStack>
 
-                <HStack alignItems={'end'}>
+
+                <HStack alignItems={'end'} >
+                    <Clock />
                     {
                         (user && path != "verifymail") ?
                             <>
-
                                 {/* <IconButton
                                         aria-label="Add to Cart"
                                         icon={<AddIcon />}
@@ -302,6 +308,7 @@ const Header = () => {
                                     </Button>
                             )
                     }
+
                 </HStack>
 
             </Flex>

@@ -28,7 +28,7 @@ import {
     Image
 } from '@chakra-ui/react'
 import Footer from "../Footer/footer";
-import Header from "../Header/Header";
+import Header from "../Header/header";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { useGoogleLogin } from '@react-oauth/google';
 

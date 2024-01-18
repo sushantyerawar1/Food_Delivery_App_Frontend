@@ -26,7 +26,7 @@ import {
     IconButton,
 } from '@chakra-ui/react'
 import Footer from "../Footer/footer";
-import Header from "../Header/Header";
+import Header from "../Header/header";
 
 
 const ResetPassword = () => {

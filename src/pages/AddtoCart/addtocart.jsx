@@ -12,7 +12,7 @@ import {
     Center
 } from '@chakra-ui/react';
 import Footer from "../../Footer/footer";
-import Header from "../../Header/Header";
+import Header from "../../Header/header";
 import food from "../../food.png"
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";

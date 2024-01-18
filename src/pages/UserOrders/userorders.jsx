@@ -11,7 +11,7 @@ import {
     Tr,
     Text
 } from '@chakra-ui/react';
-import Header from '../../Header/Header';
+import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 

@@ -22,7 +22,7 @@ import googleImage from '../assets/googleImage.jpg';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { signup, signupGoogle } from "../redux/actions/auth";
-import Header from "../Header/Header";
+import Header from "../Header/header";
 import Footer from "../Footer/footer";
 
 
