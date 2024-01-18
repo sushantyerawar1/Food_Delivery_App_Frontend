@@ -14,7 +14,7 @@ import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import { useNavigate, useParams } from 'react-router-dom';
 import StatusImage from "../../StatusImage.png"
-
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
 
 const Congrats = () => {
 
@@ -32,11 +32,21 @@ const Congrats = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'left'}
-                justify={'center'}
-                mt={10}
-                bg="gray"
+                p={20}
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'left'}
+            // justify={'center'}
+            // mt={10}
+            // bg="gray"
             >
                 <Box mt={10}>
                     <Text fontSize={"50px"} align={'center'} color={"white"} mb={3}>
@@ -56,17 +66,17 @@ const Congrats = () => {
                     >
                         <Image src={StatusImage} alt={"StatusImage"} />
                         <Stack align="left">
-                            <Text fontSize="lg" color="black" fontWeight="semibold">Hi Customer,</Text>
+                            <Text fontSize="lg" color="black" fontWeight="semibold" >Hi Customer,</Text>
                             <Text></Text>
                             <Text></Text>
                             <Text></Text>
                             <Text></Text>
                             <Text fontSize="lg" color="black" fontWeight="semibold">Order Successfully Placed.</Text>
-                            <Text>Your Order will be delivered by Fri 11, Jan 2024. </Text>
+                            <Text color="black" >Your Order will be delivered by Fri 11, Jan 2024. </Text>
                             <Text></Text>
                             <Text></Text>
-                            <Text>We are Pleased to confirm your order no {OrderNo}.</Text>
-                            <Text>Thank you for shopping with Food Delivery Service!</Text>
+                            <Text color="black" >We are Pleased to confirm your order no {OrderNo}.</Text>
+                            <Text color="black" >Thank you for shopping with Food Delivery Service!</Text>
 
                             <Button fontSize="md" width={200} colorScheme="blue" mt={2} ml={10}>
                                 Manage Your Order

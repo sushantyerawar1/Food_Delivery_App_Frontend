@@ -16,6 +16,7 @@ import Header from "../../Header/header";
 import food from "../../food.png"
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
+import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
 
 const AddToCart = () => {
 
@@ -261,7 +262,20 @@ const AddToCart = () => {
     return (
         <>
             <Header />
-            <Flex minH={'80vh'} p={20} bg="gray">
+            <Flex
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // p={20}
+            // bg="gray"
+            >
                 <Box width={"100%"} padding={30} align={'center'} justify={'center'}>
                     {
                         cartItems.length > 0 &&
@@ -297,7 +311,7 @@ const AddToCart = () => {
                                             <Button onClick={() => decreaseQuantity(item)} size="sm" variant="outline">
                                                 -
                                             </Button>
-                                            <Text mx={2}>{item.quantity}</Text>
+                                            <Text mx={2} color="black">{item.quantity}</Text>
                                             <Button onClick={() => increaseQuantity(item)} size="sm" variant="outline">
                                                 +
                                             </Button>
@@ -323,20 +337,20 @@ const AddToCart = () => {
                                     <Stack spacing="4" align="left">
                                         <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
                                         <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold">Subtotal:</Text>
-                                            <Text fontSize="lg">$300</Text>
+                                            <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
+                                            <Text fontSize="lg" color="black">$300</Text>
                                         </HStack>
                                         <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold">Shipping + Tax:</Text>
-                                            <Text fontSize="lg" align="right">Calculate shipping</Text>
+                                            <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
+                                            <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
                                         </HStack>
                                         <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold">Coupon Code:</Text>
-                                            <Text fontSize="lg">Add coupon code</Text>
+                                            <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
+                                            <Text fontSize="lg" color="black">Add coupon code</Text>
                                         </HStack>
                                         <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold">Total:</Text>
-                                            <Text fontSize="lg">{amount}Rs</Text>
+                                            <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
+                                            <Text fontSize="lg" color="black">{amount}Rs</Text>
                                         </HStack>
                                         <Box>
                                             <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
