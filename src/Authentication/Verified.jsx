@@ -90,7 +90,7 @@ const Verified = () => {
                     </div>
                 </div>
 
-            </Flex >
+            </Flex>
             <Footer />
         </>
     )

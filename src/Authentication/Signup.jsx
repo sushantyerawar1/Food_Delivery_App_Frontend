@@ -16,7 +16,7 @@ import {
     useColorModeValue,
     Image
 } from '@chakra-ui/react'
-
+import FoodBackgroundImage from '../foodbackgroundimage.jpg';
 import React from 'react'
 import googleImage from '../assets/googleImage.jpg';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -205,12 +205,22 @@ const SignUp = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'center'}
-                justify={'center'}
-                // bg={useColorModeValue('gray.50', 'gray.800')}
-                bg="gray"
-                padding={10}>
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+                // minH={'80vh'}
+                // align={'center'}
+                // justify={'center'}
+                // // bg={useColorModeValue('gray.50', 'gray.800')}
+                // bg="gray"
+                padding={3}
+            >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
                     <Stack align={'center'}>
                         <Text fontSize={'5xl'} color="white">Create an Account </Text>
@@ -224,30 +234,33 @@ const SignUp = () => {
                         <Stack spacing={4}>
 
                             <FormControl id="firstName" isRequired>
-                                <FormLabel>UserName</FormLabel>
+                                <FormLabel color="black">UserName</FormLabel>
                                 <Input
                                     type="text"
                                     value={username}
                                     placeholder="Enter UserName"
-                                    onChange={(e) => { setUserName(e.target.value) }} />
+                                    onChange={(e) => { setUserName(e.target.value) }}
+                                    color="black" />
                             </FormControl>
                             <FormControl id="email" isRequired>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel color="black">Email</FormLabel>
                                 <Input
                                     type="email"
                                     value={email}
                                     placeholder="Enter Email"
-                                    onChange={(e) => { setEmail(e.target.value) }} />
+                                    onChange={(e) => { setEmail(e.target.value) }}
+                                    color="black" />
                             </FormControl>
 
                             <FormControl id="password" isRequired>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel color="black">Password</FormLabel>
                                 <InputGroup size="md">
                                     <Input
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         type={show ? "text" : "password"}
                                         placeholder="Enter Password"
+                                        color="black"
                                     />
                                     <InputRightElement width="4.5rem">
                                         <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -286,10 +299,10 @@ const SignUp = () => {
                                     />
                                     Sign up with google
                                 </Button>
-                                <span style={{ textAlign: "center" }}>or</span>
+                                <span style={{ textAlign: "center", color: "black" }} >or</span>
                                 <Stack pt={2}>
 
-                                    <Text align={'center'}>
+                                    <Text align={'center'} color="black">
                                         Already have an account?
                                         <Link href="/login" color={'blue.400'}> Login</Link>
                                     </Text>

@@ -4,6 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import googleImage from '../assets/googleImage.jpg';
+import FoodBackgroundImage from '../foodbackgroundimage.jpg';
 import {
     Flex,
     Box,
@@ -269,12 +270,21 @@ const Login = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'center'}
-                justify={'center'}
-                // bg={useColorModeValue('gray.50', 'gray.800')}
-                padding={10}
-                bg="gray"
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+            // minH={'80vh'}
+            // align={'center'}
+            // justify={'center'}
+            // // bg={useColorModeValue('gray.50', 'gray.800')}
+            // padding={10}
+            // bg="gray"
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} >
                     <Stack align={'center'}>
@@ -289,7 +299,7 @@ const Login = () => {
                         p={8}
                     >
                         <Stack spacing={4}>
-                            <FormControl id="email" isRequired>
+                            <FormControl id="email" isRequired color="black">
                                 <FormLabel>Email address</FormLabel>
                                 <Input
                                     type="email"
@@ -298,7 +308,7 @@ const Login = () => {
                                     onChange={(e) => { setEmail(e.target.value) }} />
                             </FormControl>
 
-                            <FormControl id="password" isRequired>
+                            <FormControl id="password" isRequired color="black">
                                 <FormLabel>Password</FormLabel>
                                 <InputGroup size="md">
                                     <Input
@@ -319,7 +329,7 @@ const Login = () => {
                                     direction={{ base: 'column', sm: 'row' }}
                                     align={'start'}
                                     justify={'space-between'}>
-                                    <Checkbox>Remember me</Checkbox>
+                                    <Checkbox color="black">Remember me</Checkbox>
                                     <Button color={'blue.400'} onClick={onOpen} >Forgot password?</Button>
                                 </Stack>
 
@@ -404,7 +414,7 @@ const Login = () => {
                                     Sign in with google
                                 </Button>
                                 <Stack pt={4}>
-                                    <Text align={'center'}>
+                                    <Text align={'center'} color="black">
                                         Don't have an account?<Link href="/signup" color={'blue.400'}> SignUp</Link>
                                     </Text>
                                 </Stack>

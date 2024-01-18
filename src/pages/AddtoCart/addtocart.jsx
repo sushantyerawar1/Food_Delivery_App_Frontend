@@ -272,8 +272,8 @@ const AddToCart = () => {
                 color='white'
                 align='center'
                 justify='center'
-            // minH={'80vh'}
-            // p={20}
+                // minH={'80vh'}
+                p={20}
             // bg="gray"
             >
                 <Box width={"100%"} padding={30} align={'center'} justify={'center'}>
