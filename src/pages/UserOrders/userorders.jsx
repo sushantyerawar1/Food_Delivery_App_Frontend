@@ -15,10 +15,23 @@ import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
 const UserOrders = () => {
 
 
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const user = userInfo ? userInfo.User : null
+    const path = window.location.pathname;
+    const navigate = useNavigate();
+    console.log(user, "user")
+    useEffect(() => {
+        if (!user) navigate('/login')
+    }, [user])
+
+    // const [orders, setOrders] = useState([])
     const orders = [
         { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending', hotelName: "Tech cafe", },
         { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted', hotelName: "Tech cafe", },
@@ -30,6 +43,44 @@ const UserOrders = () => {
         { id: 8, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted', hotelName: "Tech cafe", },
         { id: 9, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Rejected', hotelName: "Tech cafe", },
     ];
+
+
+    // const GetUserOrders = async () => {
+
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 "Content-type": "application/json",
+    //                 "Authorization": `Bearer ${userInfo?.Token['token']}`
+    //             },
+    //         };
+
+    //         const { data, status } = await axios.post(
+    //             `http://localhost:5000/api/orders/getOrderByUser`,
+    //             {
+    //                 userId: user._id
+    //             },
+    //             config
+    //         );
+
+
+    //         if (status == 201) {
+    //             setOrders(data.userOrders)
+    //         }
+
+
+
+    //     } catch (error) {
+    //         console.log(error)
+
+    //     }
+    // };
+
+
+    // useEffect(() => {
+    //     GetUserOrders()
+    // }, [])
+
 
     const handleAccept = (orderId) => {
         console.log(`Order ${orderId} accepted`);
@@ -51,6 +102,7 @@ const UserOrders = () => {
         setCurrentPage(newPage);
     };
 
+    console.log(orders)
 
     return (
         <>
@@ -93,8 +145,8 @@ const UserOrders = () => {
                             <Tbody >
                                 {currentOrders.map((order) => (
                                     <Tr key={order.id}>
-                                        <Td color="black">{order.id}</Td>
-                                        <Td color="black">{order.name}</Td>
+                                        <Td color="black">{order?.id}</Td>
+                                        <Td color="black">{user.userName}</Td>
                                         <Td color="black">{order.items.join(', ')}</Td>
                                         <Td color="black">{order.hotelName}</Td>
                                         {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
@@ -120,8 +172,8 @@ const UserOrders = () => {
                         )}
                     </Box>
                 ) : (
-                    <Text p={8} fontSize="2xl" color="gray.600" align="center">
-                        -- There are no notifications for you. --
+                    <Text p={8} fontSize="2xl" color="white" align="center">
+                        -- There are no orders from you. --
                     </Text>
                 )}
             </Flex>

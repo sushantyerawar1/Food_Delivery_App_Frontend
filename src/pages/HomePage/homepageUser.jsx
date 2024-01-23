@@ -43,6 +43,7 @@ const HomePageUser = () => {
     useEffect(() => {
         if (hotelid) {
             localStorage.removeItem("hotelid");
+            localStorage.removeItem("hotelname");
         }
     }, [])
 
@@ -91,12 +92,12 @@ const HomePageUser = () => {
                         hotels.length ?
                             <Box>
                                 <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width="100%">
-                                    {currentHotels.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery))).map((item) => (
-                                        <GridItem key={item.id} height="50%" maxH={"50%"}>
+                                    {currentHotels.filter((hotel) => keys.some((key) => hotel[key].toLowerCase().includes(searchQuery))).map((hotel) => (
+                                        <GridItem key={hotel.id} height="50%" maxH={"50%"}>
                                             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
-                                                <Box p='6' onClick={() => { navigate(`/catalog/${item.id}`) }} >
+                                                <Box p='6' onClick={() => { navigate(`/catalog/${hotel.id}/${hotel.name}`) }} >
                                                     <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="white">
-                                                        {item.name}
+                                                        {hotel.name}
                                                     </Text>
                                                     <Box display='flex' alignItems='baseline'>
                                                         <Badge borderRadius='full' px='2' colorScheme='teal'>
@@ -110,7 +111,7 @@ const HomePageUser = () => {
                                                             textTransform='uppercase'
                                                             ml='2'
                                                         >
-                                                            {item?.name}
+                                                            {hotel?.name}
                                                         </Box>
                                                     </Box>
 
@@ -121,7 +122,7 @@ const HomePageUser = () => {
                                                         lineHeight='tight'
                                                         noOfLines={5}
                                                     >
-                                                        {item?.description}
+                                                        {hotel?.description}
                                                     </Box>
 
 

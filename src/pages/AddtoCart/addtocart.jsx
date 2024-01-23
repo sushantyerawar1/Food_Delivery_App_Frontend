@@ -27,6 +27,8 @@ const AddToCart = () => {
     const [amount, setAmount] = useState(0);
     const [cartItems, setCartItems] = useState([]);
     const toast = useToast();
+    var hotelName = JSON.parse(localStorage.getItem('hotelname'));
+
 
     useEffect(() => {
         if (!user) navigate('/login');
@@ -158,6 +160,7 @@ const AddToCart = () => {
                     {
                         "userId": user._id,
                         "hotelId": hotelid,
+                        "hotelName": hotelName,
                         "cartItems": cartItems,
                     },
                     config
