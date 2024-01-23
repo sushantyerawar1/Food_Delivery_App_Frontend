@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
+    Button,
     Flex,
     Table,
-    Thead,
     Tbody,
-    Tr,
-    Th,
     Td,
-    Button,
-    Text
+    Th,
+    Thead,
+    Tr,
+    Text,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    Image,
+    Badge
 } from '@chakra-ui/react';
 import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
@@ -20,90 +30,162 @@ import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
 
 const NewOrders = () => {
 
+    const [orders, setOrders] = useState([]);
+    const [allorders, setAllOrders] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState([]);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-    const orders = [
-        { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 3, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 4, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 5, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 6, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 7, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 8, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 9, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 10, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 11, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 12, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 13, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 14, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 15, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 16, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 17, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 18, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 19, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 20, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 21, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 22, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 23, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 24, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 25, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 26, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 27, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-        { id: 28, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
-        { id: 29, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
-        { id: 30, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
-    ];
+    const user = userInfo ? userInfo.User : null
+    const path = window.location.pathname;
+    // const orders = [
+    //     { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 3, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 4, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 5, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 6, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 7, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 8, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 9, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 10, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 11, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 12, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 13, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 14, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 15, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 16, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 17, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 18, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 19, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 20, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 21, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 22, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 23, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 24, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 25, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 26, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 27, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    //     { id: 28, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending' },
+    //     { id: 29, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Pending' },
+    //     { id: 30, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Pending' },
+    // ];
 
 
     const handleAccept = async (orderId) => {
-        try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                },
-            };
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
 
-            const { data } = await axios.post(
-                "http://localhost:5000/api/orders/acceptOrder",
-                {
-                    "orderId": orderId,
-                },
-                config
-            );
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
 
-        } catch (error) {
-            console.log(error)
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/orders/acceptOrder",
+                    {
+                        "orderId": orderId,
+                    },
+                    config
+                );
+
+                if (status == 200) {
+                    GetHotelOrders()
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
         }
     };
 
     const handleReject = async (orderId) => {
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/orders/rejectOrder",
+                    {
+                        "orderId": orderId,
+                    },
+                    config
+                );
+
+                if (status == 200) {
+                    GetHotelOrders()
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+
+    const GetHotelOrders = async () => {
+
         try {
             const config = {
                 headers: {
                     "Content-type": "application/json",
+                    "Authorization": `Bearer ${userInfo?.Token['token']}`
                 },
             };
 
-            const { data } = await axios.post(
-                "http://localhost:5000/api/orders/rejectOrder",
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/orders/getOrderByHotel`,
                 {
-                    "orderId": orderId,
+                    hotelId: user._id
                 },
                 config
             );
 
+            console.log(data)
+
+            if (status == 201) {
+                setAllOrders(data.hotelOrders)
+            }
+
         } catch (error) {
             console.log(error)
+
         }
     };
 
+
+
+    useEffect(() => {
+        GetHotelOrders()
+    }, [])
+
+    useEffect(() => {
+
+        var neworders = [];
+        allorders.forEach((order) => {
+            if (order.orderAcceptOrDecline == "NULL") {
+                neworders.push(order)
+            }
+        })
+
+        setOrders(neworders)
+
+    }, [allorders])
+
+
     const [currentPage, setCurrentPage] = useState(0);
     const ordersPerPage = 6;
-    const totalPages = Math.ceil(orders.length / ordersPerPage)
+    const totalPages = Math.ceil(orders?.length / ordersPerPage)
 
     const indexOfLastOrder = (currentPage + 1) * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = orders?.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -139,7 +221,7 @@ const NewOrders = () => {
                             <Thead>
                                 <Tr>
                                     <Th>ID</Th>
-                                    <Th>Name</Th>
+                                    <Th>UserName</Th>
                                     <Th>Items</Th>
                                     <Th>Status</Th>
                                     <Th>Accept</Th>
@@ -148,16 +230,17 @@ const NewOrders = () => {
                             </Thead>
                             <Tbody>
                                 {currentOrders.map((order) => (
-                                    <Tr key={order.id}>
-                                        <Td color="black">{order.id}</Td>
-                                        <Td color="black">{order.name}</Td>
-                                        <Td color="black">{order.items.join(', ')}</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">{order.status}</Box></Td>
+                                    <Tr key={order._id}>
+                                        <Td color="black">{order?._id.slice(0, 10)}....</Td>
+                                        <Td color="black">{order.userName}</Td>
+                                        {/* <Td color="black">{order.items.join(', ')}</Td> */}
+                                        <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"59%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
                                         <Td>
 
                                             <Button
                                                 colorScheme="green"
-                                                onClick={() => handleAccept(order.id)}
+                                                onClick={() => handleAccept(order._id)}
                                             >
                                                 {/* Accept */}
                                                 <FaCheck />
@@ -168,7 +251,7 @@ const NewOrders = () => {
                                             <Button
                                                 ml={2}
                                                 bg="red.200"
-                                                onClick={() => handleReject(order.id)}
+                                                onClick={() => handleReject(order._id)}
                                             >
                                                 {/* Reject */}
                                                 <FaTimes />
@@ -185,11 +268,49 @@ const NewOrders = () => {
 
                     </Box>
                 ) : (
-                    <Box p={20} width="70%" color="red" align="center" marginTop={40}>
+                    <Box p={20} width="70%" color="white" align="center" marginTop={1}>
                         -- No Orders --
                     </Box>
                 )}
             </Flex>
+
+
+            <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent bg="gray">
+                    <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
+                            <Table variant="striped">
+                                <Thead >
+                                    <Tr >
+
+                                        <Th color="black">Item Name</Th>
+                                        <Th color="black">Price</Th>
+                                        <Th color="black">Quantity</Th>
+
+                                    </Tr>
+                                </Thead>
+                                <Tbody >
+                                    {selectedOrder.map((item) => (
+                                        <Tr key={item._id}>
+                                            <Td color="black">{item.name}</Td>
+                                            <Td color="black">{item.price}</Td>
+                                            <Td color="black">{item.quantity}</Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </Box>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="blue" mr={3} onClick={() => { onClose(); setSelectedOrder([]) }}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
             <Footer />
         </>
     );

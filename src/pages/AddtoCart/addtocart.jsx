@@ -161,6 +161,7 @@ const AddToCart = () => {
                         "userId": user._id,
                         "hotelId": hotelid,
                         "hotelName": hotelName,
+                        "userName": user.userName,
                         "cartItems": cartItems,
                     },
                     config
