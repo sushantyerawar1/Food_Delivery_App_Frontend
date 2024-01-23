@@ -15,10 +15,13 @@ import Congrats from "../Congrats.png"
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
 
-const Verified = () => {
+const VerifyEmailOnAccountCreation = () => {
     const params = useParams()
     const toast = useToast();
     const navigate = useNavigate();
+
+    console.log(params)
+
     const handleSubmit = async () => {
         try {
             const config = {
@@ -28,12 +31,13 @@ const Verified = () => {
             };
 
             const { data } = await axios.post(
-                "http://localhost:5000/api/auth/verify/",
+                `http://localhost:5000/api/auth/verifynewemail/${params.id}/${params.token}`,
                 {
                     "id": params.id,
                 },
                 config
             );
+
 
             toast({
                 title: "Account Verified Successfully",
@@ -75,7 +79,7 @@ const Verified = () => {
             // bg={useColorModeValue('gray.50', 'gray.800')}
             >
                 <div style={{ margin: "3px", paddingTop: "10px" }}>
-                    <div style={{ margin: "3px", paddingTop: "10px" }}>
+                    <div style={{ margin: "3px" }}>
                         <Text align={'center'} fontSize="20px">Email Verified Successfully </Text>
                         {/* <Text align={'center'} fontSize="20px">Congratulations! Your email has been successfully verified.</Text> */}
                     </div>
@@ -96,4 +100,4 @@ const Verified = () => {
     )
 };
 
-export default Verified;
+export default VerifyEmailOnAccountCreation;

@@ -77,7 +77,7 @@ const Login = () => {
                 },
             };
 
-            const { data } = await axios.post(
+            const { data, status } = await axios.post(
                 "http://localhost:5000/api/auth/login",
                 {
                     "emailId": email,
@@ -88,17 +88,40 @@ const Login = () => {
             );
 
 
-            toast({
-                title: "Login Successful",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom",
-            });
+
+            // toast({
+            //     title: "Login Successful",
+            //     status: "success",
+            //     duration: 5000,
+            //     isClosable: true,
+            //     position: "bottom",
+            // });
 
 
-            localStorage.setItem("userInfo", JSON.stringify(data));
-            setTimeout(() => { navigate("/") }, 200);
+            // localStorage.setItem("userInfo", JSON.stringify(data));
+            // setTimeout(() => { navigate("/") }, 200);
+            if (status == 200) {
+
+                toast({
+                    title: "Login Successful",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+
+
+                localStorage.setItem("userInfo", JSON.stringify(data));
+                setTimeout(() => { navigate("/") }, 200);
+            } else if (status == 201) {
+                toast({
+                    title: "Please verify mail.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            }
 
 
         } catch (error) {
@@ -161,7 +184,7 @@ const Login = () => {
                 },
             };
 
-            const { data } = await axios.post(
+            const { data, status } = await axios.post(
                 "http://localhost:5000/api/auth/login",
                 {
                     "emailId": email,
@@ -174,15 +197,28 @@ const Login = () => {
             console.log(data, "data")
 
 
-            if (data.msg == "Please Verify Mail") {
-                toast({
-                    title: "Please Verify Mail",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "bottom",
-                });
-            } else {
+            // if (data.msg == "Please Verify Mail") {
+            //     toast({
+            //         title: "Please Verify Mail",
+            //         status: "error",
+            //         duration: 5000,
+            //         isClosable: true,
+            //         position: "bottom",
+            //     });
+            // } else {
+            //     toast({
+            //         title: "Login Successful",
+            //         status: "success",
+            //         duration: 5000,
+            //         isClosable: true,
+            //         position: "bottom",
+            //     });
+            //     localStorage.setItem("userInfo", JSON.stringify(data));
+            //     setTimeout(() => { navigate("/") }, 500);
+            // }
+
+            if (status == 200) {
+
                 toast({
                     title: "Login Successful",
                     status: "success",
@@ -190,8 +226,18 @@ const Login = () => {
                     isClosable: true,
                     position: "bottom",
                 });
+
+
                 localStorage.setItem("userInfo", JSON.stringify(data));
-                setTimeout(() => { navigate("/") }, 500);
+                setTimeout(() => { navigate("/") }, 200);
+            } else if (status == 201) {
+                toast({
+                    title: "Please verify mail.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
             }
 
 

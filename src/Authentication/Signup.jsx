@@ -75,7 +75,7 @@ const SignUp = () => {
                 },
             };
 
-            const { data } = await axios.post(
+            const { data, status } = await axios.post(
                 "http://localhost:5000/api/auth/signup",
                 {
                     "userName": username,
@@ -86,16 +86,43 @@ const SignUp = () => {
                 config
             );
 
-            toast({
-                title: "Account created Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom",
-            });
+            // toast({
+            //     title: "Account created Successfully",
+            //     status: "success",
+            //     duration: 5000,
+            //     isClosable: true,
+            //     position: "bottom",
+            // });
 
-            localStorage.setItem("userInfo", JSON.stringify(data));
-            setTimeout(() => { navigate("/") }, 300);
+            // localStorage.setItem("userInfo", JSON.stringify(data));
+            // setTimeout(() => { navigate("/") }, 300);
+
+            if (status == 200) {
+                toast({
+                    title: `Mail has send to ${data?.email}. please Verify it`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+                setTimeout(() => { navigate(`/verifymail/${data?.email}`) }, 500);
+            } else if (status == 201) {
+                toast({
+                    title: `Mail has already send. please Verify it`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            } else if (status == 202) {
+                toast({
+                    title: `User already exist`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            }
 
         } catch (error) {
 
@@ -160,7 +187,7 @@ const SignUp = () => {
                 },
             };
 
-            const { data } = await axios.post(
+            const { data, status } = await axios.post(
                 "http://localhost:5000/api/auth/signup",
                 {
                     "userName": username,
@@ -173,16 +200,43 @@ const SignUp = () => {
 
             console.log(data, "datahuh")
 
-            toast({
-                title: "Account created Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom",
-            });
+            // toast({
+            //     title: `Mail has send to ${email}. please Verify it`,
+            //     status: "success",
+            //     duration: 5000,
+            //     isClosable: true,
+            //     position: "bottom",
+            // });
 
-            localStorage.setItem("userInfo", JSON.stringify(data));
-            setTimeout(() => { navigate("/") }, 500);
+            // localStorage.setItem("userInfo", JSON.stringify(data));
+            // setTimeout(() => { navigate(`/verifymail/${email}`) }, 500);
+
+            if (status == 200) {
+                toast({
+                    title: `Mail has send to ${email}. please Verify it`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+                setTimeout(() => { navigate(`/verifymail/${email}`) }, 500);
+            } else if (status == 201) {
+                toast({
+                    title: `Mail has already send. please Verify it`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            } else if (status == 202) {
+                toast({
+                    title: `User already exist`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            }
 
         } catch (error) {
 

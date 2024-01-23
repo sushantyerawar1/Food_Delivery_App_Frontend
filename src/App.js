@@ -24,6 +24,7 @@ import UserProfile from './pages/UserProfile/userProfile';
 import Notifications from './pages/Notifications/notification';
 import Blogs from './Blogs/blogs';
 import ContactUs from './ContactUs/contactus';
+import VerifyEmailOnAccountCreation from './Authentication/verifymailonaccountcreation';
 // import DeliveryLocationMap from './pages/DeliveryMap/deliveryMap';
 
 
@@ -38,8 +39,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
+        <Route path="/verifymailonaccountcreation/:id/:token" element={<VerifyEmailOnAccountCreation />} />
         <Route path="/verify/:id" element={<Verified />} />
-        <Route path="/verifymail" element={<VerifiedMail />} />
+        <Route path="/verifymail/:id" element={<VerifiedMail />} />
         <Route path="/sender" element={<Sender />} />
         <Route path="/buyer" element={<Buyer />} />
         <Route path="/catalog/:id/:name" element={<Catalog />} />
