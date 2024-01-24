@@ -9,18 +9,21 @@ import {
     Image,
     Flex,
     useColorModeValue,
-    Text
+    Text,
+    Stack,
+    Box
 } from '@chakra-ui/react'
 import Congrats from "../Congrats.png"
+import FoodBackgroundImage from '../foodbackgroundimage.jpg';
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
 
 const VerifyEmailOnAccountCreation = () => {
+
     const params = useParams()
     const toast = useToast();
     const navigate = useNavigate();
 
-    console.log(params)
 
     const handleSubmit = async () => {
         try {
@@ -72,27 +75,30 @@ const VerifyEmailOnAccountCreation = () => {
         <>
             <Header />
             <Flex
-                minH={'80vh'}
-                align={'center'}
-                justify={'center'}
-                bg="gray"
-            // bg={useColorModeValue('gray.50', 'gray.800')}
+
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+                minHeight='100vh'
+                color='white'
+                align='center'
+                justify='center'
+                width="100%"
             >
-                <div style={{ margin: "3px", paddingTop: "10px" }}>
-                    <div style={{ margin: "3px" }}>
-                        <Text align={'center'} fontSize="20px">Email Verified Successfully </Text>
-                        {/* <Text align={'center'} fontSize="20px">Congratulations! Your email has been successfully verified.</Text> */}
-                    </div>
-                    <div>
+                <Stack style={{ margin: "3px" }}>
+                    <Text align={'center'} fontSize="20px" color={"white"}>Email Verified Successfully </Text>
+                    <Box>
                         <Image
                             src={Congrats}
                             alt='Congrats'
                             align={'center'}
                         />
-                        <Text align={'center'} margin="1%" fontSize="20px">Go to the login Page</Text>
+                        <Text align={'center'} margin="1%" fontSize="20px" color="white">Go to the login Page</Text>
                         <Button marginLeft="40%" marginTop="2%" backgroundColor={"green.200"} onClick={() => { navigate("/login") }}>Login</Button>
-                    </div>
-                </div>
+                    </Box>
+                </Stack>
 
             </Flex>
             <Footer />

@@ -14,7 +14,7 @@ const VerifiedMail = () => {
 
     return (
         <>
-            <Header Flag={0} />
+            <Header />
             <Flex
                 style={{
                     backgroundImage: `url(${FoodBackgroundImage})`,
@@ -26,11 +26,6 @@ const VerifiedMail = () => {
                 align='center'
                 justify='center'
                 width="100%"
-            // minH={'80vh'}
-            // align={'center'}
-            // justify={'center'}
-            // // bg={useColorModeValue('gray.50', 'gray.800')}
-            // bg="gray"
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} >
                     <Stack align={'center'}>
