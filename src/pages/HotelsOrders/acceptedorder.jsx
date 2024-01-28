@@ -241,8 +241,8 @@ const AcceptedOrders = () => {
                         )}
                     </Box>
                 ) : (
-                    <Text p={8} fontSize="2xl" color="gray.600" align="center">
-                        -- No Orders Accepted--
+                    <Text p={8} fontSize="2xl" color="white" align="center">
+                        -- No Orders --
                     </Text>
                 )}
             </Flex>

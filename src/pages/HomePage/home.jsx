@@ -23,15 +23,9 @@ const Home = () => {
         <>
             <>
                 <Header />
-                {
-                    (user == null) && <HomeDetails />
-                }
-                {
-                    (user && role == "hotel") && <HomePageHotelOwner />
-                }
-                {
-                    (user && role == "user") && <HomePageUser />
-                }
+                {(user == null) && <HomeDetails />}
+                {(user && role == "hotel") && <HomePageHotelOwner />}
+                {(user && role == "user") && <HomePageUser />}
                 <Footer />
             </>
         </>

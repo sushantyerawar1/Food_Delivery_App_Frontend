@@ -62,8 +62,11 @@ const HotelItems = () => {
                 },
             };
 
-            const { data, status } = await axios.get(
+            const { data, status } = await axios.post(
                 "http://localhost:5000/api/items/getitems",
+                {
+                    id: user._id
+                },
                 config
             );
 
