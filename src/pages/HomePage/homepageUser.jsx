@@ -11,6 +11,7 @@ import {
     InputLeftElement,
     Badge
 } from '@chakra-ui/react'
+import axios from "axios";
 import { SearchIcon } from "@chakra-ui/icons";
 import Pagination from "../Pagination/pagination";
 import { StarIcon } from '@chakra-ui/icons';
@@ -21,7 +22,8 @@ const HomePageUser = () => {
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const hotelid = JSON.parse(localStorage.getItem('hotelid'));
-    const keys = ["name", "description"]
+    const keys = ["userName"]
+    const description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. PageMaker including versions of Lorem Ipsum"
     const initialHotels = [
         { id: 1, name: 'Tech Cafe', description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. PageMaker including versions of Lorem Ipsum" },
         { id: 2, name: 'D-Mark', description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" },
@@ -37,7 +39,7 @@ const HomePageUser = () => {
         { id: 12, name: 'kumar', description: "Lorem Ipsum is simply dummy " },
     ];
 
-    const [hotels, setHotels] = useState(initialHotels);
+    const [hotels, setHotels] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
@@ -58,6 +60,33 @@ const HomePageUser = () => {
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
+
+    const fetchallhotels = async () => {
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            };
+
+            const { data, status } = await axios.get(
+                "http://localhost:5000/api/auth/hotels",
+                config
+            );
+
+            console.log(data.hotels[0])
+            if (status == 200)
+                setHotels(data.hotels);
+
+        } catch (error) {
+
+            console.log("Error")
+        }
+    }
+
+    useEffect(() => {
+        fetchallhotels();
+    }, [])
 
     return (
         <>
@@ -95,9 +124,9 @@ const HomePageUser = () => {
                                     {currentHotels.filter((hotel) => keys.some((key) => hotel[key].toLowerCase().includes(searchQuery))).map((hotel) => (
                                         <GridItem key={hotel.id} height="50%" maxH={"50%"}>
                                             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
-                                                <Box p='6' onClick={() => { navigate(`/catalog/${hotel.id}/${hotel.name}`) }} >
+                                                <Box p='6' onClick={() => { navigate(`/catalog/${hotel._id}/${hotel.userName}`) }} >
                                                     <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="white">
-                                                        {hotel.name}
+                                                        {hotel.userName}
                                                     </Text>
                                                     <Box display='flex' alignItems='baseline'>
                                                         <Badge borderRadius='full' px='2' colorScheme='teal'>
@@ -111,7 +140,7 @@ const HomePageUser = () => {
                                                             textTransform='uppercase'
                                                             ml='2'
                                                         >
-                                                            {hotel?.name}
+                                                            {hotel?.userName}
                                                         </Box>
                                                     </Box>
 
@@ -122,7 +151,8 @@ const HomePageUser = () => {
                                                         lineHeight='tight'
                                                         noOfLines={5}
                                                     >
-                                                        {hotel?.description}
+                                                        {description}
+                                                        {/* {hotel?.description} */}
                                                     </Box>
 
 

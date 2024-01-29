@@ -77,7 +77,7 @@ const Catalog = () => {
 
             const { data, status } = await axios.post(
                 "http://localhost:5000/api/items/getitems", {
-                id: "65affa04888b18b78ea435a3"
+                id: hotelid
             },
                 config
             );
