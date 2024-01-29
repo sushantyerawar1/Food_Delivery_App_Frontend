@@ -22,11 +22,6 @@ const Homedetails = () => {
     return (
         <>
             <Flex
-                style={{
-                    backgroundImage: `url(${FoodBackgroundImage})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}

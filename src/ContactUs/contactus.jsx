@@ -13,7 +13,7 @@ import {
 import Header from '../Header/header';
 import Footer from '../Footer/footer';
 import { useNavigate } from 'react-router-dom';
-import FoodBackgroundImage from '../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../img2.jpg';
 
 const ContactUs = () => {
     const navigate = useNavigate();

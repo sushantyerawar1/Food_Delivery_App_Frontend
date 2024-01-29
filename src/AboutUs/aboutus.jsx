@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import Header from '../Header/header';
 import Footer from '../Footer/footer';
-import FoodBackgroundImage from '../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../img4.jpg';
 import logo from "../logo.png"
 import manImage from "../manimage.jpg"
 import { useNavigate } from 'react-router-dom';

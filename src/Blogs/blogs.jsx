@@ -12,9 +12,9 @@ import Header from '../Header/header';
 import Footer from '../Footer/footer';
 import Pagination from '../pages/Pagination/pagination';
 import { useNavigate } from 'react-router-dom';
-import FoodBackgroundImage from '../foodbackgroundimage.jpg';
-import foodgroundimagecontactuspage from '../foodgroundimagecontactuspage.jpg';
-import foodbackground from '../foodbackground.jpg';
+import FoodBackgroundImage1 from '../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../img2.jpg';
+// import foodbackground from '../foodbackground.jpg';
 
 const Blogs = () => {
 
@@ -32,32 +32,32 @@ const Blogs = () => {
         {
             title: 'The Art of Sushi Making',
             description: 'Discover the secrets behind crafting the perfect sushi roll at home.',
-            imageUrl: foodgroundimagecontactuspage,
+            imageUrl: FoodBackgroundImage1,
         },
         {
             title: 'Exploring Local Delicacies',
             description: 'Embark on a culinary journey as we explore the flavors of local dishes in your area.',
-            imageUrl: foodgroundimagecontactuspage,
+            imageUrl: FoodBackgroundImage1,
         },
         {
             title: 'Mastering the Grill: BBQ Tips and Tricks',
             description: 'Become a grill master with our expert tips and tricks for the perfect BBQ experience.',
-            imageUrl: foodgroundimagecontactuspage,
+            imageUrl: FoodBackgroundImage1,
         },
         {
             title: 'The Art of Sushi Making',
             description: 'Discover the secrets behind crafting the perfect sushi roll at home.',
-            imageUrl: foodgroundimagecontactuspage,
+            imageUrl: FoodBackgroundImage1,
         },
         {
             title: 'Exploring Local Delicacies',
             description: 'Embark on a culinary journey as we explore the flavors of local dishes in your area.',
-            imageUrl: foodgroundimagecontactuspage,
+            imageUrl: FoodBackgroundImage1,
         },
         {
             title: 'Mastering the Grill: BBQ Tips and Tricks',
             description: 'Become a grill master with our expert tips and tricks for the perfect BBQ experience.',
-            imageUrl: foodgroundimagecontactuspage,
+            imageUrl: FoodBackgroundImage,
         },
     ];
 
@@ -87,8 +87,9 @@ const Blogs = () => {
                 bgSize="cover"
                 bgPosition="center"
                 bgRepeat="no-repeat"
+                bg='gray'
                 style={{
-                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    // backgroundImage: `url(${FoodBackgroundImage})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     minHeight: '100vh',
