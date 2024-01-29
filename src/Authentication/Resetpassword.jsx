@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import Footer from "../Footer/footer";
 import Header from "../Header/header";
-import FoodBackgroundImage from '../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../img2.jpg';
 
 const ResetPassword = () => {
 
@@ -136,6 +136,7 @@ const ResetPassword = () => {
                 color='white'
                 align='center'
                 justify='center'
+
             // minH={'80vh'}
             // align={'center'}
             // justify={'center'}
@@ -144,7 +145,7 @@ const ResetPassword = () => {
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                     <Stack align={'center'}>
-                        <Text fontSize={'50px'} color="white" >Reset Password</Text>
+                        <Text fontSize={'50px'} color="black" >Reset Password</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}

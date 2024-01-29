@@ -26,7 +26,7 @@ import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import axios from "axios"
 import { FaTimes, FaCheck } from 'react-icons/fa';
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img4.jpg';
 
 const NewOrders = () => {
 
@@ -268,9 +268,9 @@ const NewOrders = () => {
 
                     </Box>
                 ) : (
-                    <Box p={20} width="70%" color="white" align="center" marginTop={1}>
+                    <Text p={8} fontSize="30px" color="black" align="center">
                         -- No Orders --
-                    </Box>
+                    </Text>
                 )}
             </Flex>
 

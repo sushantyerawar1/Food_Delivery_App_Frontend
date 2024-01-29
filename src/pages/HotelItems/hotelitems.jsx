@@ -34,6 +34,7 @@ import food from '../../food.png';
 import axios from "axios"
 import Pagination from "../Pagination/pagination"
 import { useNavigate } from 'react-router-dom';
+import FoodBackgroundImage from '../../img4.jpg';
 
 const HotelItems = () => {
 
@@ -257,6 +258,11 @@ const HotelItems = () => {
         <>
             <Header />
             <Flex
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
@@ -265,17 +271,17 @@ const HotelItems = () => {
                 <Box p={20}>
 
 
-                    <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
+                    <Text fontSize={"50px"} mb={5} align={'center'} color={"black"} >
                         Items
                     </Text>
 
 
                     <InputGroup   >
                         <InputLeftElement pointerEvents='none'>
-                            <SearchIcon color='gray.300' />
+                            <SearchIcon color='black' />
                         </InputLeftElement>
                         <Input
-                            color="white"
+                            color="black"
                             width="1190px"
                             placeholder="Search items..."
                             mb={4}
@@ -328,7 +334,7 @@ const HotelItems = () => {
                                                             fontWeight='semibold'
                                                             as='h4'
                                                             lineHeight='tight'
-                                                            noOfLines={2}
+                                                            noOfLines={3}
                                                         >
                                                             {item?.description}
                                                         </Box>

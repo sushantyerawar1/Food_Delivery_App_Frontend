@@ -16,7 +16,7 @@ import Header from "../../Header/header";
 import food from "../../food.png"
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img4.jpg';
 
 const AddToCart = () => {
 
@@ -283,7 +283,7 @@ const AddToCart = () => {
                 <Box width={"100%"} padding={30} align={'center'} justify={'center'}>
                     {
                         cartItems.length > 0 &&
-                        <Text fontSize={"50px"} align={'center'} color={"white"} mb={3}>
+                        <Text fontSize={"50px"} align={'center'} color={"black"} mb={3}>
                             Catalogs Added
                         </Text>
                     }

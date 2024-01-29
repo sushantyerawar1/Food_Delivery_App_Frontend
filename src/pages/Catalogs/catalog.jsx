@@ -32,6 +32,7 @@ import { useParams } from 'react-router-dom';
 import { useToast } from "@chakra-ui/react";
 import Pagination from '../Pagination/pagination';
 import { StarIcon } from '@chakra-ui/icons';
+import FoodBackgroundImage from '../../img4.jpg';
 
 const Catalog = () => {
 
@@ -74,8 +75,10 @@ const Catalog = () => {
                 },
             };
 
-            const { data, status } = await axios.get(
-                "http://localhost:5000/api/items/getitems",
+            const { data, status } = await axios.post(
+                "http://localhost:5000/api/items/getitems", {
+                id: "65affa04888b18b78ea435a3"
+            },
                 config
             );
 
@@ -165,28 +168,34 @@ const Catalog = () => {
         <>
             <Header />
             <Flex
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
                 bg="gray"
             >
                 <Box p={20}>
-                    <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
+                    <Text fontSize={"50px"} mb={5} align={'center'} color={"black"} >
                         Catalogs
                     </Text>
 
                     <InputGroup   >
                         <InputLeftElement pointerEvents='none'>
-                            <SearchIcon color='gray.300' />
+                            <SearchIcon color='black' />
                         </InputLeftElement>
                         <Input
-                            color="white"
+                            color="black"
                             width="1190px"
                             placeholder="Search items..."
                             mb={4}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             borderColor={"black"}
+
                         />
                     </InputGroup>
 
@@ -240,7 +249,7 @@ const Catalog = () => {
                                                             fontWeight='semibold'
                                                             as='h4'
                                                             lineHeight='tight'
-                                                            noOfLines={2}
+                                                            noOfLines={3}
                                                         >
                                                             {item?.description}
                                                         </Box>
@@ -286,9 +295,9 @@ const Catalog = () => {
                                 }
                             </Box>
                             :
-                            <Box align={'center'} color={"red"}  >
+                            <Text align={'center'} color={"black"} fontSize={30} >
                                 -- No Items --
-                            </Box>
+                            </Text>
                     }
 
                     {/* ============================================================================================================================================================================== */}

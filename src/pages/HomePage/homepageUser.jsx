@@ -14,7 +14,7 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import Pagination from "../Pagination/pagination";
 import { StarIcon } from '@chakra-ui/icons';
-
+import FoodBackgroundImage from '../../img4.jpg';
 const HomePageUser = () => {
 
 

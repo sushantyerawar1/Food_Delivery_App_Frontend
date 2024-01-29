@@ -26,7 +26,7 @@ import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import axios from "axios"
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img4.jpg';
 
 
 const AcceptedOrders = () => {
@@ -241,7 +241,7 @@ const AcceptedOrders = () => {
                         )}
                     </Box>
                 ) : (
-                    <Text p={8} fontSize="2xl" color="white" align="center">
+                    <Text p={8} fontSize="2xl" color="black" align="center">
                         -- No Orders --
                     </Text>
                 )}

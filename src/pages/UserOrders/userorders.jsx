@@ -24,7 +24,7 @@ import {
 import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img4.jpg';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 

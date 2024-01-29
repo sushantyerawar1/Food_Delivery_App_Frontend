@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 
 import manImage from "../../manimage.jpg"
+import FoodBackgroundImage from '../../img4.jpg';
 
 const Homedetails = () => {
 
@@ -21,6 +22,11 @@ const Homedetails = () => {
     return (
         <>
             <Flex
+                style={{
+                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}

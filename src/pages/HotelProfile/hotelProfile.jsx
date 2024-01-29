@@ -21,7 +21,7 @@ import { useToast } from "@chakra-ui/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import profile from "../../profile.png";
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img4.jpg';
 
 const HotelProfile = () => {
 
@@ -226,8 +226,8 @@ const HotelProfile = () => {
             // bg="green.400"
             >
                 <Stack spacing={8} mx={'auto'} width={'50%'} py={12} px={6} >
-                    <Stack align={'center'}>
-                        <Text fontSize={'60px'} color="white">Profile</Text>
+                    <Stack align={'center'} p={3}>
+                        <Text fontSize={'60px'} color="black">Profile</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}

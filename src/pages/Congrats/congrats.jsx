@@ -14,7 +14,8 @@ import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import { useNavigate, useParams } from 'react-router-dom';
 import StatusImage from "../../StatusImage.png"
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img2.jpg';
+
 
 const Congrats = () => {
 
@@ -49,7 +50,7 @@ const Congrats = () => {
             // bg="gray"
             >
                 <Box mt={10}>
-                    <Text fontSize={"50px"} align={'center'} color={"white"} mb={3}>
+                    <Text fontSize={"50px"} align={'center'} color={"black"} mb={3}>
                         Congratulation !
                     </Text>
 

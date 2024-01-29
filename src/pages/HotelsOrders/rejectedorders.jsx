@@ -25,7 +25,7 @@ import {
 import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img4.jpg';
 import axios from "axios"
 
 const RejectedOrders = () => {
@@ -198,10 +198,9 @@ const RejectedOrders = () => {
                             <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
                         }
                     </Box> :
-                    <Box p={20} width="70%" color="white" align="center" marginTop={1}>
-
-                        -- No Order Rejected --
-                    </Box>
+                    <Text p={8} fontSize="30px" color="black" align="center">
+                        -- No Orders --
+                    </Text>
 
                 }
             </Flex>

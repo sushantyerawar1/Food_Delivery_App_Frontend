@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react'
 import Header from "../../Header/header";
 import Footer from "../../Footer/footer";
-import FoodBackgroundImage from '../../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../../img2.jpg';
 const AddItem = () => {
 
     const fileInput = useRef(null);
@@ -183,7 +183,7 @@ const AddItem = () => {
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
                     <Stack align={'center'}>
-                        <Text fontSize={"50px"} color="white">Add New Item </Text>
+                        <Text fontSize={"50px"} color="black">Add New Item </Text>
                     </Stack>
                     <Box
                         rounded={'lg'}

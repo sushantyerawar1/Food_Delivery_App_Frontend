@@ -3,6 +3,7 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import img2 from '../img2.jpg'
 import {
     Flex,
     Box,
@@ -260,9 +261,10 @@ const SignUp = () => {
             <Header />
             <Flex
                 style={{
-                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundImage: `url(${img2})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center'
+                    backgroundPosition: 'center',
+
                 }}
                 minHeight='100vh'
                 color='white'
@@ -273,11 +275,11 @@ const SignUp = () => {
                 // justify={'center'}
                 // // bg={useColorModeValue('gray.50', 'gray.800')}
                 // bg="gray"
-                padding={3}
+                padding={10}
             >
-                <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%">
+                <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} width="100%" zIndex={2}>
                     <Stack align={'center'}>
-                        <Text fontSize={'5xl'} color="white">Create an Account </Text>
+                        <Text fontSize={'5xl'} color="black" fontWeight={'400'}>Create an Account </Text>
                     </Stack>
                     <Box
                         rounded={'lg'}

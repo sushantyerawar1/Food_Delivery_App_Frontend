@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import googleImage from '../assets/googleImage.jpg';
 import FoodBackgroundImage from '../foodbackgroundimage.jpg';
+import img1 from '../img1.jpg'
+import img2 from '../img2.jpg'
 import {
     Flex,
     Box,
@@ -292,8 +294,8 @@ const Login = () => {
             if (data) {
                 setforgotEmail("")
             }
-
-            setTimeout(() => { navigate("/verifymail") }, 200);
+            console.log(data, "data")
+            setTimeout(() => { navigate(`/verifymail/${forgotemail}`) }, 200);
 
 
 
@@ -317,7 +319,7 @@ const Login = () => {
             <Header />
             <Flex
                 style={{
-                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    backgroundImage: `url(${img2})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                 }}
@@ -334,7 +336,7 @@ const Login = () => {
             >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} >
                     <Stack align={'center'}>
-                        <Text fontSize={'60px'} color="white">Sign in</Text>
+                        <Text fontSize={'60px'} color="black">Sign in</Text>
                     </Stack>
                     <Box
                         rounded={'lg'}
