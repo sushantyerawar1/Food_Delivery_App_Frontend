@@ -9,7 +9,9 @@ import {
     Grid,
     GridItem,
     InputLeftElement,
-    Badge
+    Badge,
+    Select,
+    Checkbox
 } from '@chakra-ui/react'
 import axios from "axios";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -57,6 +59,9 @@ const HomePageUser = () => {
     const indexOfLastHotel = (currentPage + 1) * HotelsPerPage;
     const indexOfFirstHotel = indexOfLastHotel - HotelsPerPage;
     const currentHotels = hotels.slice(indexOfFirstHotel, indexOfLastHotel);
+    const [filterVeg, setFilterVeg] = useState(false);
+    const [filterNonVeg, setFilterNonVeg] = useState(false);
+    const [filterBoth, setFilterBoth] = useState(false);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -91,15 +96,37 @@ const HomePageUser = () => {
         fetchallhotels();
     }, [])
 
-
     useEffect(() => {
-        const arr = originalhotels.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
+        const filteredHotels = originalhotels.filter(item => {
+            const isMatchingSearch = keys.some(key =>
+                item[key].toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            const isVegMatch = !filterVeg || item.isVeg;
+            const isNonVegMatch = !filterNonVeg || !item.isVeg;
+            const isBothMatch = !filterBoth || item.isBoth;
+
+            return isMatchingSearch && isVegMatch && isNonVegMatch && isBothMatch;
+        });
+
+        const arr = filteredHotels.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
 
         if (arr.length || searchQuery)
             setHotels(arr)
         else
-            setHotels(originalhotels)
-    }, [searchQuery])
+            setHotels(filteredHotels)
+
+        // setHotels(filteredHotels);
+    }, [searchQuery, filterVeg, filterNonVeg, originalhotels]);
+
+
+    // useEffect(() => {
+    //     const arr = originalhotels.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
+
+    //     if (arr.length || searchQuery)
+    //         setHotels(arr)
+    //     else
+    //         setHotels(originalhotels)
+    // }, [searchQuery])
 
     return (
         <>
@@ -110,6 +137,40 @@ const HomePageUser = () => {
                 bg="gray"
             >
                 <Box p={20}>
+
+                    <Box display="flex" alignItems="center">
+                        <Checkbox
+                            isChecked={filterVeg}
+                            onChange={() => setFilterVeg(!filterVeg)}
+                            colorScheme="green"
+                            size="lg"
+                            mr={4}
+                            borderColor="white"
+                        >
+                            Veg
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={filterNonVeg}
+                            onChange={() => setFilterNonVeg(!filterNonVeg)}
+                            colorScheme="red"
+                            size="lg"
+                            mr={4}
+                            borderColor="white"
+                        >
+                            Non-Veg
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={filterBoth}
+                            onChange={() => setFilterBoth(!filterBoth)}
+                            colorScheme="blue"
+                            size="lg"
+                            mr={4}
+                            borderColor="white"
+                        >
+                            Both
+                        </Checkbox>
+                    </Box>
+
                     <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
                         Hotels
                     </Text>
@@ -197,7 +258,7 @@ const HomePageUser = () => {
 
                                 }
                             </Box> :
-                            <Box align={'center'} color={"red"}  >
+                            <Box align={'center'} color={"white"}  >
                                 -- No Hotels Listed --
                             </Box>
                     }

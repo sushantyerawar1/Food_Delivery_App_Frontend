@@ -16,6 +16,9 @@ import hotelimage4 from "../../hotelimage4.jpg"
 
 const HomePageHotelOwner = () => {
 
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const user = userInfo ? userInfo.User : null
+
     const hotelName = 'Tech Cafe';
     const hotelDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
     const hotelRating = 4.5;
@@ -90,7 +93,7 @@ const HomePageHotelOwner = () => {
                 <Box p={20}>
                     <Box bg="green.500" p={4} color="white">
                         <Text fontSize={"50px"} align="center">
-                            {hotelName}
+                            {user.userName}
                         </Text>
                     </Box>
                     <Box p={4}>

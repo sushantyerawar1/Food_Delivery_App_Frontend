@@ -21,6 +21,8 @@ import {
     InputLeftElement,
     useColorModeValue,
     Badge,
+    Select,
+    Checkbox
     // StarIcon
 } from '@chakra-ui/react';
 import { SearchIcon } from "@chakra-ui/icons";
@@ -141,6 +143,34 @@ const Catalog = () => {
     const [catalogItems, setCatalogItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
+    const [filterVeg, setFilterVeg] = useState(false);
+    const [filterNonVeg, setFilterNonVeg] = useState(false);
+    const [filterBoth, setFilterBoth] = useState(false);
+    const [filterPriceRange, setFilterPriceRange] = useState('');
+
+    useEffect(() => {
+        const filteredItems = originalcatalogItems.filter(item => {
+            const isMatchingSearch = keys.some(key =>
+                item[key].toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            const isVegMatch = !filterVeg || item.isVeg;
+            const isNonVegMatch = !filterNonVeg || !item.isVeg;
+            const isBothMatch = !filterBoth || !item.isBoth;
+            const isPriceInRange = !filterPriceRange || item.price <= filterPriceRange;
+
+            return isMatchingSearch && isVegMatch && isNonVegMatch && isPriceInRange && isBothMatch;
+        });
+
+        const arr = filteredItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
+
+        if (arr.length || searchQuery)
+            setCatalogItems(arr)
+        else
+            setCatalogItems(filteredItems)
+
+        // setCatalogItems(filteredItems);
+    }, [searchQuery, filterVeg, filterNonVeg, filterPriceRange, originalcatalogItems]);
+
 
 
     const [currentPage, setCurrentPage] = useState(0);
@@ -167,14 +197,14 @@ const Catalog = () => {
         rating: 4,
     }
 
-    useEffect(() => {
-        const arr = originalcatalogItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
+    // useEffect(() => {
+    //     const arr = originalcatalogItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
 
-        if (arr.length || searchQuery)
-            setCatalogItems(arr)
-        else
-            setCatalogItems(originalcatalogItems)
-    }, [searchQuery])
+    //     if (arr.length || searchQuery)
+    //         setCatalogItems(arr)
+    //     else
+    //         setCatalogItems(originalcatalogItems)
+    // }, [searchQuery])
 
 
     return (
@@ -192,6 +222,52 @@ const Catalog = () => {
                 bg="gray"
             >
                 <Box p={20}>
+                    <Box display="flex" alignItems="center">
+                        <Checkbox
+                            isChecked={filterVeg}
+                            onChange={() => setFilterVeg(!filterVeg)}
+                            colorScheme="green"
+                            size="lg"
+                            mr={4}
+                            borderColor="black"
+                        >
+                            Veg
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={filterNonVeg}
+                            onChange={() => setFilterNonVeg(!filterNonVeg)}
+                            colorScheme="red"
+                            size="lg"
+                            mr={4}
+                            borderColor="black"
+                        >
+                            Non-Veg
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={filterBoth}
+                            onChange={() => setFilterBoth(!filterBoth)}
+                            colorScheme="blue"
+                            size="lg"
+                            mr={4}
+                            borderColor="black"
+                        >
+                            Both
+                        </Checkbox>
+                        <Select
+                            placeholder="Price Range"
+                            value={filterPriceRange}
+                            onChange={(e) => setFilterPriceRange(e.target.value)}
+                            colorScheme="blue"
+                            // size="lg"
+                            width="14%"
+                            borderColor="black"
+                        >
+                            <option value="">&nbsp;</option>
+                            <option value="10">Under 10</option>
+                            <option value="20">Under 20</option>
+                            <option value="30">Under 30</option>
+                        </Select>
+                    </Box>
                     <Text fontSize={"50px"} mb={5} align={'center'} color={"black"} >
                         Catalogs
                     </Text>
