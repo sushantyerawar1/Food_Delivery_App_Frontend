@@ -56,6 +56,7 @@ const Catalog = () => {
     //     { _id: 7, name: 'Groceries', price: 20.0, description: "dummy7", pic: "http://res.cloudinary.com/dojtv6qwl/image/upload/v1704533187/ptk5pvkpxz1sassuiwfl.jpg" },
     //     { _id: 8, name: 'Pharmacy', price: 15.0, description: "dummy8", pic: "http://res.cloudinary.com/dojtv6qwl/image/upload/v1704533187/ptk5pvkpxz1sassuiwfl.jpg" },
     //     { _id: 9, name: 'Favorite Dishes', price: 25.0, description: "dummy9", pic: "http://res.cloudinary.com/dojtv6qwl/image/upload/v1704533187/ptk5pvkpxz1sassuiwfl.jpg" },
+    //     { _id: 10, name: 'idli', price: 25.0, description: "dummy9", pic: "http://res.cloudinary.com/dojtv6qwl/image/upload/v1704533187/ptk5pvkpxz1sassuiwfl.jpg" },
     // ];
 
 
@@ -82,11 +83,13 @@ const Catalog = () => {
                 config
             );
 
-            if (status == 201)
-                setCatalogItems(data.items);
+            if (status == 201) {
+
+                setOriginalCatalogItems(data.items);
+                setCatalogItems(data.items)
+            }
 
         } catch (error) {
-
             console.log("Error")
         }
     }
@@ -134,6 +137,7 @@ const Catalog = () => {
 
 
 
+    const [originalcatalogItems, setOriginalCatalogItems] = useState([]);
     const [catalogItems, setCatalogItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
@@ -162,6 +166,15 @@ const Catalog = () => {
         reviewCount: 34,
         rating: 4,
     }
+
+    useEffect(() => {
+        const arr = originalcatalogItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
+
+        if (arr.length || searchQuery)
+            setCatalogItems(arr)
+        else
+            setCatalogItems(originalcatalogItems)
+    }, [searchQuery])
 
 
     return (
@@ -203,7 +216,8 @@ const Catalog = () => {
                         catalogItems.length ?
                             <Box>
                                 <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width={"100%"} >
-                                    {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery))).map((item) => (
+                                    {/* {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((item) => ( */}
+                                    {currentItems.map((item) => (
                                         <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
 
                                             <Box >

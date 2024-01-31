@@ -169,7 +169,7 @@ const UserOrders = () => {
                                         <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"59%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
                                         <Td>
                                             <Flex justify={"space-between"}>
-                                                <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") ? true : false}>
+                                                <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
                                                     Reject
                                                 </Button>
                                             </Flex>

@@ -49,6 +49,7 @@ const HotelItems = () => {
 
 
     const keys = ["name", "description"];
+    const [originalcatalogItems, setOriginalCatalogItems] = useState([]);
     const [catalogItems, setCatalogItems] = useState([]);
 
     useEffect(() => {
@@ -71,8 +72,10 @@ const HotelItems = () => {
                 config
             );
 
-            if (status == 201)
-                setCatalogItems(data.items);
+            if (status == 201) {
+                setOriginalCatalogItems(data.items);
+                setCatalogItems(data.items)
+            }
 
         } catch (error) {
 
@@ -241,6 +244,15 @@ const HotelItems = () => {
         fetchallitems();
     }, [])
 
+    useEffect(() => {
+        const arr = originalcatalogItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
+
+        if (arr.length || searchQuery)
+            setCatalogItems(arr)
+        else
+            setCatalogItems(originalcatalogItems)
+    }, [searchQuery])
+
 
     const [currentPage, setCurrentPage] = useState(0);
     const ItemsPerPage = 6;
@@ -296,7 +308,8 @@ const HotelItems = () => {
                             <Box>
 
                                 <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4}>
-                                    {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery))).map((item) => (
+                                    {/* {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((item) => ( */}
+                                    {currentItems.map((item) => (
                                         <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
                                             <Box>
                                                 <Box>
