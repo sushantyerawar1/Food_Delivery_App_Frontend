@@ -151,9 +151,9 @@ const UserOrders = () => {
                             <Thead >
                                 <Tr >
                                     <Th>ID</Th>
-                                    {/* <Th>Name</Th> */}
-                                    <Th>Items</Th>
                                     <Th>Hotel Name</Th>
+                                    <Th>Items</Th>
+                                    <Th>Amount</Th>
                                     <Th>Status</Th>
                                     <Th>Actions</Th>
                                 </Tr>
@@ -163,10 +163,11 @@ const UserOrders = () => {
                                     <Tr key={order.id}>
                                         <Td color="black">{order?._id.slice(0, 10)}...</Td>
                                         {/* <Td color="black">{user.userName}</Td> */}
-                                        <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
                                         <Td color="black">{order.hotelName}</Td>
+                                        <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                        <Td color="black">{order.amount}</Td>
                                         {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"59%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"70%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
                                         <Td>
                                             <Flex justify={"space-between"}>
                                                 <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
@@ -192,11 +193,11 @@ const UserOrders = () => {
                         -- There are no orders from you. --
                     </Text>
                 )}
-            </Flex >
+            </Flex>
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="gray">
+                <ModalContent bg="green.300">
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

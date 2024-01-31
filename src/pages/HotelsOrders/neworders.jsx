@@ -223,6 +223,7 @@ const NewOrders = () => {
                                     <Th>ID</Th>
                                     <Th>UserName</Th>
                                     <Th>Items</Th>
+                                    <Th>Amount</Th>
                                     <Th>Status</Th>
                                     <Th>Accept</Th>
                                     <Th>Reject</Th>
@@ -235,7 +236,8 @@ const NewOrders = () => {
                                         <Td color="black">{order.userName}</Td>
                                         {/* <Td color="black">{order.items.join(', ')}</Td> */}
                                         <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"59%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                        <Td color="black">{order.amount}</Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"80%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
                                         <Td>
 
                                             <Button
@@ -277,7 +279,7 @@ const NewOrders = () => {
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="gray">
+                <ModalContent bg="green.300">
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

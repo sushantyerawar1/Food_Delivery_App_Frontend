@@ -206,6 +206,7 @@ const AcceptedOrders = () => {
                                     <Th>ID</Th>
                                     <Th>UserName</Th>
                                     <Th>Items</Th>
+                                    <Th>Amount</Th>
                                     <Th>Status</Th>
                                     <Th>Status Update</Th>
                                 </Tr>
@@ -217,7 +218,8 @@ const AcceptedOrders = () => {
                                         <Td color="black">{order.userName}</Td>
                                         {/* <Td color="black">{order.items.join(', ')}</Td> */}
                                         <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"61%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                        <Td color="black">{order.amount}</Td>
+                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"75%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
                                         <Td>
                                             <Button
                                                 isDisabled={order.orderStatus == "Processed" ? false : true}
@@ -249,7 +251,7 @@ const AcceptedOrders = () => {
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="gray">
+                <ModalContent bg="green.300">
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

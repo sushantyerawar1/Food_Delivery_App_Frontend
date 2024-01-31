@@ -163,6 +163,7 @@ const AddToCart = () => {
                         "hotelName": hotelName,
                         "userName": user.userName,
                         "cartItems": cartItems,
+                        "amount": amount,
                     },
                     config
                 );
