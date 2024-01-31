@@ -527,8 +527,9 @@ const Catalog = () => {
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="gray">
-                    <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedItem?.name}</ModalHeader>
+                {/* <ModalContent bg="green.300"> */}
+                <ModalContent >
+                    <ModalHeader align={"center"} fontSize={"40px"} color="black" fontWeight="bold" textTransform='uppercase'>{selectedItem?.name}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
@@ -540,7 +541,7 @@ const Catalog = () => {
                                         <Text color="white" p={"2px"}>{selectedItem?.rating}★</Text>
                                     </Badge>
                                     <Box
-                                        width="70%"
+                                        width="40%"
                                         color='black'
                                         fontWeight='semibold'
                                         letterSpacing='wide'
@@ -550,6 +551,36 @@ const Catalog = () => {
                                     >
                                         {selectedItem?.name}
                                     </Box>
+
+                                    {
+                                        selectedItem?.category == "Non-Veg" &&
+                                        <Box
+                                            width="40%"
+                                            color='black'
+                                            fontWeight='semibold'
+                                            fontSize='xs'
+                                            textTransform='uppercase'
+                                        // letterSpacing='wide'
+                                        // ml='1'..
+                                        >
+                                            🔴{selectedItem?.category}
+                                        </Box>
+                                    }
+
+                                    {
+                                        selectedItem?.category == "Veg" &&
+                                        <Box
+                                            width="40%"
+                                            color='black'
+                                            fontWeight='semibold'
+                                            fontSize='xs'
+                                            textTransform='uppercase'
+                                        // letterSpacing='wide'
+                                        // ml='1'..
+                                        >
+                                            🟢{selectedItem?.category}
+                                        </Box>
+                                    }
 
                                     {/* <Box> */}
                                     <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
@@ -566,6 +597,7 @@ const Catalog = () => {
                                     as='h4'
                                     lineHeight='tight'
                                     noOfLines={2}
+                                    color="black"
                                 >
                                     {selectedItem?.description}
                                 </Box>

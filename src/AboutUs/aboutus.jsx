@@ -39,11 +39,14 @@ const AboutUs = () => {
                 bgPosition='center'
                 bgRepeat='no-repeat'
                 minHeight='100vh'
-                color='white'
+                // color='white'
                 align='center'
                 justify='center'
             >
-                <Box p={10} bg='rgba(0, 0, 0, 0.8)' borderRadius='md'>
+                <Box p={10}
+                    // bg='rgba(0, 0, 0, 0.8)'
+                    borderRadius='md'
+                >
                     <Text mb="6" fontSize="4xl" textAlign="center" fontWeight='bold'>
                         About Us
                     </Text>

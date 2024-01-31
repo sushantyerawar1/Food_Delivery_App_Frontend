@@ -636,8 +636,9 @@ const HotelItems = () => {
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg='gray'>
-                    <ModalHeader align={"center"} fontSize={40} fontWeight="bold" color="white">{selectedItem?.name}</ModalHeader>
+                {/* <ModalContent bg='gray'> */}
+                <ModalContent>
+                    <ModalHeader align={"center"} fontSize={40} fontWeight="bold" color="black" textTransform='uppercase'>{selectedItem?.name}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
                         <Stack spacing={4} >
@@ -645,7 +646,7 @@ const HotelItems = () => {
                             <FormControl id="name" isRequired>
                                 <FormLabel>Name of Item</FormLabel>
                                 <Input
-                                    color="white"
+                                    color="black"
                                     type="text"
                                     placeholder="Name of Item"
                                     value={selectedItem?.name}
@@ -656,7 +657,7 @@ const HotelItems = () => {
                             <FormControl id="description" isRequired>
                                 <FormLabel>Description</FormLabel>
                                 <Textarea
-                                    color="white"
+                                    color="black"
                                     placeholder="Description"
                                     mb={4}
                                     value={selectedItem?.description}
@@ -667,7 +668,7 @@ const HotelItems = () => {
                             <FormControl id="price" isRequired>
                                 <FormLabel>Price</FormLabel>
                                 <Input
-                                    color="white"
+                                    color="black"
                                     type="number"
                                     placeholder="Price"
                                     value={selectedItem?.price}
@@ -678,7 +679,7 @@ const HotelItems = () => {
                             <FormControl id="rating" isRequired>
                                 <FormLabel>Rating</FormLabel>
                                 <Input
-                                    color="white"
+                                    color="black"
                                     type="number"
                                     placeholder="Rating"
                                     value={selectedItem?.rating}
@@ -704,14 +705,14 @@ const HotelItems = () => {
                                     <option value="" >&nbsp;</option>
                                     <option value="Veg">Veg</option>
                                     <option value="Non-Veg" >Non-Veg</option>
-                                    <option value="Both">Both</option>
+                                    {/* <option value="Both">Both</option> */}
                                 </Select>
                             </FormControl>
 
                             <FormControl id="pic" isRequired>
                                 <FormLabel>Upload your Picture</FormLabel>
                                 <Input
-                                    color="white"
+                                    color="black"
                                     type="file"
                                     p={1.5}
                                     accept="image/*"

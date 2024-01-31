@@ -87,18 +87,18 @@ const Blogs = () => {
                 bgSize="cover"
                 bgPosition="center"
                 bgRepeat="no-repeat"
-                bg='gray'
-                style={{
-                    // backgroundImage: `url(${FoodBackgroundImage})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    minHeight: '100vh',
-                    color: 'white',
-                }}
+            // bg='gray'
+            // style={{
+            //     backgroundImage: `url(${FoodBackgroundImage})`,
+            //     backgroundSize: 'cover',
+            //     backgroundPosition: 'center',
+            //     minHeight: '100vh',
+            //     color: 'white',
+            // }}
             >
                 <Box>
                     <Box mb={8} mt={10} >
-                        <Text fontSize="60px" color="white" textAlign="center">
+                        <Text fontSize="60px" color=".black" textAlign="center">
                             Explore Delicious Food Blogs
                         </Text>
                     </Box>
@@ -115,10 +115,10 @@ const Blogs = () => {
                                 >
                                     <Image src={blog.imageUrl} alt={blog.title} width="100%" height="200px" objectFit="cover" />
                                     <Box p="6">
-                                        <Heading fontSize="xl" fontWeight="bold" mb={2} color="teal.200">
+                                        <Heading fontSize="xl" fontWeight="bold" mb={2} color="teal.300">
                                             {blog.title}
                                         </Heading>
-                                        <Text color="white">{blog.description}</Text>
+                                        <Text color="black">{blog.description}</Text>
                                         <Button mt={4} colorScheme="teal" size="sm">
                                             Read More
                                         </Button>

@@ -134,7 +134,7 @@ const HomePageUser = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
-                bg="gray"
+            // bg="gray"
             >
                 <Box p={20}>
 
@@ -145,7 +145,7 @@ const HomePageUser = () => {
                             colorScheme="green"
                             size="lg"
                             mr={4}
-                            borderColor="white"
+                            borderColor="black"
                         >
                             Veg
                         </Checkbox>
@@ -155,7 +155,7 @@ const HomePageUser = () => {
                             colorScheme="red"
                             size="lg"
                             mr={4}
-                            borderColor="white"
+                            borderColor="black"
                         >
                             Non-Veg
                         </Checkbox>
@@ -165,13 +165,13 @@ const HomePageUser = () => {
                             colorScheme="blue"
                             size="lg"
                             mr={4}
-                            borderColor="white"
+                            borderColor="black"
                         >
                             Both
                         </Checkbox>
                     </Box>
 
-                    <Text fontSize={"50px"} mb={5} align={'center'} color={"white"} >
+                    <Text fontSize={"50px"} mb={5} align={'center'} color={"black"} >
                         Hotels
                     </Text>
 
@@ -180,13 +180,13 @@ const HomePageUser = () => {
                             <SearchIcon color='gray.300' />
                         </InputLeftElement>
                         <Input
-                            textColor={"white"}
+                            textColor={"black"}
                             width="1190px"
                             placeholder="Search items..."
                             mb={4}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            borderColor={"white"}
+                            borderColor={"black"}
                         />
 
                     </InputGroup>
@@ -201,7 +201,7 @@ const HomePageUser = () => {
                                         <GridItem key={hotel.id} height="50%" maxH={"50%"} >
                                             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
                                                 <Box p='6' onClick={() => { navigate(`/catalog/${hotel._id}/${hotel.userName}`) }} >
-                                                    <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="white">
+                                                    <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="black">
                                                         {hotel.userName}
                                                     </Text>
                                                     <Box display='flex' alignItems='baseline'>
@@ -210,7 +210,7 @@ const HomePageUser = () => {
                                                             New
                                                         </Badge>
                                                         <Box
-                                                            color='white'
+                                                            color='black'
                                                             fontWeight='semibold'
                                                             letterSpacing='wide'
                                                             fontSize='xs'
@@ -222,7 +222,7 @@ const HomePageUser = () => {
 
                                                         {/* <Box
                                                             width="40%"
-                                                            color='white'
+                                                            color='black'
                                                             fontWeight='semibold'
                                                             fontSize='xs'
                                                             textTransform='uppercase'
@@ -232,7 +232,7 @@ const HomePageUser = () => {
                                                         </Box> */}
                                                         <Box
                                                             width="40%"
-                                                            color='white'
+                                                            color='black'
                                                             fontWeight='semibold'
                                                             fontSize='xs'
                                                             textTransform='uppercase'
