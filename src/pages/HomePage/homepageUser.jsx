@@ -198,13 +198,14 @@ const HomePageUser = () => {
                                 <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width="100%">
                                     {/* {currentHotels.filter((hotel) => keys.some((key) => hotel[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((hotel) => ( */}
                                     {currentHotels.map((hotel) => (
-                                        < GridItem key={hotel.id} height="50%" maxH={"50%"} >
+                                        <GridItem key={hotel.id} height="50%" maxH={"50%"} >
                                             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
                                                 <Box p='6' onClick={() => { navigate(`/catalog/${hotel._id}/${hotel.userName}`) }} >
                                                     <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="white">
                                                         {hotel.userName}
                                                     </Text>
                                                     <Box display='flex' alignItems='baseline'>
+
                                                         <Badge borderRadius='full' px='2' colorScheme='teal'>
                                                             New
                                                         </Badge>
@@ -217,6 +218,39 @@ const HomePageUser = () => {
                                                             ml='2'
                                                         >
                                                             {hotel?.userName}
+                                                        </Box>
+
+                                                        {/* <Box
+                                                            width="40%"
+                                                            color='white'
+                                                            fontWeight='semibold'
+                                                            fontSize='xs'
+                                                            textTransform='uppercase'
+                                                            align={"right"}
+                                                        >
+                                                            🔴 Non-Veg
+                                                        </Box> */}
+                                                        <Box
+                                                            width="40%"
+                                                            color='white'
+                                                            fontWeight='semibold'
+                                                            fontSize='xs'
+                                                            textTransform='uppercase'
+                                                            align={"right"}
+                                                        >
+                                                            🟢 Veg
+                                                        </Box>
+
+                                                        <Box
+                                                            width="40%"
+                                                            color='white'
+                                                            fontWeight='semibold'
+                                                            fontSize='xs'
+                                                            align={"right"}
+                                                        >
+                                                            <Badge borderRadius='10px' px='2' bg='green.600'>
+                                                                <Text color="white" p={"2px"}>3★</Text>
+                                                            </Badge>
                                                         </Box>
                                                     </Box>
 

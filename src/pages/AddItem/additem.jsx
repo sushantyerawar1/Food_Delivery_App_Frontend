@@ -3,7 +3,7 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {
-    Flex, Box, Heading, Input, Textarea, NumberInput, NumberInputField, Button, VStack, FormControl, FormLabel, InputGroup, InputRightElement, useColorModeValue, Stack, Text, Link
+    Select, Flex, Box, Heading, Input, Textarea, NumberInput, NumberInputField, Button, VStack, FormControl, FormLabel, InputGroup, InputRightElement, useColorModeValue, Stack, Text, Link
 } from '@chakra-ui/react'
 import Header from "../../Header/header";
 import Footer from "../../Footer/footer";
@@ -20,7 +20,8 @@ const AddItem = () => {
         description: '',
         price: 0,
         photo: null,
-        rating: 0
+        rating: 0,
+        category: ""
     });
 
 
@@ -42,7 +43,7 @@ const AddItem = () => {
             return;
         }
 
-        if (item.name === '' || item.description === '' || item.price === 0 || item.photo === null || item.rating == 0) {
+        if (item.name === '' || item.description === '' || item.price === 0 || item.photo === null || item.rating == 0 || item.category === '') {
             toast({
                 title: "Please Fill all fields",
                 status: "warning",
@@ -71,7 +72,8 @@ const AddItem = () => {
                     "availabilityStatus": true,
                     "description": item.description,
                     "rating": item.rating,
-                    "reviews": ["reviews"]
+                    "reviews": ["reviews"],
+                    "category": item.category
                 },
                 config
             );
@@ -83,7 +85,8 @@ const AddItem = () => {
                     description: '',
                     price: 0,
                     photo: null,
-                    rating: 0
+                    rating: 0,
+                    category: ''
                 })
                 toast({
                     title: "Item Added Successful",
@@ -158,7 +161,7 @@ const AddItem = () => {
         }
     };
 
-
+    console.log(item)
 
     return (
         <>
@@ -235,6 +238,27 @@ const AddItem = () => {
                                     value={item.rating}
                                     onChange={(e) => setItem({ ...item, rating: e.target.value })}
                                 />
+                            </FormControl>
+                            <FormControl id="category" isRequired>
+                                <FormLabel>Category</FormLabel>
+                                <Select
+                                    // bg="red"
+                                    placeholder="Veg/Non-Veg"
+                                    color="black"
+                                    // bg="white"
+                                    value={item.category}
+                                    onChange={(e) => setItem({ ...item, category: e.target.value })}
+                                    styles={{
+                                        menu: {
+                                            background: 'gray.100', // Change the background color of the box containing options
+                                        },
+                                    }}
+                                >
+                                    <option value="" >&nbsp;</option>
+                                    <option value="Veg">Veg</option>
+                                    <option value="Non-Veg" >Non-Veg</option>
+                                    {/* <option value="Both">Both</option> */}
+                                </Select>
                             </FormControl>
 
                             <FormControl id="pic" isRequired>

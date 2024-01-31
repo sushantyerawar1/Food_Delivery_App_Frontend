@@ -153,12 +153,12 @@ const Catalog = () => {
             const isMatchingSearch = keys.some(key =>
                 item[key].toLowerCase().includes(searchQuery.toLowerCase())
             );
-            const isVegMatch = !filterVeg || item.isVeg;
-            const isNonVegMatch = !filterNonVeg || !item.isVeg;
-            const isBothMatch = !filterBoth || !item.isBoth;
+            const isVegMatch = !filterVeg || item.category == "Veg";
+            const isNonVegMatch = !filterNonVeg || item.category == "Non-Veg";
+            // const isBothMatch = !filterBoth || !item.isBoth;
             const isPriceInRange = !filterPriceRange || item.price <= filterPriceRange;
 
-            return isMatchingSearch && isVegMatch && isNonVegMatch && isPriceInRange && isBothMatch;
+            return isMatchingSearch && isVegMatch && isNonVegMatch && isPriceInRange;
         });
 
         const arr = filteredItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase())));
@@ -243,7 +243,7 @@ const Catalog = () => {
                         >
                             Non-Veg
                         </Checkbox>
-                        <Checkbox
+                        {/* <Checkbox
                             isChecked={filterBoth}
                             onChange={() => setFilterBoth(!filterBoth)}
                             colorScheme="blue"
@@ -252,7 +252,7 @@ const Catalog = () => {
                             borderColor="black"
                         >
                             Both
-                        </Checkbox>
+                        </Checkbox> */}
                         <Select
                             placeholder="Price Range"
                             value={filterPriceRange}
@@ -314,7 +314,7 @@ const Catalog = () => {
                                                                 <Text color="white" p={"2px"}>{item?.rating}★</Text>
                                                             </Badge>
                                                             <Box
-                                                                width="70%"
+                                                                width="40%"
                                                                 color='black'
                                                                 fontWeight='semibold'
                                                                 letterSpacing='wide'
@@ -324,6 +324,52 @@ const Catalog = () => {
                                                             >
                                                                 {item?.name}
                                                             </Box>
+
+                                                            {
+                                                                item?.category == "Non-Veg" &&
+                                                                <Box
+                                                                    width="40%"
+                                                                    color='black'
+                                                                    fontWeight='semibold'
+                                                                    fontSize='xs'
+                                                                    textTransform='uppercase'
+                                                                // letterSpacing='wide'
+                                                                // ml='1'..
+                                                                >
+                                                                    🔴{item?.category}
+                                                                </Box>
+                                                            }
+
+                                                            {
+                                                                item?.category == "Veg" &&
+                                                                <Box
+                                                                    width="40%"
+                                                                    color='black'
+                                                                    fontWeight='semibold'
+                                                                    fontSize='xs'
+                                                                    textTransform='uppercase'
+                                                                // letterSpacing='wide'
+                                                                // ml='1'..
+                                                                >
+                                                                    🟢{item?.category}
+                                                                </Box>
+                                                            }
+
+                                                            {/* {
+                                                                item?.category == "Both" &&
+                                                                <Box
+                                                                    width="40%"
+                                                                    color='black'
+                                                                    fontWeight='semibold'
+                                                                    fontSize='xs'
+                                                                    textTransform='uppercase'
+                                                                // letterSpacing='wide'
+                                                                // ml='1'..
+                                                                >
+                                                                    🔵{item?.category}
+                                                                </Box>
+                                                            } */}
+
 
                                                             {/* <Box> */}
                                                             <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>

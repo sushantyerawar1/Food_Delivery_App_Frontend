@@ -54,6 +54,8 @@ const HotelItems = () => {
     const [originalcatalogItems, setOriginalCatalogItems] = useState([]);
     const [catalogItems, setCatalogItems] = useState([]);
 
+    console.log(selectedItem)
+
     useEffect(() => {
         if (!user) navigate('/login')
     }, [user])
@@ -177,7 +179,8 @@ const HotelItems = () => {
                         "quantity": 1,
                         "availabilityStatus": true,
                         "description": selectedItem.description,
-                        "rating": selectedItem.rating
+                        "rating": selectedItem.rating,
+                        "category": selectedItem.category
                     },
                     config
                 );
@@ -256,8 +259,8 @@ const HotelItems = () => {
             const isMatchingSearch = keys.some(key =>
                 item[key].toLowerCase().includes(searchQuery.toLowerCase())
             );
-            const isVegMatch = !filterVeg || item.isVeg;
-            const isNonVegMatch = !filterNonVeg || !item.isVeg;
+            const isVegMatch = !filterVeg || item.category == "Veg";
+            const isNonVegMatch = !filterNonVeg || item.category == "Non-Veg";
             const isPriceInRange = !filterPriceRange || item.price <= filterPriceRange;
 
             return isMatchingSearch && isVegMatch && isNonVegMatch && isPriceInRange;
@@ -296,6 +299,7 @@ const HotelItems = () => {
         setCurrentPage(newPage);
     };
 
+
     return (
         <>
             <Header />
@@ -332,7 +336,7 @@ const HotelItems = () => {
                         >
                             Non-Veg
                         </Checkbox>
-                        <Checkbox
+                        {/* <Checkbox
                             isChecked={filterBoth}
                             onChange={() => setFilterBoth(!filterBoth)}
                             colorScheme="blue"
@@ -341,7 +345,7 @@ const HotelItems = () => {
                             borderColor="black"
                         >
                             Both
-                        </Checkbox>
+                        </Checkbox> */}
                         <Select
                             placeholder="Price Range"
                             value={filterPriceRange}
@@ -397,7 +401,7 @@ const HotelItems = () => {
                                                                 <Text color="white" p={"2px"}>{item?.rating}★</Text>
                                                             </Badge>
                                                             <Box
-                                                                width="70%"
+                                                                width="40%"
                                                                 color='black'
                                                                 fontWeight='semibold'
                                                                 letterSpacing='wide'
@@ -407,6 +411,53 @@ const HotelItems = () => {
                                                             >
                                                                 {item?.name}
                                                             </Box>
+
+                                                            {
+                                                                item?.category == "Non-Veg" &&
+                                                                <Box
+                                                                    width="40%"
+                                                                    color='black'
+                                                                    fontWeight='semibold'
+                                                                    fontSize='xs'
+                                                                    textTransform='uppercase'
+                                                                // letterSpacing='wide'
+                                                                // ml='1'..
+                                                                >
+                                                                    🔴{item?.category}
+                                                                </Box>
+                                                            }
+
+                                                            {
+                                                                item?.category == "Veg" &&
+                                                                <Box
+                                                                    width="40%"
+                                                                    color='black'
+                                                                    fontWeight='semibold'
+                                                                    fontSize='xs'
+                                                                    textTransform='uppercase'
+                                                                // letterSpacing='wide'
+                                                                // ml='1'..
+                                                                >
+                                                                    🟢{item?.category}
+                                                                </Box>
+                                                            }
+
+                                                            {/* {
+                                                                item?.category == "Both" &&
+                                                                <Box
+                                                                    width="40%"
+                                                                    color='black'
+                                                                    fontWeight='semibold'
+                                                                    fontSize='xs'
+                                                                    textTransform='uppercase'
+                                                                // letterSpacing='wide'
+                                                                // ml='1'..
+                                                                >
+                                                                    🔵{item?.category}
+                                                                </Box>
+                                                            } */}
+
+
 
                                                             {/* <Box> */}
                                                             <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
@@ -581,7 +632,7 @@ const HotelItems = () => {
                     {/* ============================================================================================================================================================================== */}
 
                 </Box>
-            </Flex>
+            </Flex >
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
@@ -633,6 +684,28 @@ const HotelItems = () => {
                                     value={selectedItem?.rating}
                                     onChange={(e) => setSelectedItem({ ...selectedItem, rating: e.target.value })}
                                 />
+                            </FormControl>
+
+                            <FormControl id="category" isRequired>
+                                <FormLabel>Category</FormLabel>
+                                <Select
+                                    // bg="red"
+                                    placeholder="Veg/Non-Veg/Both"
+                                    color="black"
+                                    // bg="white"
+                                    value={selectedItem?.category}
+                                    onChange={(e) => setSelectedItem({ ...selectedItem, category: e.target.value })}
+                                    styles={{
+                                        menu: {
+                                            background: 'gray.100', // Change the background color of the box containing options
+                                        },
+                                    }}
+                                >
+                                    <option value="" >&nbsp;</option>
+                                    <option value="Veg">Veg</option>
+                                    <option value="Non-Veg" >Non-Veg</option>
+                                    <option value="Both">Both</option>
+                                </Select>
                             </FormControl>
 
                             <FormControl id="pic" isRequired>
