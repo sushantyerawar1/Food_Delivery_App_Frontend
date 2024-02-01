@@ -118,6 +118,7 @@ const UserOrders = () => {
         setCurrentPage(newPage);
     };
 
+    console.log(orders)
 
 
     return (
