@@ -36,7 +36,7 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import FoodBackgroundImage from '../../img4.jpg';
 
-const Group = () => {
+const GroupOrder = () => {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -44,8 +44,8 @@ const Group = () => {
     const GroupId = params.groupnumber;
     const HotelId = params.hotelid
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const hotelid = JSON.parse(localStorage.getItem('hotelid'));
     const user = userInfo ? userInfo.User : null;
+    const role = user?.role;
     const [amount, setAmount] = useState(0);
     const [cartItems, setCartItems] = useState([]);
     const toast = useToast();
@@ -59,43 +59,6 @@ const Group = () => {
     }, [user]);
 
 
-    const GetAllItems = async () => {
-
-        try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": `Bearer ${userInfo?.Token['token']}`
-                },
-            };
-
-            const { data } = await axios.post(
-                `http://localhost:5000/api/v1/cart/${hotelid}`,
-                {
-                    userID: user._id
-                },
-                config
-            );
-
-            var amount1 = 0;
-            for (let i = 0; i < data.items.length; i++) {
-                amount1 += (data.items[i].price) * (data.items[i].quantity)
-            }
-
-            setAmount(amount1)
-            setCartItems(data.items);
-
-
-        } catch (error) {
-            console.log(error)
-        }
-    };
-
-
-    useEffect(() => {
-        GetAllItems()
-    }, []);
-
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [inputValue, setInputValue] = useState("");
     const [groups, setGroup] = useState([]);
@@ -108,13 +71,6 @@ const Group = () => {
     const [iseditable, setIsEditable] = useState(false);
     const [count, setCount] = useState(5);
 
-    const Payment = () => {
-        console.log(HotelId, GroupId)
-    }
-
-    const Delete = () => {
-        console.log(HotelId, GroupId)
-    }
 
 
     return (
@@ -133,15 +89,12 @@ const Group = () => {
                 p={20}
             >
                 <Box width={"100%"} padding={30} align={'center'} justify={'center'}>
-                    {
-                        cartItems.length > 0 &&
-                        <Text fontSize={"50px"} align={'center'} color={"black"} mb={3}>
-                            {GroupName}
-                        </Text>
-                    }
 
+                    <Text fontSize={"50px"} align={'center'} color={"black"} mb={3}>
+                        {GroupName}
+                    </Text>
 
-                    {cartItems.length > 0 ? (
+                    {1 ? (
                         <Flex>
                             <Box w="80%">
                                 {[1, 2, 3].length > 0 ? (
@@ -156,8 +109,7 @@ const Group = () => {
                                                     <Th>Items</Th>
                                                     <Th>Total</Th>
                                                     <Th>View</Th>
-                                                    <Th>Edit</Th>
-                                                    <Th>Delete</Th>
+
                                                 </Tr>
                                             </Thead>
                                             <Tbody >
@@ -174,28 +126,6 @@ const Group = () => {
                                                                 icon={<ViewIcon />}
                                                                 onClick={() => { onOpen(); setIsEditable(false) }}
                                                                 aria-label="View"
-                                                            />
-                                                        </Td>
-                                                        <Td color="black">
-                                                            <IconButton
-                                                                color="green"
-                                                                size="lg"
-                                                                fontSize="md"
-                                                                icon={<EditIcon />}
-                                                                onClick={() => { onOpen(); setIsEditable(true) }}
-                                                                aria-label="Edit"
-                                                                isDisabled={ind != 1}
-
-                                                            />
-                                                        </Td>
-                                                        <Td color="black">
-                                                            <IconButton
-                                                                color="red.400"
-                                                                size="lg"
-                                                                fontSize="md"
-                                                                icon={<DeleteIcon />}
-                                                                aria-label="Delete"
-                                                                isDisabled={ind != 1}
                                                             />
                                                         </Td>
                                                     </Tr>
@@ -220,7 +150,7 @@ const Group = () => {
                                     bg="white"
                                     boxShadow="md"
                                     borderRadius="md"
-                                    height="350px"
+                                    height="250px"
 
                                 >
                                     <Stack spacing="4" align="left">
@@ -241,7 +171,7 @@ const Group = () => {
                                             <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
                                             <Text fontSize="lg" color="black">{amount}Rs</Text>
                                         </HStack>
-                                        <Box>
+                                        {/* <Box>
                                             <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
                                                 Payment
                                             </Button>
@@ -250,17 +180,28 @@ const Group = () => {
                                             <Button size="lg" fontSize="md" width={320} onClick={Delete}>
                                                 Delete Cart
                                             </Button>
-                                        </Box>
+                                        </Box> */}
                                     </Stack>
                                 </Flex>
+                                {/* {
+                                    role == "hotel" &&
+                                    <Box display={"flex"} ml="15%">
+                                        <Button colorScheme="green" size="lg" fontSize="md"  >
+                                            Accept
+                                        </Button>
+                                        <Button size="lg" fontSize="md" ml={10}>
+                                            Reject
+                                        </Button>
+                                    </Box>
+                                } */}
                             </Box>
 
                         </Flex>
                     ) : (
 
-                        hotelid ?
-                            <Text fontSize={"50px"} color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
-                            <Text fontSize={"50px"} color="white" align={"center"}>-- Please Select Hotel --</Text>
+                        <Text p={8} fontSize="2xl" color="white" align="center">
+                            -- There are no orders from you. --
+                        </Text>
 
                     )}
                 </Box>
@@ -283,7 +224,7 @@ const Group = () => {
                                             <Th color="black">Inc</Th>
                                             <Th color="black">Dec</Th>
                                             <Th color="black">Total</Th>
-                                            <Th color="black">Delete</Th>
+                                            {/* <Th color="black">Delete</Th> */}
 
                                         </Tr>
                                     </Thead>
@@ -304,7 +245,7 @@ const Group = () => {
                                                     </Button>
                                                 </Td>
                                                 <Td color="black">25</Td>
-                                                <Td color="black">
+                                                {/* <Td color="black">
                                                     <IconButton
                                                         color="red.400"
                                                         size="lg"
@@ -313,7 +254,7 @@ const Group = () => {
                                                         aria-label="Delete"
                                                         isDisabled={!iseditable}
                                                     />
-                                                </Td>
+                                                </Td> */}
                                             </Tr>
                                         ))}
                                     </Tbody>
@@ -333,4 +274,4 @@ const Group = () => {
     );
 };
 
-export default Group;
+export default GroupOrder;

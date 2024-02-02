@@ -26,6 +26,7 @@ import Blogs from './Blogs/blogs';
 import ContactUs from './ContactUs/contactus';
 import VerifyEmailOnAccountCreation from './Authentication/verifymailonaccountcreation';
 import Group from './pages/Group/group';
+import GroupOrder from './pages/GroupOrder/groupOrder';
 // import DeliveryLocationMap from './pages/DeliveryMap/deliveryMap';
 
 
@@ -59,6 +60,7 @@ function App() {
         <Route path="/userprofile/:id" element={<UserProfile />} />
         <Route path="/notification" element={<Notifications />} />
         <Route path="/group/:groupnumber/:hotelid/:groupname" element={<Group />} />
+        <Route path="/grouporder/:groupnumber/:hotelid/:groupname" element={<GroupOrder />} />
         {/* <Route path="/deliverymap" element={<DeliveryLocationMap />} /> */}
       </Routes>
     </BrowserRouter>

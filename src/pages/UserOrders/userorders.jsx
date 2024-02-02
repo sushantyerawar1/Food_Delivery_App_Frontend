@@ -21,13 +21,14 @@ import {
     Image,
     Badge
 } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
+import { EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
 import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import FoodBackgroundImage from '../../img4.jpg';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
-
 const UserOrders = () => {
 
 
@@ -37,12 +38,14 @@ const UserOrders = () => {
     const path = window.location.pathname;
     const navigate = useNavigate();
 
+
     useEffect(() => {
         if (!user) navigate('/login')
     }, [user])
 
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState([]);
+
     // const orders = [
     //     { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Pending', hotelName: "Tech cafe", },
     //     { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Accepted', hotelName: "Tech cafe", },
@@ -118,7 +121,11 @@ const UserOrders = () => {
         setCurrentPage(newPage);
     };
 
-    console.log(orders)
+
+    const [personalOrder, setPersonalOrder] = useState(false);
+    const toggleDetails = () => {
+        setPersonalOrder(!personalOrder);
+    };
 
 
     return (
@@ -145,49 +152,100 @@ const UserOrders = () => {
             >
                 {orders.length > 0 ? (
                     <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
-                        <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
-                            Orders
-                        </Text>
+                        <Box display={"flex"} align="center" justify="center" ml={"35%"}>
+                            {
+                                personalOrder &&
+                                <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
+                                    Orders
+                                </Text>
+                            }
+                            {
+                                !personalOrder &&
+                                <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
+                                    Group Orders
+                                </Text>
+                            }
+                            <Button onClick={toggleDetails} colorScheme="blue" mt={6} ml={10} >
+                                {personalOrder ? "Group Orders" : "Personal Orders"}
+                            </Button>
+                        </Box>
+
                         <Table variant="striped">
                             <Thead >
                                 <Tr >
                                     <Th>ID</Th>
                                     <Th>Hotel Name</Th>
-                                    <Th>Items</Th>
+                                    {personalOrder && <Th>Items</Th>}
                                     <Th>Amount</Th>
                                     <Th>Status</Th>
                                     <Th>Actions</Th>
+                                    {!personalOrder && <Th>View</Th>}
                                 </Tr>
                             </Thead>
-                            <Tbody >
-                                {currentOrders.map((order) => (
-                                    <Tr key={order.id}>
-                                        <Td color="black">{order?._id.slice(0, 10)}...</Td>
-                                        {/* <Td color="black">{user.userName}</Td> */}
-                                        <Td color="black">{order.hotelName}</Td>
-                                        <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
-                                        <Td color="black">{order.amount}</Td>
-                                        {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"70%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
-                                        <Td>
-                                            <Flex justify={"space-between"}>
-                                                <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
-                                                    Reject
-                                                </Button>
-                                            </Flex>
-                                        </Td>
-                                    </Tr>
-                                ))}
-                            </Tbody>
+                            {
+                                personalOrder &&
+                                <Tbody>
+                                    {currentOrders.map((order) => (
+                                        <Tr key={order.id}>
+                                            <Td color="black">{order?._id.slice(0, 10)}...</Td>
+                                            {/* <Td color="black">{user.userName}</Td> */}
+                                            <Td color="black">{order.hotelName}</Td>
+                                            <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                            <Td color="black">{order.amount}</Td>
+                                            {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
+                                            <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"70%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
+                                            <Td>
+                                                <Flex justify={"space-between"}>
+                                                    <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
+                                                        Reject
+                                                    </Button>
+                                                </Flex>
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            }
+                            {
+                                !personalOrder &&
+                                <Tbody>
+                                    {currentOrders.map((order) => (
+                                        <Tr key={order.id} >
+                                            <Td color="black">{order?._id.slice(0, 10)}...</Td>
+                                            {/* <Td color="black">{user.userName}</Td> */}
+                                            <Td color="black">{order.hotelName}</Td>
+                                            <Td color="black">{order.amount}</Td>
+                                            {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
+                                            <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"65%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
+                                            <Td>
+                                                <Flex justify={"space-between"}>
+                                                    <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
+                                                        Reject
+                                                    </Button>
+                                                </Flex>
+                                            </Td>
+                                            <Td color="black">
+                                                <IconButton
+                                                    color="blue.400"
+                                                    size="lg"
+                                                    fontSize="md"
+                                                    icon={<ViewIcon />}
+                                                    onClick={() => { navigate("/grouporder/123456/1233/pigeons") }}
+                                                    aria-label="View"
+                                                />
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            }
                         </Table>
-
-                        {orders.length > 6 && (
+                        {orders.length > 6 && personalOrder && (
                             <Pagination
                                 totalPages={totalPages}
                                 currentPage={currentPage}
                                 handlePageChange={handlePageChange}
                             />
                         )}
+
                     </Box>
                 ) : (
                     <Text p={8} fontSize="2xl" color="white" align="center">
