@@ -56,7 +56,7 @@ const AddToCart = () => {
             };
 
             const { data } = await axios.post(
-                `http://localhost:5000/api/v1/cart/${hotelid}`,
+                `http://localhost:5000/api/v1/cart/hotel/${hotelid}`,
                 {
                     userID: user._id
                 },
@@ -144,8 +144,8 @@ const AddToCart = () => {
                 },
             };
 
-            const { data, status } = await axios.post(
-                `http://localhost:5000/api/v1/cart/erase?itemID=${item.itemID}&hotelID=${hotelid}`, { userID: user._id },
+            const { data, status } = await axios.delete(
+                `http://localhost:5000/api/v1/cart/erase?itemID=${item.itemID}&hotelID=${hotelid}`,
                 config
             );
             console.log(data, "sttata")
@@ -222,7 +222,7 @@ const AddToCart = () => {
                 };
 
                 const { data, status } = await axios.delete(
-                    `http://localhost:5000/api/v1/cart/${hotelid}`,
+                    `http://localhost:5000/api/v1/cart/hotel/${hotelid}`,
                     config
                 );
 
