@@ -28,7 +28,8 @@ import {
     ModalCloseButton,
     useDisclosure,
     IconButton,
-    Image
+    Image,
+    Spinner
 } from '@chakra-ui/react'
 import Footer from "../Footer/footer";
 import Header from "../Header/header";
@@ -48,7 +49,9 @@ const Login = () => {
     const handleClick = () => setShow(!show);
     const navigate = useNavigate();
     const toast = useToast();
-
+    const [loading, setLoading] = useState(false);
+    const [signInLoading, setSignInLoading] = useState(false);
+    const [forgotLoading, setForgotLoading] = useState(false);
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const user = userInfo ? userInfo.User : null
@@ -71,7 +74,7 @@ const Login = () => {
 
     const signinGoogle = async (tokenResponse) => {
 
-
+        setSignInLoading(true);
         try {
             const config = {
                 headers: {
@@ -88,8 +91,6 @@ const Login = () => {
                 },
                 config
             );
-
-
 
             // toast({
             //     title: "Login Successful",
@@ -112,10 +113,14 @@ const Login = () => {
                     position: "bottom",
                 });
 
-
+                setTimeout(() => { setSignInLoading(false) }, 500);
                 localStorage.setItem("userInfo", JSON.stringify(data));
-                setTimeout(() => { navigate("/") }, 200);
+                setTimeout(() => { navigate("/") }, 800);
+
+                // localStorage.setItem("userInfo", JSON.stringify(data));
+                // setTimeout(() => { navigate("/") }, 200);
             } else if (status == 201) {
+                setTimeout(() => { setSignInLoading(false) }, 500);
                 toast({
                     title: "Please verify mail.",
                     status: "success",
@@ -127,6 +132,7 @@ const Login = () => {
 
 
         } catch (error) {
+            setTimeout(() => { setSignInLoading(false) }, 500);
             toast({
                 title: "User not found",
                 description: error.response.data.message,
@@ -139,7 +145,7 @@ const Login = () => {
     };
 
     const submitHandler = async () => {
-
+        setLoading(true);
         const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/
 
         if (!pattern.test(email)) {
@@ -150,6 +156,7 @@ const Login = () => {
                 isClosable: true,
                 position: "bottom",
             });
+            setLoading(false)
 
             return;
         }
@@ -162,7 +169,7 @@ const Login = () => {
                 isClosable: true,
                 position: "bottom",
             });
-
+            setLoading(false)
             return;
         }
 
@@ -175,7 +182,7 @@ const Login = () => {
                 isClosable: true,
                 position: "bottom",
             });
-
+            setLoading(false)
             return;
         }
 
@@ -229,10 +236,11 @@ const Login = () => {
                     position: "bottom",
                 });
 
-
+                setTimeout(() => { setLoading(false) }, 500);
                 localStorage.setItem("userInfo", JSON.stringify(data));
-                setTimeout(() => { navigate("/") }, 200);
+                setTimeout(() => { navigate("/") }, 800);
             } else if (status == 201) {
+                setTimeout(() => { setLoading(false) }, 500);
                 toast({
                     title: "Please verify mail.",
                     status: "success",
@@ -244,6 +252,7 @@ const Login = () => {
 
 
         } catch (error) {
+            setTimeout(() => { setLoading(false) }, 500);
             toast({
                 title: "Error Occured!",
                 description: error.response.data.message,
@@ -257,6 +266,7 @@ const Login = () => {
     };
 
     const handleSubmit = async () => {
+        setForgotLoading(true);
         if (!forgotemail) {
             toast({
                 title: "Please Enter a Email ID",
@@ -265,6 +275,7 @@ const Login = () => {
                 isClosable: true,
                 position: "bottom",
             });
+            setForgotLoading(false);
 
             return;
         }
@@ -294,12 +305,13 @@ const Login = () => {
             if (data) {
                 setforgotEmail("")
             }
-            console.log(data, "data")
-            setTimeout(() => { navigate(`/verifymail/${forgotemail}`) }, 200);
+            setTimeout(() => { setForgotLoading(false) }, 500);
+            setTimeout(() => { navigate(`/verifymail/${forgotemail}`) }, 800);
 
 
 
         } catch (error) {
+            setTimeout(() => { setForgotLoading(false) }, 500);
             toast({
                 title: "Error Occured!",
                 description: error.response.data.message,
@@ -408,7 +420,8 @@ const Login = () => {
                                                     placeholder="Enter email"
                                                     onChange={(e) => { setforgotEmail(e.target.value) }} />
                                             </FormControl>
-                                            <Button
+
+                                            {/* <Button
                                                 onClick={handleSubmit}
                                                 bg={'blue.400'}
                                                 color={'white'}
@@ -418,7 +431,30 @@ const Login = () => {
                                                     bg: 'blue.500',
                                                 }}>
                                                 Submit
-                                            </Button>
+                                            </Button> */}
+                                            {forgotLoading ? (
+                                                <Spinner
+                                                    marginTop={2}
+                                                    thickness="4px"
+                                                    speed="0.65s"
+                                                    emptyColor="gray.200"
+                                                    color="blue.500"
+                                                    size="xl"
+                                                    ml="38%"
+                                                />
+                                            ) : (
+                                                <Button
+                                                    onClick={handleSubmit}
+                                                    bg={'blue.400'}
+                                                    color={'white'}
+                                                    width="100%"
+                                                    marginTop={2}
+                                                    _hover={{
+                                                        bg: 'blue.500',
+                                                    }}>
+                                                    Submit
+                                                </Button>
+                                            )}
                                             <ModalCloseButton />
                                             <Stack pt={4}>
                                                 <Text align={'center'}>
@@ -433,7 +469,7 @@ const Login = () => {
                                     </ModalContent>
                                 </Modal>
 
-                                <Button
+                                {/* <Button
                                     onClick={submitHandler}
                                     bg={'blue.400'}
                                     color={'white'}
@@ -441,8 +477,58 @@ const Login = () => {
                                         bg: 'blue.500',
                                     }}>
                                     Login
-                                </Button>
-                                <Button
+                                </Button> */}
+                                {loading ? (
+                                    <Spinner
+                                        thickness="4px"
+                                        speed="0.65s"
+                                        emptyColor="gray.200"
+                                        color="blue.500"
+                                        size="xl"
+                                        ml="38%"
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={submitHandler}
+                                        bg={'blue.400'}
+                                        color={'white'}
+                                        _hover={{
+                                            bg: 'blue.500',
+                                        }}>
+                                        Login
+                                    </Button>
+                                )}
+                                {signInLoading ? (
+                                    <Spinner
+                                        thickness="4px"
+                                        speed="0.65s"
+                                        emptyColor="gray.200"
+                                        color="blue.500"
+                                        size="xl"
+                                        ml="38%"
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={() => login()}
+                                        bg={'green.200'}
+                                        color={'black'}
+                                        _hover={{
+                                            bg: 'green.300',
+                                        }}>
+                                        <Image
+                                            boxSize='15px'
+                                            src={googleImage}
+                                            alt='Google'
+                                            width="10%"
+                                            height="60%"
+                                            margin="6px"
+                                            paddingTop="1%"
+
+                                        />
+                                        Sign in with google
+                                    </Button>
+                                )}
+                                {/* <Button
                                     onClick={() => login()}
                                     bg={'green.200'}
                                     color={'black'}
@@ -460,7 +546,7 @@ const Login = () => {
 
                                     />
                                     Sign in with google
-                                </Button>
+                                </Button> */}
                                 <Stack pt={4}>
                                     <Text align={'center'} color="black">
                                         Don't have an account?<Link href="/signup" color={'blue.400'}> SignUp</Link>

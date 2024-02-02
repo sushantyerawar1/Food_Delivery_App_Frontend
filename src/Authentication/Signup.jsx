@@ -15,7 +15,8 @@ import {
     Text,
     Link,
     useColorModeValue,
-    Image
+    Image,
+    Spinner
 } from '@chakra-ui/react'
 import FoodBackgroundImage from '../foodbackgroundimage.jpg';
 import React from 'react'
@@ -40,7 +41,8 @@ const SignUp = () => {
 
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
+    const [loading, setLoading] = useState(false);
+    const [signUpLoading, setSignUpLoading] = useState(false);
 
     useEffect(() => {
         if (userInfo) navigate('/')
@@ -68,7 +70,7 @@ const SignUp = () => {
 
     const signUpGoogle = async (tokenResponse) => {
         // e.preventDefault();
-
+        setSignUpLoading(true);
         try {
             const config = {
                 headers: {
@@ -106,7 +108,9 @@ const SignUp = () => {
                     isClosable: true,
                     position: "bottom",
                 });
-                setTimeout(() => { navigate(`/verifymail/${data?.email}`) }, 500);
+
+                setTimeout(() => { setSignUpLoading(false) }, 500);
+                setTimeout(() => { navigate(`/verifymail/${data?.email}`) }, 800);
             } else if (status == 201) {
                 toast({
                     title: `Mail has already send. please Verify it`,
@@ -115,7 +119,9 @@ const SignUp = () => {
                     isClosable: true,
                     position: "bottom",
                 });
+                setTimeout(() => { setSignUpLoading(false) }, 500);
             } else if (status == 202) {
+                setTimeout(() => { setSignUpLoading(false) }, 500);
                 toast({
                     title: `User already exist`,
                     status: "success",
@@ -126,7 +132,7 @@ const SignUp = () => {
             }
 
         } catch (error) {
-
+            setTimeout(() => { setSignUpLoading(false) }, 500);
             toast({
                 title: "Error Occured!",
                 description: error.response.data.message,
@@ -141,7 +147,7 @@ const SignUp = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/
 
         if (!pattern.test(email)) {
@@ -152,6 +158,7 @@ const SignUp = () => {
                 isClosable: true,
                 position: "bottom",
             });
+            setLoading(false);
 
             return;
         }
@@ -164,7 +171,7 @@ const SignUp = () => {
                 isClosable: true,
                 position: "bottom",
             });
-
+            setLoading(false);
             return;
         }
 
@@ -178,7 +185,7 @@ const SignUp = () => {
                 isClosable: true,
                 position: "bottom",
             });
-
+            setLoading(false);
             return;
         }
         try {
@@ -220,8 +227,11 @@ const SignUp = () => {
                     isClosable: true,
                     position: "bottom",
                 });
-                setTimeout(() => { navigate(`/verifymail/${email}`) }, 500);
+                // setTimeout(() => { navigate(`/verifymail/${email}`) }, 500);
+                setTimeout(() => { setLoading(false) }, 500);
+                setTimeout(() => { navigate(`/verifymail/${email}`) }, 800);
             } else if (status == 201) {
+                setTimeout(() => { setLoading(false) }, 500);
                 toast({
                     title: `Mail has already send. please Verify it`,
                     status: "success",
@@ -230,6 +240,7 @@ const SignUp = () => {
                     position: "bottom",
                 });
             } else if (status == 202) {
+                setTimeout(() => { setLoading(false) }, 500);
                 toast({
                     title: `User already exist`,
                     status: "success",
@@ -240,7 +251,7 @@ const SignUp = () => {
             }
 
         } catch (error) {
-
+            setTimeout(() => { setLoading(false) }, 500);
             toast({
                 title: "Error Occured!",
                 description: error.response.data.message,
@@ -326,7 +337,27 @@ const SignUp = () => {
                                 </InputGroup>
                             </FormControl>
                             <Stack spacing={2}>
-                                <Button
+                                {loading ? (
+                                    <Spinner
+                                        thickness="4px"
+                                        speed="0.65s"
+                                        emptyColor="gray.200"
+                                        color="blue.500"
+                                        size="xl"
+                                        ml="42%"
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={submitHandler}
+                                        bg={'blue.400'}
+                                        color={'white'}
+                                        _hover={{
+                                            bg: 'blue.500',
+                                        }}>
+                                        SignUp
+                                    </Button>
+                                )}
+                                {/* <Button
                                     onClick={submitHandler}
                                     bg={'blue.400'}
                                     color={'white'}
@@ -334,9 +365,38 @@ const SignUp = () => {
                                         bg: 'blue.500',
                                     }}>
                                     SignUp
-                                </Button>
+                                </Button> */}
+                                {signUpLoading ? (
+                                    <Spinner
+                                        thickness="4px"
+                                        speed="0.65s"
+                                        emptyColor="gray.200"
+                                        color="blue.500"
+                                        size="xl"
+                                        ml="42%"
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={() => login()}
+                                        bg={'green.200'}
+                                        color={'black'}
+                                        _hover={{
+                                            bg: 'green.300',
+                                        }}>
+                                        <Image
+                                            boxSize='15px'
+                                            src={googleImage}
+                                            alt='Google'
+                                            width="10%"
+                                            height="60%"
+                                            margin="6px"
+                                            paddingTop="1%"
 
-                                <Button
+                                        />
+                                        Sign up with google
+                                    </Button>
+                                )}
+                                {/* <Button
                                     onClick={() => login()}
                                     bg={'green.200'}
                                     color={'black'}
@@ -354,7 +414,7 @@ const SignUp = () => {
 
                                     />
                                     Sign up with google
-                                </Button>
+                                </Button> */}
                                 <span style={{ textAlign: "center", color: "black" }} >or</span>
                                 <Stack pt={2}>
 

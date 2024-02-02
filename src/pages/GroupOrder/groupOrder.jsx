@@ -207,13 +207,13 @@ const GroupOrder = () => {
                 </Box>
 
 
-                <Modal size="2xl" onClose={onClose} isOpen={isOpen} isCentered>
+                <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                     <ModalOverlay />
                     <ModalContent >
                         <ModalHeader align={"center"} fontSize={"40px"} color="black" fontWeight="bold" >Sushant</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <Box maxW="140%" borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
+                            <Box maxW="100%" borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
                                 <Table variant="striped">
                                     <Thead>
                                         <Tr>
@@ -221,8 +221,8 @@ const GroupOrder = () => {
                                             <Th color="black">Item</Th>
                                             <Th color="black">Price</Th>
                                             <Th color="black">Qnt.</Th>
-                                            <Th color="black">Inc</Th>
-                                            <Th color="black">Dec</Th>
+                                            {/* <Th color="black">Inc</Th>
+                                            <Th color="black">Dec</Th> */}
                                             <Th color="black">Total</Th>
                                             {/* <Th color="black">Delete</Th> */}
 
@@ -234,7 +234,7 @@ const GroupOrder = () => {
                                                 <Td color="black">name</Td>
                                                 <Td color="black">price</Td>
                                                 <Td color="black">{count}</Td>
-                                                <Td>
+                                                {/* <Td>
                                                     <Button size="sm" variant="outline" onClick={() => { setCount(count + 1) }} isDisabled={!iseditable}>
                                                         +
                                                     </Button>
@@ -243,7 +243,7 @@ const GroupOrder = () => {
                                                     <Button size="sm" variant="outline" onClick={() => { setCount(count - 1 > -1 ? count - 1 : 0) }} isDisabled={!iseditable}>
                                                         -
                                                     </Button>
-                                                </Td>
+                                                </Td> */}
                                                 <Td color="black">25</Td>
                                                 {/* <Td color="black">
                                                     <IconButton

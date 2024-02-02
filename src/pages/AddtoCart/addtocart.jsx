@@ -136,7 +136,7 @@ const AddToCart = () => {
     const removeItem = async (item) => {
         // alert("hello")
         try {
-            // console.log(item)
+            console.log(item, hotelid)
             const config = {
                 headers: {
                     "Content-type": "application/json",
@@ -145,10 +145,10 @@ const AddToCart = () => {
             };
 
             const { data, status } = await axios.post(
-                `http://localhost:5000/api/v1/cart/erase?itemID=${item.itemID}&hotelID=${hotelid}`, {},
+                `http://localhost:5000/api/v1/cart/erase?itemID=${item.itemID}&hotelID=${hotelid}`, { userID: user._id },
                 config
             );
-
+            console.log(data, "sttata")
             if (status == 200) {
                 GetAllItems();
             }

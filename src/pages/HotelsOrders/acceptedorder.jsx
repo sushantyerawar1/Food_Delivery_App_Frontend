@@ -168,7 +168,7 @@ const AcceptedOrders = () => {
 
     }, [allorders])
 
-    const [personalOrder, setPersonalOrder] = useState(false);
+    const [personalOrder, setPersonalOrder] = useState(true);
     const toggleDetails = () => {
         setPersonalOrder(!personalOrder);
     };
@@ -341,7 +341,8 @@ const AcceptedOrders = () => {
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="green.300">
+                {/* <ModalContent bg="green.300"> */}
+                <ModalContent>
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

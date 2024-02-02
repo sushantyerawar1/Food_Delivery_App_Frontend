@@ -14,7 +14,8 @@ import {
     Box
 } from '@chakra-ui/react'
 import Congrats from "../Congrats.png"
-import FoodBackgroundImage from '../foodbackgroundimage.jpg';
+// import FoodBackgroundImage from '../foodbackgroundimage.jpg';
+import FoodBackgroundImage from '../img2.jpg'
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
 
@@ -88,14 +89,14 @@ const VerifyEmailOnAccountCreation = () => {
                 width="100%"
             >
                 <Stack style={{ margin: "3px" }}>
-                    <Text align={'center'} fontSize="20px" color={"white"}>Email Verified Successfully </Text>
+                    <Text align={'center'} fontSize="20px" color={"Black"}>Email Verified Successfully </Text>
                     <Box>
                         <Image
                             src={Congrats}
                             alt='Congrats'
                             align={'center'}
                         />
-                        <Text align={'center'} margin="1%" fontSize="20px" color="white">Go to the login Page</Text>
+                        <Text align={'center'} margin="1%" fontSize="20px" color="Black">Go to the login Page</Text>
                         <Button marginLeft="40%" marginTop="2%" backgroundColor={"green.200"} onClick={() => { navigate("/login") }}>Login</Button>
                     </Box>
                 </Stack>
