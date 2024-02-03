@@ -215,7 +215,7 @@ const UserOrders = () => {
                                             <Td color="black">{order.hotelName}</Td>
                                             <Td color="black">{order.amount}</Td>
                                             {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
-                                            <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"65%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
+                                            <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"69%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
                                             <Td>
                                                 <Flex justify={"space-between"}>
                                                     <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
@@ -239,6 +239,13 @@ const UserOrders = () => {
                             }
                         </Table>
                         {orders.length > 6 && personalOrder && (
+                            <Pagination
+                                totalPages={totalPages}
+                                currentPage={currentPage}
+                                handlePageChange={handlePageChange}
+                            />
+                        )}
+                        {orders.length > 6 && !personalOrder && (
                             <Pagination
                                 totalPages={totalPages}
                                 currentPage={currentPage}

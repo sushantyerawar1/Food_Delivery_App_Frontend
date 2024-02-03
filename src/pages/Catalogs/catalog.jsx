@@ -22,7 +22,8 @@ import {
     useColorModeValue,
     Badge,
     Select,
-    Checkbox
+    Checkbox,
+    Spinner
     // StarIcon
 } from '@chakra-ui/react';
 import { SearchIcon } from "@chakra-ui/icons";
@@ -43,7 +44,7 @@ const Catalog = () => {
     const params = useParams();
     var hotelid = JSON.parse(localStorage.getItem('hotelid'));
     var hotelName = JSON.parse(localStorage.getItem('hotelname'));
-
+    const [loading, setLoading] = useState(true);
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 
@@ -71,6 +72,7 @@ const Catalog = () => {
     }, [])
 
     const fetchallitems = async () => {
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -87,11 +89,15 @@ const Catalog = () => {
 
             if (status == 201) {
 
-                setOriginalCatalogItems(data.items);
-                setCatalogItems(data.items)
+                // setOriginalCatalogItems(data.items);
+                // setCatalogItems(data.items)
+
+                setTimeout(() => { setCatalogItems(data.items); setOriginalCatalogItems(data.items); }, 800);
+                setTimeout(() => { setLoading(false) }, 1100);
             }
 
         } catch (error) {
+            setTimeout(() => { setLoading(false) }, 800);
             console.log("Error")
         }
     }
@@ -287,75 +293,83 @@ const Catalog = () => {
 
                         />
                     </InputGroup>
+                    {loading ? (
+                        <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="xl"
+                            ml="45%"
+                        />) : <>
+                        {
+                            catalogItems.length ?
+                                <Box>
+                                    <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width={"100%"} >
+                                        {/* {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((item) => ( */}
+                                        {currentItems.map((item) => (
+                                            <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
 
-                    {
-                        catalogItems.length ?
-                            <Box>
-                                <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width={"100%"} >
-                                    {/* {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((item) => ( */}
-                                    {currentItems.map((item) => (
-                                        <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
+                                                <Box >
+                                                    <Box
+                                                        onClick={() => {
+                                                            setSelectedItem(item);
+                                                            onOpen();
+                                                        }}
 
-                                            <Box >
-                                                <Box
-                                                    onClick={() => {
-                                                        setSelectedItem(item);
-                                                        onOpen();
-                                                    }}
-
-                                                >
-                                                    {/* <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} /> */}
-                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} ml={"10%"} p={2} aspectRatio={3 / 2} objectFit={'cover'} height={"100%"} />
+                                                    >
+                                                        {/* <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'100%'} aspectRatio={3 / 2} objectFit={'cover'} width={"100%"} height={"100%"} /> */}
+                                                        <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} ml={"10%"} p={2} aspectRatio={3 / 2} objectFit={'cover'} height={"100%"} />
 
 
-                                                    <Box p='4'>
-                                                        <Box display='flex' alignItems='baseline'>
-                                                            <Badge borderRadius='10px' px='2' bg='green.600'>
-                                                                <Text color="white" p={"2px"}>{item?.rating}★</Text>
-                                                            </Badge>
-                                                            <Box
-                                                                width="40%"
-                                                                color='black'
-                                                                fontWeight='semibold'
-                                                                letterSpacing='wide'
-                                                                fontSize='xs'
-                                                                textTransform='uppercase'
-                                                                ml='2'
-                                                            >
-                                                                {item?.name}
-                                                            </Box>
-
-                                                            {
-                                                                item?.category == "Non-Veg" &&
+                                                        <Box p='4'>
+                                                            <Box display='flex' alignItems='baseline'>
+                                                                <Badge borderRadius='10px' px='2' bg='green.600'>
+                                                                    <Text color="white" p={"2px"}>{item?.rating}★</Text>
+                                                                </Badge>
                                                                 <Box
                                                                     width="40%"
                                                                     color='black'
                                                                     fontWeight='semibold'
+                                                                    letterSpacing='wide'
                                                                     fontSize='xs'
                                                                     textTransform='uppercase'
-                                                                // letterSpacing='wide'
-                                                                // ml='1'..
+                                                                    ml='2'
                                                                 >
-                                                                    🔴{item?.category}
+                                                                    {item?.name}
                                                                 </Box>
-                                                            }
 
-                                                            {
-                                                                item?.category == "Veg" &&
-                                                                <Box
-                                                                    width="40%"
-                                                                    color='black'
-                                                                    fontWeight='semibold'
-                                                                    fontSize='xs'
-                                                                    textTransform='uppercase'
-                                                                // letterSpacing='wide'
-                                                                // ml='1'..
-                                                                >
-                                                                    🟢{item?.category}
-                                                                </Box>
-                                                            }
+                                                                {
+                                                                    item?.category == "Non-Veg" &&
+                                                                    <Box
+                                                                        width="40%"
+                                                                        color='black'
+                                                                        fontWeight='semibold'
+                                                                        fontSize='xs'
+                                                                        textTransform='uppercase'
+                                                                    // letterSpacing='wide'
+                                                                    // ml='1'..
+                                                                    >
+                                                                        🔴{item?.category}
+                                                                    </Box>
+                                                                }
 
-                                                            {/* {
+                                                                {
+                                                                    item?.category == "Veg" &&
+                                                                    <Box
+                                                                        width="40%"
+                                                                        color='black'
+                                                                        fontWeight='semibold'
+                                                                        fontSize='xs'
+                                                                        textTransform='uppercase'
+                                                                    // letterSpacing='wide'
+                                                                    // ml='1'..
+                                                                    >
+                                                                        🟢{item?.category}
+                                                                    </Box>
+                                                                }
+
+                                                                {/* {
                                                                 item?.category == "Both" &&
                                                                 <Box
                                                                     width="40%"
@@ -371,28 +385,28 @@ const Catalog = () => {
                                                             } */}
 
 
-                                                            {/* <Box> */}
-                                                            <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
-                                                                ₹{item?.price} for one
+                                                                {/* <Box> */}
+                                                                <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
+                                                                    ₹{item?.price} for one
+                                                                </Box>
+                                                                {/* </Box> */}
                                                             </Box>
-                                                            {/* </Box> */}
-                                                        </Box>
 
 
 
-                                                        <Box
-                                                            mt='1'
-                                                            fontWeight='semibold'
-                                                            as='h4'
-                                                            lineHeight='tight'
-                                                            noOfLines={3}
-                                                        >
-                                                            {item?.description}
-                                                        </Box>
+                                                            <Box
+                                                                mt='1'
+                                                                fontWeight='semibold'
+                                                                as='h4'
+                                                                lineHeight='tight'
+                                                                noOfLines={3}
+                                                            >
+                                                                {item?.description}
+                                                            </Box>
 
 
-                                                        <Box display='flex' mt='2' alignItems='center'>
-                                                            {/* {Array(5)
+                                                            <Box display='flex' mt='2' alignItems='center'>
+                                                                {/* {Array(5)
                                                                 .fill('')
                                                                 .map((_, i) => (
                                                                     <StarIcon
@@ -400,41 +414,44 @@ const Catalog = () => {
                                                                         color={i < item?.rating ? 'teal.500' : 'gray.300'}
                                                                     />
                                                                 ))} */}
-                                                            {
-                                                                item?.reviews.length > 0 &&
-                                                                <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                                                    {item?.reviews.length} reviews
-                                                                </Box>
-                                                            }
+                                                                {
+                                                                    item?.reviews.length > 0 &&
+                                                                    <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                                                        {item?.reviews.length} reviews
+                                                                    </Box>
+                                                                }
+                                                            </Box>
+
                                                         </Box>
-
                                                     </Box>
+                                                    <Button
+                                                        mt={3}
+                                                        colorScheme="blue"
+                                                        onClick={(e) => { AddtoCart(item) }}
+                                                        ml={"33%"}
+                                                        mb={2}
+                                                    >
+                                                        Add to Cart
+                                                    </Button>
                                                 </Box>
-                                                <Button
-                                                    mt={3}
-                                                    colorScheme="blue"
-                                                    onClick={(e) => { AddtoCart(item) }}
-                                                    ml={"33%"}
-                                                    mb={2}
-                                                >
-                                                    Add to Cart
-                                                </Button>
-                                            </Box>
-                                            {/* </Box> */}
-                                        </GridItem>
-                                    ))}
-                                </Grid>
+                                                {/* </Box> */}
+                                            </GridItem>
+                                        ))}
+                                    </Grid>
 
-                                {
-                                    (catalogItems.length > 6) &&
-                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-                                }
-                            </Box>
-                            :
-                            <Text align={'center'} color={"black"} fontSize={30} >
-                                -- No Items --
-                            </Text>
+                                    {
+                                        (catalogItems.length > 6) &&
+                                        <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                                    }
+                                </Box>
+                                :
+                                <Text align={'center'} color={"black"} fontSize={30} >
+                                    -- No Items --
+                                </Text>
+                        }
+                    </>
                     }
+
 
                     {/* ============================================================================================================================================================================== */}
 

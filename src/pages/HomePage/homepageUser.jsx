@@ -11,7 +11,8 @@ import {
     InputLeftElement,
     Badge,
     Select,
-    Checkbox
+    Checkbox,
+    Spinner
 } from '@chakra-ui/react'
 import axios from "axios";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -43,6 +44,7 @@ const HomePageUser = () => {
 
     const [originalhotels, setOriginalHotels] = useState([]);
     const [hotels, setHotels] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
@@ -68,6 +70,7 @@ const HomePageUser = () => {
     };
 
     const fetchallhotels = async () => {
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -82,12 +85,14 @@ const HomePageUser = () => {
 
             console.log(data.hotels[0])
             if (status == 200) {
-                setOriginalHotels(data.hotels)
-                setHotels(data.hotels);
+                // setOriginalHotels(data.hotels)
+                // setHotels(data.hotels);
+                setTimeout(() => { setHotels(data.hotels); setOriginalHotels(data.hotels); }, 700);
+                setTimeout(() => { setLoading(false) }, 500);
             }
 
         } catch (error) {
-
+            setTimeout(() => { setLoading(false) }, 500);
             console.log("Error")
         }
     }
@@ -192,35 +197,44 @@ const HomePageUser = () => {
                     </InputGroup>
 
 
-                    {
-                        hotels.length ?
-                            <Box>
-                                <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width="100%">
-                                    {/* {currentHotels.filter((hotel) => keys.some((key) => hotel[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((hotel) => ( */}
-                                    {currentHotels.map((hotel) => (
-                                        <GridItem key={hotel.id} height="50%" maxH={"50%"} >
-                                            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
-                                                <Box p='6' onClick={() => { navigate(`/catalog/${hotel._id}/${hotel.userName}`) }} >
-                                                    <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="black">
-                                                        {hotel.userName}
-                                                    </Text>
-                                                    <Box display='flex' alignItems='baseline'>
+                    {loading ? (
+                        <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="xl"
+                            ml="45%"
+                        />) : <>
+                        {
+                            hotels.length ?
+                                <Box>
+                                    <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4} width="100%">
+                                        {/* {currentHotels.filter((hotel) => keys.some((key) => hotel[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((hotel) => ( */}
+                                        {currentHotels.map((hotel) => (
+                                            <GridItem key={hotel.id} height="50%" maxH={"50%"} >
+                                                <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.100', cursor: "pointer" }} >
+                                                    <Box p='6' onClick={() => { navigate(`/catalog/${hotel._id}/${hotel.userName}`) }} >
+                                                        <Text fontSize={"50px"} mb={2} align="center" textTransform='uppercase' color="black">
+                                                            {hotel.userName}
+                                                        </Text>
+                                                        <Box display='flex' alignItems='baseline'>
 
-                                                        <Badge borderRadius='full' px='2' colorScheme='teal'>
-                                                            New
-                                                        </Badge>
-                                                        <Box
-                                                            color='black'
-                                                            fontWeight='semibold'
-                                                            letterSpacing='wide'
-                                                            fontSize='xs'
-                                                            textTransform='uppercase'
-                                                            ml='2'
-                                                        >
-                                                            {hotel?.userName}
-                                                        </Box>
+                                                            <Badge borderRadius='full' px='2' colorScheme='teal'>
+                                                                New
+                                                            </Badge>
+                                                            <Box
+                                                                color='black'
+                                                                fontWeight='semibold'
+                                                                letterSpacing='wide'
+                                                                fontSize='xs'
+                                                                textTransform='uppercase'
+                                                                ml='2'
+                                                            >
+                                                                {hotel?.userName}
+                                                            </Box>
 
-                                                        {/* <Box
+                                                            {/* <Box
                                                             width="40%"
                                                             color='black'
                                                             fontWeight='semibold'
@@ -230,73 +244,74 @@ const HomePageUser = () => {
                                                         >
                                                             🔴 Non-Veg
                                                         </Box> */}
-                                                        <Box
-                                                            width="40%"
-                                                            color='black'
-                                                            fontWeight='semibold'
-                                                            fontSize='xs'
-                                                            textTransform='uppercase'
-                                                            align={"right"}
-                                                        >
-                                                            🟢 Veg
+                                                            <Box
+                                                                width="40%"
+                                                                color='black'
+                                                                fontWeight='semibold'
+                                                                fontSize='xs'
+                                                                textTransform='uppercase'
+                                                                align={"right"}
+                                                            >
+                                                                🟢 Veg
+                                                            </Box>
+
+                                                            <Box
+                                                                width="40%"
+                                                                color='white'
+                                                                fontWeight='semibold'
+                                                                fontSize='xs'
+                                                                align={"right"}
+                                                            >
+                                                                <Badge borderRadius='10px' px='2' bg='green.600'>
+                                                                    <Text color="white" p={"2px"}>3★</Text>
+                                                                </Badge>
+                                                            </Box>
                                                         </Box>
 
                                                         <Box
-                                                            width="40%"
-                                                            color='white'
+                                                            mt='1'
                                                             fontWeight='semibold'
-                                                            fontSize='xs'
-                                                            align={"right"}
+                                                            as='h4'
+                                                            lineHeight='tight'
+                                                            noOfLines={5}
                                                         >
-                                                            <Badge borderRadius='10px' px='2' bg='green.600'>
-                                                                <Text color="white" p={"2px"}>3★</Text>
-                                                            </Badge>
+                                                            {description}
+                                                            {/* {hotel?.description} */}
                                                         </Box>
-                                                    </Box>
-
-                                                    <Box
-                                                        mt='1'
-                                                        fontWeight='semibold'
-                                                        as='h4'
-                                                        lineHeight='tight'
-                                                        noOfLines={5}
-                                                    >
-                                                        {description}
-                                                        {/* {hotel?.description} */}
-                                                    </Box>
 
 
-                                                    <Box display='flex' mt='2' alignItems='center'>
-                                                        {Array(5)
-                                                            .fill('')
-                                                            .map((_, i) => (
-                                                                <StarIcon
-                                                                    key={i}
-                                                                    color={i < 3 ? 'teal.500' : 'gray.300'}
-                                                                />
-                                                            ))}
-                                                        {/* <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                                        <Box display='flex' mt='2' alignItems='center'>
+                                                            {Array(5)
+                                                                .fill('')
+                                                                .map((_, i) => (
+                                                                    <StarIcon
+                                                                        key={i}
+                                                                        color={i < 3 ? 'teal.500' : 'gray.300'}
+                                                                    />
+                                                                ))}
+                                                            {/* <Box as='span' ml='2' color='gray.600' fontSize='sm'>
                                                             {item?.reviews.length} reviews
                                                         </Box> */}
+                                                        </Box>
+
                                                     </Box>
-
                                                 </Box>
-                                            </Box>
-                                        </GridItem>
+                                            </GridItem>
 
-                                    ))}
-                                </Grid>
-                                {
-                                    (hotels.length > 6) &&
-                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                                        ))}
+                                    </Grid>
+                                    {
+                                        (hotels.length > 6) &&
+                                        <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
 
-                                }
-                            </Box> :
-                            <Box align={'center'} color={"white"}  >
-                                -- No Hotels Listed --
-                            </Box>
+                                    }
+                                </Box> :
+                                <Box align={'center'} color={"white"}  >
+                                    -- No Hotels Listed --
+                                </Box>
+                        }
+                    </>
                     }
-
 
                     {/* ========================================================================================================================================================================= */}
                     {/* 

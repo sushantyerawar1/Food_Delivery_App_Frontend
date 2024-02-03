@@ -70,7 +70,7 @@ const Group = () => {
             };
 
             const { data } = await axios.post(
-                `http://localhost:5000/api/v1/cart/${hotelid}`,
+                `http://localhost:5000/api/v1/cart/hotel/${hotelid}`,
                 {
                     userID: user._id
                 },

@@ -25,7 +25,8 @@ import {
     FormLabel,
     Badge,
     Select,
-    Checkbox
+    Checkbox,
+    Spinner
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import { SearchIcon } from "@chakra-ui/icons";
@@ -48,7 +49,7 @@ const HotelItems = () => {
     const [picLoading, setPicLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
-
+    const [loading, setLoading] = useState(true);
 
     const keys = ["name", "description"];
     const [originalcatalogItems, setOriginalCatalogItems] = useState([]);
@@ -61,6 +62,7 @@ const HotelItems = () => {
     }, [user])
 
     const fetchallitems = async () => {
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -77,12 +79,15 @@ const HotelItems = () => {
             );
 
             if (status == 201) {
-                setOriginalCatalogItems(data.items);
-                setCatalogItems(data.items)
+                // setOriginalCatalogItems(data.items);
+                // setCatalogItems(data.items)
+
+                setTimeout(() => { setCatalogItems(data.items); setOriginalCatalogItems(data.items); }, 800);
+                setTimeout(() => { setLoading(false) }, 1100);
             }
 
         } catch (error) {
-
+            setTimeout(() => { setLoading(false) }, 800);
             console.log("Error")
         }
     }
@@ -381,68 +386,78 @@ const HotelItems = () => {
                             borderColor={"black"}
                         />
                     </InputGroup>
+                    {loading ? (
+                        <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="xl"
+                            ml="45%"
+                        />) : <>
+                        {/* { */}
 
-                    {
-                        catalogItems.length ?
-                            <Box>
+                        {
+                            catalogItems.length ?
+                                <Box>
+                                    <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4}>
+                                        {/* {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((item) => ( */}
 
-                                <Grid templateColumns={['1fr', '1fr', 'repeat(3, 1fr)']} gap={4}>
-                                    {/* {currentItems.filter((item) => keys.some((key) => item[key].toLowerCase().includes(searchQuery.toLowerCase()))).map((item) => ( */}
-                                    {currentItems.map((item) => (
-                                        <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
-                                            <Box>
+                                        {currentItems.map((item) => (
+                                            <GridItem key={item._id} bg="white" maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' _hover={{ bg: 'green.400', }}>
                                                 <Box>
-                                                    {/* <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} aspectRatio={3 / 2} objectFit={'cover'} p={2} ml="25%" height={"100%"} /> */}
-                                                    <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} ml={"10%"} p={2} aspectRatio={3 / 2} objectFit={'cover'} height={"100%"} />
+                                                    <Box>
+                                                        {/* <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} aspectRatio={3 / 2} objectFit={'cover'} p={2} ml="25%" height={"100%"} /> */}
+                                                        <Image src={item?.imageLink ? item?.imageLink : food} alt={item?.name} mb={4} boxSize={'80%'} ml={"10%"} p={2} aspectRatio={3 / 2} objectFit={'cover'} height={"100%"} />
 
-                                                    <Box p='4'>
-                                                        <Box display='flex' alignItems='baseline'>
-                                                            <Badge borderRadius='10px' px='2' bg='green.600'>
-                                                                <Text color="white" p={"2px"}>{item?.rating}★</Text>
-                                                            </Badge>
-                                                            <Box
-                                                                width="40%"
-                                                                color='black'
-                                                                fontWeight='semibold'
-                                                                letterSpacing='wide'
-                                                                fontSize='xs'
-                                                                textTransform='uppercase'
-                                                                ml='2'
-                                                            >
-                                                                {item?.name}
-                                                            </Box>
-
-                                                            {
-                                                                item?.category == "Non-Veg" &&
+                                                        <Box p='4'>
+                                                            <Box display='flex' alignItems='baseline'>
+                                                                <Badge borderRadius='10px' px='2' bg='green.600'>
+                                                                    <Text color="white" p={"2px"}>{item?.rating}★</Text>
+                                                                </Badge>
                                                                 <Box
                                                                     width="40%"
                                                                     color='black'
                                                                     fontWeight='semibold'
+                                                                    letterSpacing='wide'
                                                                     fontSize='xs'
                                                                     textTransform='uppercase'
-                                                                // letterSpacing='wide'
-                                                                // ml='1'..
+                                                                    ml='2'
                                                                 >
-                                                                    🔴{item?.category}
+                                                                    {item?.name}
                                                                 </Box>
-                                                            }
 
-                                                            {
-                                                                item?.category == "Veg" &&
-                                                                <Box
-                                                                    width="40%"
-                                                                    color='black'
-                                                                    fontWeight='semibold'
-                                                                    fontSize='xs'
-                                                                    textTransform='uppercase'
-                                                                // letterSpacing='wide'
-                                                                // ml='1'..
-                                                                >
-                                                                    🟢{item?.category}
-                                                                </Box>
-                                                            }
+                                                                {
+                                                                    item?.category == "Non-Veg" &&
+                                                                    <Box
+                                                                        width="40%"
+                                                                        color='black'
+                                                                        fontWeight='semibold'
+                                                                        fontSize='xs'
+                                                                        textTransform='uppercase'
+                                                                    // letterSpacing='wide'
+                                                                    // ml='1'..
+                                                                    >
+                                                                        🔴{item?.category}
+                                                                    </Box>
+                                                                }
 
-                                                            {/* {
+                                                                {
+                                                                    item?.category == "Veg" &&
+                                                                    <Box
+                                                                        width="40%"
+                                                                        color='black'
+                                                                        fontWeight='semibold'
+                                                                        fontSize='xs'
+                                                                        textTransform='uppercase'
+                                                                    // letterSpacing='wide'
+                                                                    // ml='1'..
+                                                                    >
+                                                                        🟢{item?.category}
+                                                                    </Box>
+                                                                }
+
+                                                                {/* {
                                                                 item?.category == "Both" &&
                                                                 <Box
                                                                     width="40%"
@@ -459,28 +474,28 @@ const HotelItems = () => {
 
 
 
-                                                            {/* <Box> */}
-                                                            <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
-                                                                ₹{item?.price} for one
+                                                                {/* <Box> */}
+                                                                <Box color='black' fontWeight='semibold' width="40%" fontSize='sm'>
+                                                                    ₹{item?.price} for one
+                                                                </Box>
+                                                                {/* </Box> */}
                                                             </Box>
-                                                            {/* </Box> */}
-                                                        </Box>
 
 
 
-                                                        <Box
-                                                            mt='1'
-                                                            fontWeight='semibold'
-                                                            as='h4'
-                                                            lineHeight='tight'
-                                                            noOfLines={3}
-                                                        >
-                                                            {item?.description}
-                                                        </Box>
+                                                            <Box
+                                                                mt='1'
+                                                                fontWeight='semibold'
+                                                                as='h4'
+                                                                lineHeight='tight'
+                                                                noOfLines={3}
+                                                            >
+                                                                {item?.description}
+                                                            </Box>
 
 
-                                                        <Box display='flex' mt='2' alignItems='center'>
-                                                            {/* {Array(5)
+                                                            <Box display='flex' mt='2' alignItems='center'>
+                                                                {/* {Array(5)
                                                                 .fill('')
                                                                 .map((_, i) => (
                                                                     <StarIcon
@@ -488,55 +503,57 @@ const HotelItems = () => {
                                                                         color={i < item?.rating ? 'teal.500' : 'gray.300'}
                                                                     />
                                                                 ))} */}
-                                                            {
-                                                                item?.reviews.length > 0 &&
-                                                                <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                                                    {item?.reviews.length} reviews
-                                                                </Box>
-                                                            }
-                                                        </Box>
+                                                                {
+                                                                    item?.reviews.length > 0 &&
+                                                                    <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                                                        {item?.reviews.length} reviews
+                                                                    </Box>
+                                                                }
+                                                            </Box>
 
-                                                        <Flex justify={"space-between"}>
-                                                            <Box>
-                                                                <Button
-                                                                    mt={5}
-                                                                    colorScheme="red"
-                                                                    onClick={() => removeItem(item?._id)}
-                                                                >
-                                                                    Delete
-                                                                </Button>
-                                                            </Box>
-                                                            <Box>
-                                                                <Button
-                                                                    mt={5}
-                                                                    mr={2}
-                                                                    colorScheme="green"
-                                                                    onClick={() => {
-                                                                        setSelectedItem(item);
-                                                                        onOpen();
-                                                                    }}
-                                                                >
-                                                                    Update
-                                                                </Button>
-                                                            </Box>
-                                                        </Flex>
+                                                            <Flex justify={"space-between"}>
+                                                                <Box>
+                                                                    <Button
+                                                                        mt={5}
+                                                                        colorScheme="red"
+                                                                        onClick={() => removeItem(item?._id)}
+                                                                    >
+                                                                        Delete
+                                                                    </Button>
+                                                                </Box>
+                                                                <Box>
+                                                                    <Button
+                                                                        mt={5}
+                                                                        mr={2}
+                                                                        colorScheme="green"
+                                                                        onClick={() => {
+                                                                            setSelectedItem(item);
+                                                                            onOpen();
+                                                                        }}
+                                                                    >
+                                                                        Update
+                                                                    </Button>
+                                                                </Box>
+                                                            </Flex>
+                                                        </Box>
                                                     </Box>
                                                 </Box>
-                                            </Box>
-                                            {/* </Box> */}
-                                        </GridItem>
-                                    ))}
-                                </Grid>
+                                                {/* </Box> */}
+                                            </GridItem>
+                                        ))}
+                                    </Grid>
 
-                                {
-                                    (catalogItems.length > 6) &&
-                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-                                }
-                            </Box>
-                            :
-                            <Box align={'center'} color={"white"}  >
-                                -- No Items --
-                            </Box>
+                                    {
+                                        (catalogItems.length > 6) &&
+                                        <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                                    }
+                                </Box>
+                                :
+                                <Box align={'center'} color={"white"}  >
+                                    -- No Items --
+                                </Box>
+                        }
+                    </>
                     }
 
                     {/* ============================================================================================================================================================================== */}
