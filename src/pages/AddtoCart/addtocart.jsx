@@ -359,9 +359,42 @@ const AddToCart = () => {
                     }
 
 
-                    {cartItems.length > 0 ? (
-                        <Flex>
-                            <Box w="50%">
+                    <Flex>
+                        <Box w="30%" pr={4}>
+                            <Flex
+                                direction="column"
+                                justify="space-between"
+                                ml={4}
+                                p={4}
+                                bg="white"
+                                boxShadow="md"
+                                borderRadius="md"
+                                maxH="420px"
+                                overflowY="auto"
+                            >
+                                <Heading color="black">Groups</Heading>
+                                <Box>
+                                    <Button onClick={() => { setFlag(1); onOpen(); setCode(''); setDisplay(0) }}>Join Group</Button>
+                                    <Button m={2} onClick={() => { setFlag(2); onOpen(); setGeneratedNumber('') }}>Create group</Button>
+                                </Box>
+                                <Box color="black" pt={2}>
+                                    {groups.length > 0 ? (
+                                        groups.map((group, ind) => (
+                                            <Box key={ind} color="black" border="1px solid black" bg="white" p={2} mt={2} borderRadius="md" _hover={{ cursor: "pointer" }}
+                                                onClick={() => { navigate(`/group/${group[1]}/${hotelid}/${group[0]}`) }}
+                                            >
+                                                {group[0]}
+                                            </Box>
+                                        ))
+                                    ) : (
+                                        <Box>No Groups</Box>
+                                    )}
+                                </Box>
+                            </Flex>
+                        </Box>
+                        {/* {cartItems.length > 0 && */}
+                        <Box display={"flex"} w="70%">
+                            <Box w="80%">
                                 {cartItems.map((item) => (
                                     <Flex
                                         key={item.id}
@@ -398,56 +431,64 @@ const AddToCart = () => {
                                     </Flex>
                                 ))}
                             </Box>
-                            <Box w="30%" pl={10}>
-                                <Flex
-                                    direction="column"
-                                    justify="space-between"
-                                    mb={4}
-                                    p={4}
-                                    bg="white"
-                                    boxShadow="md"
-                                    borderRadius="md"
-                                    height="420px"
 
-                                >
-                                    <Stack spacing="4" align="left">
-                                        <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
-                                            <Text fontSize="lg" color="black">$300</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
-                                            <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
-                                            <Text fontSize="lg" color="black">Add coupon code</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
-                                            <Text fontSize="lg" color="black">{amount}Rs</Text>
-                                        </HStack>
-                                        <Box>
-                                            <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
-                                                Payment
-                                            </Button>
-                                        </Box>
-                                        <Box>
-                                            <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={AddtoGroup}>
-                                                Add to Group
-                                            </Button>
-                                        </Box>
-                                        <Box>
-                                            <Button size="lg" fontSize="md" width={320} onClick={DeleteCart}>
-                                                Delete Cart
-                                            </Button>
-                                        </Box>
-                                    </Stack>
-                                </Flex>
-                            </Box>
+                            {
+                                cartItems.length === 0 &&
+                                <Box textAlign="center" pt={6} w="100%" mr={"15%"} >
+                                    <Text fontSize={"50px"} color="black" align={"center"}>-- Cart is empty --</Text>
+                                </Box>
+                            }
+                            {cartItems.length > 0 &&
+                                <Box w="50%" pl={4}>
+                                    <Flex
+                                        direction="column"
+                                        justify="space-between"
+                                        mb={4}
+                                        p={4}
+                                        bg="white"
+                                        boxShadow="md"
+                                        borderRadius="md"
+                                        height="420px"
 
-                            <Box w="40%">
+                                    >
+                                        <Stack spacing="4" align="left">
+                                            <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
+                                            <HStack justify="space-between">
+                                                <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
+                                                <Text fontSize="lg" color="black">$300</Text>
+                                            </HStack>
+                                            <HStack justify="space-between">
+                                                <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
+                                                <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
+                                            </HStack>
+                                            <HStack justify="space-between">
+                                                <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
+                                                <Text fontSize="lg" color="black">Add coupon code</Text>
+                                            </HStack>
+                                            <HStack justify="space-between">
+                                                <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
+                                                <Text fontSize="lg" color="black">{amount}Rs</Text>
+                                            </HStack>
+                                            <Box>
+                                                <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
+                                                    Payment
+                                                </Button>
+                                            </Box>
+                                            <Box>
+                                                <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={AddtoGroup}>
+                                                    Add to Group
+                                                </Button>
+                                            </Box>
+                                            <Box>
+                                                <Button size="lg" fontSize="md" width={320} onClick={DeleteCart}>
+                                                    Delete Cart
+                                                </Button>
+                                            </Box>
+                                        </Stack>
+                                    </Flex>
+                                </Box>}
+
+                            {/* <Box w="40%">
                                 <Flex
                                     direction="column"
                                     justify="space-between"
@@ -478,16 +519,19 @@ const AddToCart = () => {
                                         )}
                                     </Box>
                                 </Flex>
-                            </Box>
+                            </Box> */}
+                        </Box>
+                        {/* ) 
+                        : (
 
-                        </Flex>
-                    ) : (
+                            hotelid ?
+                                <Text fontSize={"50px"} color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
+                                <Text fontSize={"50px"} color="white" align={"center"}>-- Please Select Hotel --</Text>
 
-                        hotelid ?
-                            <Text fontSize={"50px"} color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
-                            <Text fontSize={"50px"} color="white" align={"center"}>-- Please Select Hotel --</Text>
+                        )} */}
 
-                    )}
+
+                    </Flex>
                 </Box>
 
 

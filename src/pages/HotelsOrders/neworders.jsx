@@ -27,12 +27,9 @@ import Pagination from '../Pagination/pagination';
 import axios from "axios"
 import { FaTimes, FaCheck } from 'react-icons/fa';
 import FoodBackgroundImage from '../../img4.jpg';
-import { IconButton } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
-import { useNavigate } from 'react-router-dom';
+
 const NewOrders = () => {
 
-    const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [allorders, setAllOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState([]);
@@ -194,10 +191,6 @@ const NewOrders = () => {
         setCurrentPage(newPage);
     };
 
-    const [personalOrder, setPersonalOrder] = useState(true);
-    const toggleDetails = () => {
-        setPersonalOrder(!personalOrder);
-    };
 
     return (
         <>
@@ -219,41 +212,14 @@ const NewOrders = () => {
             // bg="gray"
             // p={20}
             >
-                {/* {orders.length > 0 ? ( */}
-                <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
-                    <Box display={"flex"} align="center" justify="center" ml={"30%"}>
-                        {
-                            personalOrder &&
-                            <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
-                                New Orders
-                            </Text>
-                        }
-                        {
-                            !personalOrder &&
-                            <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
-                                Group New Orders
-                            </Text>
-                        }
-                        <Button onClick={toggleDetails} colorScheme="blue" mt={6} ml={10} >
-                            {personalOrder ? "Group New Orders" : "New Orders"}
-                        </Button>
-                    </Box>
-                    {/* <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                {orders.length > 0 ? (
+                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                        <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
                             New Orders
-                        </Text> */}
-                    <Table variant="striped">
-                        <Thead>
-                            <Tr >
-                                <Th>ID</Th>
-                                <Th>UserName</Th>
-                                {personalOrder && <Th>Items</Th>}
-                                <Th>Amount</Th>
-                                <Th>Status</Th>
-                                <Th>Accept</Th>
-                                <Th>Reject</Th>
-                                {!personalOrder && <Th>View</Th>}
-                            </Tr>
-                            {/* <Tr>
+                        </Text>
+                        <Table variant="striped">
+                            <Thead>
+                                <Tr>
                                     <Th>ID</Th>
                                     <Th>UserName</Th>
                                     <Th>Items</Th>
@@ -261,10 +227,8 @@ const NewOrders = () => {
                                     <Th>Status</Th>
                                     <Th>Accept</Th>
                                     <Th>Reject</Th>
-                                </Tr> */}
-                        </Thead>
-                        {
-                            personalOrder &&
+                                </Tr>
+                            </Thead>
                             <Tbody>
                                 {currentOrders.map((order) => (
                                     <Tr key={order._id}>
@@ -298,94 +262,24 @@ const NewOrders = () => {
                                     </Tr>
                                 ))}
                             </Tbody>
+                        </Table>
+
+                        {(orders.length > 6) &&
+                            <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
                         }
-                        {
-                            !personalOrder &&
-                            <Tbody>
-                                {currentOrders.map((order) => (
-                                    <Tr key={order._id}>
-                                        <Td color="black">{order?._id.slice(0, 10)}....</Td>
-                                        <Td color="black">{order.userName}</Td>
-                                        {/* <Td color="black">{order.items.join(', ')}</Td> */}
-                                        {/* <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td> */}
-                                        <Td color="black">{order.amount}</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"80%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
-                                        <Td>
 
-                                            <Button
-                                                colorScheme="green"
-                                                onClick={() => handleAccept(order._id)}
-                                            >
-                                                {/* Accept */}
-                                                <FaCheck />
-                                            </Button>
-
-                                        </Td>
-                                        <Td>
-                                            <Button
-                                                ml={2}
-                                                bg="red.200"
-                                                onClick={() => handleReject(order._id)}
-                                            >
-                                                {/* Reject */}
-                                                <FaTimes />
-                                            </Button>
-                                        </Td>
-                                        <Td color="black">
-                                            <IconButton
-                                                color="blue.400"
-                                                size="lg"
-                                                fontSize="md"
-                                                icon={<ViewIcon />}
-                                                onClick={() => { navigate("/grouporder/123456/1233/pigeons") }}
-                                                aria-label="View"
-                                            />
-                                        </Td>
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        }
-                        {orders.length == 0 && personalOrder &&
-                            <Tbody >
-                                <Box color="black" >-- No Orders --</Box>
-                            </Tbody>
-                        }
-                        {orders.length == 0 && !personalOrder &&
-                            <Tbody >
-                                <Box color="black"  >-- No Orders --</Box>
-                            </Tbody>
-                        }
-                    </Table>
-
-
-                    {(orders.length > 6) && personalOrder &&
-                        <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-                    }
-                    {(orders.length > 6) && !personalOrder &&
-                        <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-                    }
-                    {/* {orders.length > 6 && (
-                            <Pagination
-                                totalPages={totalPages}
-                                currentPage={currentPage}
-                                handlePageChange={handlePageChange}
-                            />
-                        )} */}
-
-                </Box>
-                {/* )
-                : (
-                <Text p={8} fontSize="30px" color="black" align="center">
-                    -- No Orders --
-                </Text>
-                )} */}
+                    </Box>
+                ) : (
+                    <Text p={8} fontSize="30px" color="black" align="center">
+                        -- No Orders --
+                    </Text>
+                )}
             </Flex>
 
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                {/* <ModalContent bg="green.300"> */}
-                <ModalContent>
+                <ModalContent bg="green.300">
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
