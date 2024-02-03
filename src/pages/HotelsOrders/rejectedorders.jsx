@@ -19,7 +19,8 @@ import {
     ModalCloseButton,
     useDisclosure,
     Image,
-    Badge
+    Badge,
+    Spinner
 } from '@chakra-ui/react';
 
 import Header from '../../Header/header';
@@ -34,6 +35,7 @@ const RejectedOrders = () => {
     const [allorders, setAllOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [loading, setLoading] = useState(true);
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const user = userInfo ? userInfo.User : null
 
@@ -98,7 +100,7 @@ const RejectedOrders = () => {
 
 
     const GetHotelOrders = async () => {
-
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -115,13 +117,17 @@ const RejectedOrders = () => {
                 config
             );
 
+            console.log(data)
 
             if (status == 201) {
-                setAllOrders(data.hotelOrders)
+                // setAllOrders(data.hotelOrders)
+                setTimeout(() => { setAllOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setLoading(false) }, 1000);
             }
 
         } catch (error) {
-            console.log(error)
+            setTimeout(() => { setLoading(false) }, 800);
+            console.log("Error")
 
         }
     };
@@ -167,43 +173,55 @@ const RejectedOrders = () => {
             // bg="gray"
             // p={20}
             >
-                {orders.length > 0 ?
-                    <Box p={8} width="70%" bg="white" borderRadius="md" boxShadow="md">
-                        <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
-                            Rejected Orders
-                        </Text>
-                        <Table variant="striped">
-                            <Thead>
-                                <Tr>
-                                    <Th>ID</Th>
-                                    <Th>UserName</Th>
-                                    <Th>Items</Th>
-                                    <Th>Amount</Th>
-                                    <Th>Status</Th>
+                {loading ? (
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="xl"
+                    // ml="25%"
+                    />) : <>
+                    {
+                        orders.length > 0 ?
+                            <Box p={8} width="70%" bg="white" borderRadius="md" boxShadow="md">
+                                <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                                    Rejected Orders
+                                </Text>
+                                <Table variant="striped">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>ID</Th>
+                                            <Th>UserName</Th>
+                                            <Th>Items</Th>
+                                            <Th>Amount</Th>
+                                            <Th>Status</Th>
 
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {currentOrders.map((order) => (
-                                    <Tr key={order._id}>
-                                        <Td color="black">{order?._id.slice(0, 10)}....</Td>
-                                        <Td color="black">{order.userName}</Td>
-                                        {/* <Td color="black">{order.items.join(', ')}</Td> */}
-                                        <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
-                                        <Td color="black">{order.amount}</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"60%"} p={3} color="black" bg="red.300">{order.orderAcceptOrDecline}</Box></Td>
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        </Table>
-                        {(orders.length > 6) &&
-                            <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-                        }
-                    </Box> :
-                    <Text p={8} fontSize="30px" color="black" align="center">
-                        -- No Orders --
-                    </Text>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {currentOrders.map((order) => (
+                                            <Tr key={order._id}>
+                                                <Td color="black">{order?._id.slice(0, 10)}....</Td>
+                                                <Td color="black">{order.userName}</Td>
+                                                {/* <Td color="black">{order.items.join(', ')}</Td> */}
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black">{order.amount}</Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"60%"} p={3} color="black" bg="red.300">{order.orderAcceptOrDecline}</Box></Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
+                                {(orders.length > 6) &&
+                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                                }
+                            </Box> :
+                            <Text p={8} fontSize="30px" color="black" align="center">
+                                -- No Orders --
+                            </Text>
 
+                    }
+                </>
                 }
             </Flex>
 

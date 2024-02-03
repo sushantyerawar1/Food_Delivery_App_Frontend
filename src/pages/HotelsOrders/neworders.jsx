@@ -19,7 +19,8 @@ import {
     ModalCloseButton,
     useDisclosure,
     Image,
-    Badge
+    Badge,
+    Spinner
 } from '@chakra-ui/react';
 import Header from '../../Header/header';
 import Footer from '../../Footer/footer';
@@ -35,7 +36,7 @@ const NewOrders = () => {
     const [selectedOrder, setSelectedOrder] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
+    const [loading, setLoading] = useState(true);
     const user = userInfo ? userInfo.User : null
     const path = window.location.pathname;
     // const orders = [
@@ -130,7 +131,7 @@ const NewOrders = () => {
     };
 
     const GetHotelOrders = async () => {
-
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -150,11 +151,14 @@ const NewOrders = () => {
             console.log(data)
 
             if (status == 201) {
-                setAllOrders(data.hotelOrders)
+                // setAllOrders(data.hotelOrders)
+                setTimeout(() => { setAllOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setLoading(false) }, 1000);
             }
 
         } catch (error) {
-            console.log(error)
+            setTimeout(() => { setLoading(false) }, 800);
+            console.log("Error")
 
         }
     };
@@ -212,68 +216,80 @@ const NewOrders = () => {
             // bg="gray"
             // p={20}
             >
-                {orders.length > 0 ? (
-                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
-                        <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
-                            New Orders
-                        </Text>
-                        <Table variant="striped">
-                            <Thead>
-                                <Tr>
-                                    <Th>ID</Th>
-                                    <Th>UserName</Th>
-                                    <Th>Items</Th>
-                                    <Th>Amount</Th>
-                                    <Th>Status</Th>
-                                    <Th>Accept</Th>
-                                    <Th>Reject</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {currentOrders.map((order) => (
-                                    <Tr key={order._id}>
-                                        <Td color="black">{order?._id.slice(0, 10)}....</Td>
-                                        <Td color="black">{order.userName}</Td>
-                                        {/* <Td color="black">{order.items.join(', ')}</Td> */}
-                                        <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
-                                        <Td color="black">{order.amount}</Td>
-                                        <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"80%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
-                                        <Td>
+                {loading ? (
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="xl"
+                    // ml="25%"
+                    />) : <>
+                    {
+                        orders.length > 0 ? (
+                            <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                                <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                                    New Orders
+                                </Text>
+                                <Table variant="striped">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>ID</Th>
+                                            <Th>UserName</Th>
+                                            <Th>Items</Th>
+                                            <Th>Amount</Th>
+                                            <Th>Status</Th>
+                                            <Th>Accept</Th>
+                                            <Th>Reject</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {currentOrders.map((order) => (
+                                            <Tr key={order._id}>
+                                                <Td color="black">{order?._id.slice(0, 10)}....</Td>
+                                                <Td color="black">{order.userName}</Td>
+                                                {/* <Td color="black">{order.items.join(', ')}</Td> */}
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black">{order.amount}</Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"80%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td>
 
-                                            <Button
-                                                colorScheme="green"
-                                                onClick={() => handleAccept(order._id)}
-                                            >
-                                                {/* Accept */}
-                                                <FaCheck />
-                                            </Button>
+                                                    <Button
+                                                        colorScheme="green"
+                                                        onClick={() => handleAccept(order._id)}
+                                                    >
+                                                        {/* Accept */}
+                                                        <FaCheck />
+                                                    </Button>
 
-                                        </Td>
-                                        <Td>
-                                            <Button
-                                                ml={2}
-                                                bg="red.200"
-                                                onClick={() => handleReject(order._id)}
-                                            >
-                                                {/* Reject */}
-                                                <FaTimes />
-                                            </Button>
-                                        </Td>
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        </Table>
+                                                </Td>
+                                                <Td>
+                                                    <Button
+                                                        ml={2}
+                                                        bg="red.200"
+                                                        onClick={() => handleReject(order._id)}
+                                                    >
+                                                        {/* Reject */}
+                                                        <FaTimes />
+                                                    </Button>
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
 
-                        {(orders.length > 6) &&
-                            <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-                        }
+                                {(orders.length > 6) &&
+                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                                }
 
-                    </Box>
-                ) : (
-                    <Text p={8} fontSize="30px" color="black" align="center">
-                        -- No Orders --
-                    </Text>
-                )}
+                            </Box>
+                        ) : (
+                            <Text p={8} fontSize="30px" color="black" align="center">
+                                -- No Orders --
+                            </Text>
+                        )}
+                </>
+                }
             </Flex>
 
 
