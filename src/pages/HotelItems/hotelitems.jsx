@@ -83,7 +83,7 @@ const HotelItems = () => {
                 // setCatalogItems(data.items)
 
                 setTimeout(() => { setCatalogItems(data.items); setOriginalCatalogItems(data.items); }, 800);
-                setTimeout(() => { setLoading(false) }, 1100);
+                setTimeout(() => { setLoading(false) }, 800);
             }
 
         } catch (error) {
@@ -317,7 +317,7 @@ const HotelItems = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
-                bg="gray"
+            // bg="gray"
             >
                 <Box p={20}>
                     <Box display="flex" alignItems="center">

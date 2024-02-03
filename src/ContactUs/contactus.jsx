@@ -14,6 +14,7 @@ import Header from '../Header/header';
 import Footer from '../Footer/footer';
 import { useNavigate } from 'react-router-dom';
 import FoodBackgroundImage from '../img2.jpg';
+import axios from "axios"
 
 const ContactUs = () => {
     const navigate = useNavigate();
@@ -27,36 +28,142 @@ const ContactUs = () => {
         if (!user) navigate('/');
     }, [user]);
 
-    const handleSubmit = (e) => {
+
+
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/;
+    //     try {
+
+    //         if (!emailPattern.test(email)) {
+    //             toast({
+    //                 title: 'Invalid Email',
+    //                 status: 'warning',
+    //                 duration: 5000,
+    //                 isClosable: true,
+    //                 position: 'bottom',
+    //             });
+    //             return;
+    //         }
+
+
+
+    //         const response = await axios.post('https://api.sendgrid.com/v3/mail/send', {
+    //             personalizations: [
+    //                 {
+    //                     to: [
+    //                         {
+    //                             email: 'akshaywairagadedp@gmail.com',
+    //                         },
+    //                     ],
+    //                     subject: `Message from ${name}`,
+    //                 },
+    //             ],
+    //             from: {
+    //                 email: email,
+    //             },
+    //             content: [
+    //                 {
+    //                     type: 'text/plain',
+    //                     value: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    //                 },
+    //             ],
+    //         }, {
+    //             headers: {
+    //                 Authorization: `Bearer YOUR_SENDGRID_API_KEY`,
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+
+    //         // console.log(response.data);
+    //         // alert('Email sent successfully!');
+    //         toast({
+    //             title: 'Message Sent',
+    //             description: 'Your message has been successfully sent!',
+    //             status: 'success',
+    //             duration: 5000,
+    //             isClosable: true,
+    //             position: 'bottom',
+    //         });
+
+    //     } catch (error) {
+    //         console.error('Error sending email:', error);
+    //         alert('Failed to send email');
+    //     }
+    // };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/;
+        try {
 
-        if (!emailPattern.test(email)) {
+            if (!emailPattern.test(email)) {
+                toast({
+                    title: 'Invalid Email',
+                    status: 'warning',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'bottom',
+                });
+                return;
+            }
+            if (name == "" || message == "") {
+                toast({
+                    title: 'Please fill all fields',
+                    status: 'warning',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'bottom',
+                });
+                return;
+            }
+
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            };
+
+            const { data, status } = await axios.post(
+                "http://localhost:5000/api/contact/contact-us",
+                {
+                    "name": name,
+                    "email": email,
+                    "message": message
+                },
+                config
+            );
+
+
+
+            if (status == 201) {
+
+                setName('');
+                setEmail('');
+                setMessage('');
+                toast({
+                    title: 'Message Sent',
+                    description: 'Your message has been successfully sent!',
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'bottom',
+                });
+            }
+
+        } catch {
             toast({
-                title: 'Invalid Email',
-                status: 'warning',
+                title: 'Unable to send Message',
+                description: 'Unable to send Message!',
+                status: 'success',
                 duration: 5000,
                 isClosable: true,
                 position: 'bottom',
             });
-            return;
         }
 
-
-        console.log('Form submitted:', name, email, message);
-
-        setName('');
-        setEmail('');
-        setMessage('');
-
-        toast({
-            title: 'Message Sent',
-            description: 'Your message has been successfully sent!',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-            position: 'bottom',
-        });
     };
 
     return (
@@ -121,7 +228,7 @@ const ContactUs = () => {
                         </Button>
                     </form>
                 </Box>
-            </Flex >
+            </Flex>
             <Footer />
         </>
     );

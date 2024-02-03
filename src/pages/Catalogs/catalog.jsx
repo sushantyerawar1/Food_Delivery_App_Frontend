@@ -93,7 +93,7 @@ const Catalog = () => {
                 // setCatalogItems(data.items)
 
                 setTimeout(() => { setCatalogItems(data.items); setOriginalCatalogItems(data.items); }, 800);
-                setTimeout(() => { setLoading(false) }, 1100);
+                setTimeout(() => { setLoading(false) }, 800);
             }
 
         } catch (error) {
@@ -225,7 +225,7 @@ const Catalog = () => {
                 minH={'80vh'}
                 align={'left'}
                 justify={'center'}
-                bg="gray"
+            // bg="gray"
             >
                 <Box p={20}>
                     <Box display="flex" alignItems="center">
@@ -269,9 +269,9 @@ const Catalog = () => {
                             borderColor="black"
                         >
                             <option value="">&nbsp;</option>
-                            <option value="10">Under 10</option>
-                            <option value="20">Under 20</option>
-                            <option value="30">Under 30</option>
+                            <option value="100">Under 100</option>
+                            <option value="250">Under 250</option>
+                            <option value="600">Under 600</option>
                         </Select>
                     </Box>
                     <Text fontSize={"50px"} mb={5} align={'center'} color={"black"} >

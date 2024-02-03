@@ -82,6 +82,9 @@ const HomePageHotelOwner = () => {
         setCurrentPage(newPage);
     };
 
+
+
+
     return (
         <>
             <Flex
@@ -93,7 +96,7 @@ const HomePageHotelOwner = () => {
                 <Box p={20}>
                     <Box bg="green.500" p={4} color="white">
                         <Text fontSize={"50px"} align="center">
-                            {user.userName}
+                            {user?.userName == undefined ? user?.username : user?.userName}
                         </Text>
                     </Box>
                     <Box p={4}>
