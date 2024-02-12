@@ -218,7 +218,7 @@ const Catalog = () => {
             <Header />
             <Flex
                 style={{
-                    backgroundImage: `url(${FoodBackgroundImage})`,
+                    // backgroundImage: `url(${FoodBackgroundImage})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                 }}

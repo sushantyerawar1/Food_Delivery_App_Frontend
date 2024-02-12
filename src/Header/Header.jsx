@@ -209,7 +209,7 @@ const Header = () => {
 
 
                 <HStack alignItems={'end'} >
-                    <Clock />
+                    {/* <Clock /> */}
                     {
                         (user && path != "verifymail") ?
                             <>
