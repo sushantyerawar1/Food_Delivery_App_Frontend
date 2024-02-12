@@ -276,7 +276,7 @@ const AddToCart = () => {
     }, []);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [inputValue, setInputValue] = useState("");
+    const [groupname, setGroupName] = useState("");
     const [groups, setGroup] = useState([]);
     const [loading, setLoading] = useState(false);
     const [generatedNumber, setGeneratedNumber] = useState(null);
@@ -292,47 +292,117 @@ const AddToCart = () => {
         onOpen();
     }
 
-    const generateNumber = () => {
-        if (inputValue != "") {
-            const gr = groups;
-            setLoading(true);
-            setInputValue('')
+    const generateNumber = async () => {
+        try {
+            if (groupname != "") {
+                const gr = groups;
+                setLoading(true);
+                setGroupName('')
 
-            setTimeout(() => {
                 const randomNumber = Math.floor(100000 + Math.random() * 900000);
-                setGeneratedNumber(randomNumber);
-                gr.splice(0, 0, [inputValue, randomNumber])
-                setGroup(gr);
-                setLoading(false);
-            }, 1000);
 
-        } else {
-            toast({
-                title: "Enter name of group",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom",
-            });
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/createGroup",
+                    {
+                        "hotelId": hotelid,
+                        "userName": user.userName,
+                        "userId": user._id,
+                        "groupId": randomNumber,
+                        "groupName": groupname
+                    },
+                    config
+                );
+
+                setTimeout(() => {
+                    setGeneratedNumber(randomNumber);
+                    gr.splice(0, 0, [groupname, randomNumber])
+                    setGroup(gr);
+                    toast({
+                        title: "Group created Successful",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom",
+                    });
+                    setLoading(false);
+                }, 600);
+
+            } else {
+                toast({
+                    title: "Enter name of group",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error)
+            setLoading(false);
         }
+
     };
 
-    const JoinGroup = () => {
+    const JoinGroup = async () => {
         setLoading(true);
-        setDisplay(0)
-        if (code != "") {
-            setTimeout(() => {
-                console.log("group Join", code)
-                setDisplay(1)
+        setDisplay(0);
+        try {
+            if (code != "") {
+
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/joinGroup",
+                    {
+                        "userName": user.userName,
+                        "userId": user._id,
+                        "groupId": code
+                    },
+                    config
+                );
+
+                setTimeout(() => {
+                    toast({
+                        title: "Group Joined Successful",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom",
+                    });
+                    setDisplay(1)
+                    setLoading(false);
+                }, 1000);
+            }
+            else {
+                toast({
+                    title: "Enter Group Number",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
                 setLoading(false);
-            }, 1000);
+            }
+        } catch (error) {
+            console.log(error)
+            setLoading(false);
         }
-        else console.log("Enter code")
     }
 
 
     const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+        setGroupName(event.target.value);
     };
 
     return (
@@ -615,7 +685,7 @@ const AddToCart = () => {
                                     <Box display={"flex"} alignItems="center">
                                         <Input
                                             placeholder="Enter Name of Group"
-                                            value={inputValue}
+                                            value={groupname}
                                             onChange={handleInputChange}
                                             mt={4}
                                             color="black"
