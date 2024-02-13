@@ -28,56 +28,21 @@ import Footer from '../../Footer/footer';
 import Pagination from '../Pagination/pagination';
 import axios from "axios"
 import FoodBackgroundImage from '../../img4.jpg';
-
+import { IconButton } from '@chakra-ui/react';
+import { EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 
 const AcceptedOrders = () => {
 
 
-
+    const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [allorders, setAllOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const user = userInfo ? userInfo.User : null
     const [loading, setLoading] = useState(true);
-    // const orders = [
-    //     { id: 1, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Delivered' },
-    //     { id: 2, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 3, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 4, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 5, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 6, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 7, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 8, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 9, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 10, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 11, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 12, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 13, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 14, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 15, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 16, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 17, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 18, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 19, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 20, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 21, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 22, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 23, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 24, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 25, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 26, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 27, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 28, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 29, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 30, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 31, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 32, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    //     { id: 33, name: 'Jane Doe', items: ['Item 5', 'Item 6'], status: 'Process...' },
-    //     { id: 34, name: 'John Doe', items: ['Item 1', 'Item 2'], status: 'Process...' },
-    //     { id: 35, name: 'Jane Doe', items: ['Item 3', 'Item 4'], status: 'Process...' },
-    // ];
+    const user = userInfo ? userInfo.User : null
 
     const UpdateStatus = async (orderId) => {
         const answer = window.confirm('Are you sure?');
@@ -141,7 +106,7 @@ const AcceptedOrders = () => {
 
             if (status == 201) {
                 // setAllOrders(data.hotelOrders)
-                setTimeout(() => { setAllOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setAllOrders(data.hotelOrders); setAllGroupOrders(data.hotelOrders) }, 800);
                 setTimeout(() => { setLoading(false) }, 1000);
             }
 
@@ -153,7 +118,6 @@ const AcceptedOrders = () => {
     };
 
 
-
     useEffect(() => {
         GetHotelOrders()
     }, [])
@@ -161,17 +125,106 @@ const AcceptedOrders = () => {
     useEffect(() => {
 
         var neworders = [];
+        var newgrouporders = [];
         allorders.forEach((order) => {
             if (order.orderAcceptOrDecline == "Accepted") {
-                neworders.push(order)
+                neworders.push(order);
+                newgrouporders.push(order)
+
             }
         })
 
-        setOrders(neworders)
+        setOrders(neworders);
+        setGroupOrders(newgrouporders);
 
     }, [allorders])
 
-    console.log(allorders)
+
+    // ==========================================================================================================================
+    const [grouporders, setGroupOrders] = useState([]);
+    const [allgrouporders, setAllGroupOrders] = useState([]);
+    const [selectedGroupOrder, setSelectedGroupOrder] = useState([]);
+
+    const [currentgroupPage, setCurrentGroupPage] = useState(0);
+    const groupordersPerPage = 6;
+    const totalgroupPages = Math.ceil(grouporders.length / groupordersPerPage)
+
+    const indexOfLastGroupOrder = (currentgroupPage + 1) * groupordersPerPage;
+    const indexOfFirstGroupOrder = indexOfLastGroupOrder - groupordersPerPage;
+    const currentGroupOrders = grouporders.slice(indexOfFirstGroupOrder, indexOfLastGroupOrder);
+
+    const handleGroupPageChange = (newPage) => {
+        setCurrentGroupPage(newPage);
+    };
+
+    const [personalOrder, setPersonalOrder] = useState(true);
+    const toggleDetails = () => {
+        setPersonalOrder(!personalOrder);
+    };
+
+
+    // const GetHotelGroupOrders = async () => {
+
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 "Content-type": "application/json",
+    //                 "Authorization": `Bearer ${userInfo?.Token['token']}`
+    //             },
+    //         };
+
+    //         const { data, status } = await axios.post(
+    //             `http://localhost:5000/api/orders/getOrderByHotel`,
+    //             {
+    //                 hotelId: user._id
+    //             },
+    //             config
+    //         );
+
+
+    //         if (status == 201) {
+    //             setAllOrders(data.hotelOrders);
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error)
+
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     GetHotelGroupOrders()
+    // }, [])
+
+
+    const UpdateGroupStatus = async (groupId) => {
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/deliverGroupOrder",
+                    {
+                        "groupId": groupId,
+                    },
+                    config
+                );
+
+                if (status == 200) {
+                    // GetHotelGroupOrders()
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+
+
 
     return (
 
@@ -194,6 +247,7 @@ const AcceptedOrders = () => {
             // bg="gray"
             // p={20}
             >
+                {/* {orders.length > 0 ? ( */}
                 {loading ? (
                     <Spinner
                         thickness="4px"
@@ -204,37 +258,57 @@ const AcceptedOrders = () => {
                     // ml="25%"
                     />) : <>
                     {
-                        orders.length > 0 ? (
-                            <Box
-                                p={8}
-                                width="80%"
-                                bg="white"
-                                borderRadius="md"
-                                boxShadow="md"
-                            >
-                                <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
-                                    Accepted Orders
-                                </Text>
-                                <Table variant="striped">
-                                    <Thead>
-                                        <Tr >
-                                            <Th>ID</Th>
-                                            <Th>UserName</Th>
-                                            <Th>Items</Th>
-                                            <Th>Amount</Th>
-                                            <Th>Status</Th>
-                                            <Th>Status Update</Th>
-                                        </Tr>
-                                    </Thead>
+                        <Box
+                            p={8}
+                            width="80%"
+                            bg="white"
+                            borderRadius="md"
+                            boxShadow="md"
+                        >
+                            <Box display={"flex"} align="center" justify="center" ml={"20%"}>
+                                {
+                                    personalOrder &&
+                                    <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
+                                        Accepted Orders
+                                    </Text>
+                                }
+                                {
+                                    !personalOrder &&
+                                    <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
+                                        Group Accepted Orders
+                                    </Text>
+                                }
+                                <Button onClick={toggleDetails} colorScheme="blue" mt={6} ml={10} >
+                                    {personalOrder ? "Group Accepted Orders" : "Accepted Orders"}
+                                </Button>
+                            </Box>
+                            {/* <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                            Accepted Orders
+                        </Text> */}
+                            <Table variant="striped">
+                                <Thead>
+                                    <Tr >
+                                        {/* <Th>ID</Th> */}
+                                        <Th>UserName</Th>
+                                        {/* {personalOrder && <Th>Items</Th>} */}
+                                        <Th>Items</Th>
+                                        <Th>Amount</Th>
+                                        <Th>Status</Th>
+                                        <Th>Status Update</Th>
+                                        {/* {!personalOrder && <Th>View</Th>} */}
+                                    </Tr>
+                                </Thead>
+                                {
+                                    personalOrder &&
                                     <Tbody>
                                         {currentOrders.map((order) => (
                                             <Tr key={order._id}>
-                                                <Td color="black">{order?._id.slice(0, 10)}....</Td>
+                                                {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
                                                 <Td color="black">{order.userName}</Td>
                                                 {/* <Td color="black">{order.items.join(', ')}</Td> */}
                                                 <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
                                                 <Td color="black">{order.amount}</Td>
-                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"75%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"60%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
                                                 <Td>
                                                     <Button
                                                         isDisabled={order.orderStatus == "Processed" ? false : true}
@@ -247,28 +321,95 @@ const AcceptedOrders = () => {
                                             </Tr>
                                         ))}
                                     </Tbody>
-                                </Table>
+                                }
 
-                                {orders.length > 6 && (
-                                    <Pagination
-                                        totalPages={totalPages}
-                                        currentPage={currentPage}
-                                        handlePageChange={handlePageChange}
-                                    />
-                                )}
-                            </Box>
-                        ) : (
-                            <Text p={8} fontSize="2xl" color="black" align="center">
-                                -- No Orders --
-                            </Text>
-                        )}
+                                {
+                                    !personalOrder &&
+                                    <Tbody>
+                                        {currentGroupOrders.map((order) => (
+                                            <Tr key={order._id}>
+                                                {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
+                                                <Td color="black">{order.userName}</Td>
+                                                {/* <Td color="black">{order.items.join(', ')}</Td> */}
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black">{order.amount}</Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"60%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td>
+                                                    <Button
+                                                        isDisabled={order.orderStatus == "Processed" ? false : true}
+                                                        colorScheme="green"
+                                                        onClick={() => UpdateGroupStatus(order.groupId)}
+                                                    >
+                                                        Delivered Order
+                                                    </Button>
+                                                </Td>
+                                                {/* <Td color="black">
+                                            <IconButton
+                                                color="blue.400"
+                                                size="lg"
+                                                fontSize="md"
+                                                icon={<ViewIcon />}
+                                                onClick={() => { navigate("/grouporder/123456/1233/pigeons") }}
+                                                aria-label="View"
+                                            />
+                                        </Td> */}
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                }
+
+                                {orders.length == 0 && personalOrder &&
+                                    <Tbody >
+                                        <Box color="black" >-- No Orders --</Box>
+                                    </Tbody>
+                                }
+                                {orders.length == 0 && !personalOrder &&
+                                    <Tbody >
+                                        <Box color="black"  >-- No Orders --</Box>
+                                    </Tbody>
+                                }
+                            </Table>
+
+                            {(orders.length > 6) && personalOrder &&
+                                <Pagination
+                                    totalPages={totalPages}
+                                    currentPage={currentPage}
+                                    handlePageChange={handlePageChange}
+
+                                />
+                            }
+
+                            {(grouporders.length > 6) && !personalOrder &&
+                                <Pagination
+                                    totalPages={totalgroupPages}
+                                    currentPage={currentgroupPage}
+                                    handlePageChange={handleGroupPageChange}
+
+                                />
+                            }
+
+                            {/* {orders.length > 6 && (
+                            <Pagination
+                                totalPages={totalPages}
+                                currentPage={currentPage}
+                                handlePageChange={handlePageChange}
+                            />
+                        )} */}
+                        </Box>
+                    }
                 </>
                 }
+                {/* ) : (
+                    <Text p={8} fontSize="2xl" color="black" align="center">
+                        -- No Orders --
+                    </Text>
+                )} */}
             </Flex>
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="green.300">
+                {/* <ModalContent bg="green.300"> */}
+                <ModalContent>
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

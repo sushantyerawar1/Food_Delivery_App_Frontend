@@ -28,9 +28,12 @@ import Pagination from '../Pagination/pagination';
 import axios from "axios"
 import { FaTimes, FaCheck } from 'react-icons/fa';
 import FoodBackgroundImage from '../../img4.jpg';
-
+import { IconButton } from '@chakra-ui/react';
+import { EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 const NewOrders = () => {
 
+    const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [allorders, setAllOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState([]);
@@ -130,6 +133,20 @@ const NewOrders = () => {
         }
     };
 
+
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const ordersPerPage = 6;
+    const totalPages = Math.ceil(orders?.length / ordersPerPage)
+
+    const indexOfLastOrder = (currentPage + 1) * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = orders?.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
     const GetHotelOrders = async () => {
         setLoading(true);
         try {
@@ -152,7 +169,7 @@ const NewOrders = () => {
 
             if (status == 201) {
                 // setAllOrders(data.hotelOrders)
-                setTimeout(() => { setAllOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setAllOrders(data.hotelOrders); setAllGroupOrders(data.hotelOrders) }, 800);
                 setTimeout(() => { setLoading(false) }, 1000);
             }
 
@@ -172,28 +189,139 @@ const NewOrders = () => {
     useEffect(() => {
 
         var neworders = [];
+        var newgrouporders = [];
         allorders.forEach((order) => {
             if (order.orderAcceptOrDecline == "NULL") {
                 neworders.push(order)
+                newgrouporders.push(order)
             }
         })
 
-        setOrders(neworders)
+        setOrders(neworders);
+        setGroupOrders(newgrouporders);
 
     }, [allorders])
 
 
-    const [currentPage, setCurrentPage] = useState(0);
-    const ordersPerPage = 6;
-    const totalPages = Math.ceil(orders?.length / ordersPerPage)
 
-    const indexOfLastOrder = (currentPage + 1) * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = orders?.slice(indexOfFirstOrder, indexOfLastOrder);
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
+    // ==========================================================================================================================
+    const [grouporders, setGroupOrders] = useState([]);
+    const [allgrouporders, setAllGroupOrders] = useState([]);
+    const [selectedGroupOrder, setSelectedGroupOrder] = useState([]);
+
+    const [currentgroupPage, setCurrentGroupPage] = useState(0);
+    const groupordersPerPage = 6;
+    const totalgroupPages = Math.ceil(grouporders.length / groupordersPerPage)
+
+    const indexOfLastGroupOrder = (currentgroupPage + 1) * groupordersPerPage;
+    const indexOfFirstGroupOrder = indexOfLastGroupOrder - groupordersPerPage;
+    const currentGroupOrders = grouporders.slice(indexOfFirstGroupOrder, indexOfLastGroupOrder);
+
+    const handleGroupPageChange = (newPage) => {
+        setCurrentGroupPage(newPage);
     };
+
+    const [personalOrder, setPersonalOrder] = useState(true);
+    const toggleDetails = () => {
+        setPersonalOrder(!personalOrder);
+    };
+
+
+
+    // const GetHotelGroupOrders = async () => {
+
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 "Content-type": "application/json",
+    //                 "Authorization": `Bearer ${userInfo?.Token['token']}`
+    //             },
+    //         };
+
+    //         const { data, status } = await axios.post(
+    //             `http://localhost:5000/api/orders/getOrderByHotel`,
+    //             {
+    //                 hotelId: user._id
+    //             },
+    //             config
+    //         );
+
+
+    //         if (status == 201) {
+    //             setAllOrders(data.hotelOrders);
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error)
+
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     GetHotelGroupOrders()
+    // }, [])
+
+
+    const handleGroupAccept = async (groupId) => {
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
+
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/acceptGroupOrder",
+                    {
+                        "groupId": groupId,
+                    },
+                    config
+                );
+
+                if (status == 200) {
+                    // GetHotelGroupOrders()
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+
+    const handleGroupReject = async (groupId) => {
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/rejectGroupOrder",
+                    {
+                        "groupId": groupId,
+                    },
+                    config
+                );
+
+                if (status == 200) {
+                    // GetHotelGroupOrders()
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+
+
+
 
 
     return (
@@ -216,6 +344,7 @@ const NewOrders = () => {
             // bg="gray"
             // p={20}
             >
+                {/* {orders.length > 0 ? ( */}
                 {loading ? (
                     <Spinner
                         thickness="4px"
@@ -226,32 +355,61 @@ const NewOrders = () => {
                     // ml="25%"
                     />) : <>
                     {
-                        orders.length > 0 ? (
-                            <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
-                                <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
-                                    New Orders
-                                </Text>
-                                <Table variant="striped">
-                                    <Thead>
-                                        <Tr>
-                                            <Th>ID</Th>
-                                            <Th>UserName</Th>
-                                            <Th>Items</Th>
-                                            <Th>Amount</Th>
-                                            <Th>Status</Th>
-                                            <Th>Accept</Th>
-                                            <Th>Reject</Th>
-                                        </Tr>
-                                    </Thead>
+                        <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                            <Box display={"flex"} align="center" justify="center" ml={"30%"}>
+                                {
+                                    personalOrder &&
+                                    <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
+                                        New Orders
+                                    </Text>
+                                }
+                                {
+                                    !personalOrder &&
+                                    <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
+                                        Group New Orders
+                                    </Text>
+                                }
+                                <Button onClick={toggleDetails} colorScheme="blue" mt={6} ml={10} >
+                                    {personalOrder ? "Group New Orders" : "New Orders"}
+                                </Button>
+                            </Box>
+                            {/* <Text fontSize="50px" align={'center'} mb={6} color={"black"}>
+                            New Orders
+                        </Text> */}
+                            <Table variant="striped">
+                                <Thead>
+                                    <Tr >
+                                        {/* <Th>ID</Th> */}
+                                        <Th>UserName</Th>
+                                        {/* {personalOrder && <Th>Items</Th>} */}
+                                        <Th>Items</Th>
+                                        <Th>Amount</Th>
+                                        <Th>Status</Th>
+                                        <Th>Accept</Th>
+                                        <Th>Reject</Th>
+                                        {/* {!personalOrder && <Th>View</Th>} */}
+                                    </Tr>
+                                    {/* <Tr>
+                                    <Th>ID</Th>
+                                    <Th>UserName</Th>
+                                    <Th>Items</Th>
+                                    <Th>Amount</Th>
+                                    <Th>Status</Th>
+                                    <Th>Accept</Th>
+                                    <Th>Reject</Th>
+                                </Tr> */}
+                                </Thead>
+                                {
+                                    personalOrder &&
                                     <Tbody>
                                         {currentOrders.map((order) => (
                                             <Tr key={order._id}>
-                                                <Td color="black">{order?._id.slice(0, 10)}....</Td>
+                                                {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
                                                 <Td color="black">{order.userName}</Td>
                                                 {/* <Td color="black">{order.items.join(', ')}</Td> */}
                                                 <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
                                                 <Td color="black">{order.amount}</Td>
-                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"80%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
                                                 <Td>
 
                                                     <Button
@@ -276,26 +434,108 @@ const NewOrders = () => {
                                             </Tr>
                                         ))}
                                     </Tbody>
-                                </Table>
-
-                                {(orders.length > 6) &&
-                                    <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
                                 }
+                                {
+                                    !personalOrder &&
+                                    <Tbody>
+                                        {currentGroupOrders.map((order) => (
+                                            <Tr key={order._id}>
+                                                {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
+                                                <Td color="black">{order.userName}</Td>
+                                                {/* <Td color="black">{order.items.join(', ')}</Td> */}
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black">{order.amount}</Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td>
 
-                            </Box>
-                        ) : (
-                            <Text p={8} fontSize="30px" color="black" align="center">
-                                -- No Orders --
-                            </Text>
-                        )}
+                                                    <Button
+                                                        colorScheme="green"
+                                                        onClick={() => handleGroupAccept(order.groupId)}
+                                                    >
+                                                        {/* Accept */}
+                                                        <FaCheck />
+                                                    </Button>
+
+                                                </Td>
+                                                <Td>
+                                                    <Button
+                                                        ml={2}
+                                                        bg="red.200"
+                                                        onClick={() => handleGroupReject(order.groupId)}
+                                                    >
+                                                        {/* Reject */}
+                                                        <FaTimes />
+                                                    </Button>
+                                                </Td>
+                                                {/* <Td color="black">
+                                            <IconButton
+                                                color="blue.400"
+                                                size="lg"
+                                                fontSize="md"
+                                                icon={<ViewIcon />}
+                                                onClick={() => { navigate("/grouporder/123456/1233/pigeons") }}
+                                                aria-label="View"
+                                            />
+                                        </Td> */}
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                }
+                                {orders.length == 0 && personalOrder &&
+                                    <Tbody >
+                                        <Box color="black" >-- No Orders --</Box>
+                                    </Tbody>
+                                }
+                                {orders.length == 0 && !personalOrder &&
+                                    <Tbody >
+                                        <Box color="black"  >-- No Orders --</Box>
+                                    </Tbody>
+                                }
+                            </Table>
+
+
+                            {(orders.length > 6) && personalOrder &&
+                                <Pagination
+                                    totalPages={totalPages}
+                                    currentPage={currentPage}
+                                    handlePageChange={handlePageChange}
+                                />
+                            }
+
+                            {(grouporders.length > 6) && !personalOrder &&
+                                <Pagination
+                                    totalPages={totalgroupPages}
+                                    currentPage={currentgroupPage}
+                                    handlePageChange={handleGroupPageChange}
+
+                                />
+                            }
+
+                            {/* {orders.length > 6 && (
+                            <Pagination
+                                totalPages={totalPages}
+                                currentPage={currentPage}
+                                handlePageChange={handlePageChange}
+                            />
+                        )} */}
+
+                        </Box>
+                    }
                 </>
                 }
+                {/* )
+                : (
+                <Text p={8} fontSize="30px" color="black" align="center">
+                    -- No Orders --
+                </Text>
+                )} */}
             </Flex>
 
 
             <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
-                <ModalContent bg="green.300">
+                {/* <ModalContent bg="green.300"> */}
+                <ModalContent>
                     <ModalHeader align={"center"} fontSize={"40px"} color="white" fontWeight="bold" >{selectedOrder?.hotelName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

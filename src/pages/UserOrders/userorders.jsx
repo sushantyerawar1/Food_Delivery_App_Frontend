@@ -81,7 +81,7 @@ const UserOrders = () => {
 
             if (status == 201) {
                 // setOrders(data.userOrders)
-                setTimeout(() => { setOrders(data.userOrders) }, 800);
+                setTimeout(() => { setOrders(data.userOrders); setGroupOrders(data.userOrders) }, 800);
                 setTimeout(() => { setLoading(false) }, 1000);
             }
 
@@ -124,10 +124,28 @@ const UserOrders = () => {
     };
 
 
+    // ==========================================================================================================================
+    const [grouporders, setGroupOrders] = useState([]);
+    const [allgrouporders, setAllGroupOrders] = useState([]);
+    const [selectedGroupOrder, setSelectedGroupOrder] = useState([]);
+
+    const [currentgroupPage, setCurrentGroupPage] = useState(0);
+    const groupordersPerPage = 6;
+    const totalgroupPages = Math.ceil(grouporders.length / groupordersPerPage)
+
+    const indexOfLastGroupOrder = (currentgroupPage + 1) * groupordersPerPage;
+    const indexOfFirstGroupOrder = indexOfLastGroupOrder - groupordersPerPage;
+    const currentGroupOrders = grouporders.slice(indexOfFirstGroupOrder, indexOfLastGroupOrder);
+
+    const handleGroupPageChange = (newPage) => {
+        setCurrentGroupPage(newPage);
+    };
+
     const [personalOrder, setPersonalOrder] = useState(true);
     const toggleDetails = () => {
         setPersonalOrder(!personalOrder);
     };
+
 
 
     return (
@@ -185,13 +203,14 @@ const UserOrders = () => {
                                 <Table variant="striped">
                                     <Thead >
                                         <Tr >
-                                            <Th>ID</Th>
+                                            {/* <Th>ID</Th> */}
                                             <Th>Hotel Name</Th>
+                                            {/* {personalOrder && <Th>Items</Th>} */}
                                             {personalOrder && <Th>Items</Th>}
+                                            {!personalOrder && <Th>View Items</Th>}
                                             <Th>Amount</Th>
                                             <Th>Status</Th>
                                             <Th>Actions</Th>
-                                            {!personalOrder && <Th>View</Th>}
                                         </Tr>
                                     </Thead>
                                     {
@@ -199,13 +218,13 @@ const UserOrders = () => {
                                         <Tbody>
                                             {currentOrders.map((order) => (
                                                 <Tr key={order.id}>
-                                                    <Td color="black">{order?._id.slice(0, 10)}...</Td>
+                                                    {/* <Td color="black">{order?._id.slice(0, 10)}...</Td> */}
                                                     {/* <Td color="black">{user.userName}</Td> */}
                                                     <Td color="black">{order.hotelName}</Td>
                                                     <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
                                                     <Td color="black">{order.amount}</Td>
                                                     {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
-                                                    <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"70%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
+                                                    <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"54%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
                                                     <Td>
                                                         <Flex justify={"space-between"}>
                                                             <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
@@ -220,21 +239,11 @@ const UserOrders = () => {
                                     {
                                         !personalOrder &&
                                         <Tbody>
-                                            {currentOrders.map((order) => (
+                                            {currentGroupOrders.map((order) => (
                                                 <Tr key={order.id} >
-                                                    <Td color="black">{order?._id.slice(0, 10)}...</Td>
+                                                    {/* <Td color="black">{order?._id.slice(0, 10)}...</Td> */}
                                                     {/* <Td color="black">{user.userName}</Td> */}
                                                     <Td color="black">{order.hotelName}</Td>
-                                                    <Td color="black">{order.amount}</Td>
-                                                    {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
-                                                    <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"69%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
-                                                    <Td>
-                                                        <Flex justify={"space-between"}>
-                                                            <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
-                                                                Reject
-                                                            </Button>
-                                                        </Flex>
-                                                    </Td>
                                                     <Td color="black">
                                                         <IconButton
                                                             color="blue.400"
@@ -244,6 +253,16 @@ const UserOrders = () => {
                                                             onClick={() => { navigate("/grouporder/123456/1233/pigeons") }}
                                                             aria-label="View"
                                                         />
+                                                    </Td>
+                                                    <Td color="black">{order.amount}</Td>
+                                                    {/* <Td color={order.status == "Accepted" ? 'green' : (order.status == "Rejected") ? 'red' : "black"}>{order.status}</Td> */}
+                                                    <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"54%"} p={3} color="white" bg="green.500">{order.orderStatus}</Box></Td>
+                                                    <Td>
+                                                        <Flex justify={"space-between"}>
+                                                            <Button ml={2} colorScheme="red" onClick={() => handleReject(order._id)} isDisabled={(order.orderStatus == "Rejected") || (order.orderStatus == "Accepted") || (order.orderStatus == "Processed") || (order.orderStatus == "Delivered") ? true : false}>
+                                                                Reject
+                                                            </Button>
+                                                        </Flex>
                                                     </Td>
                                                 </Tr>
                                             ))}

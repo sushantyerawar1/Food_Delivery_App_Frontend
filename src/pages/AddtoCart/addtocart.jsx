@@ -36,6 +36,7 @@ const AddToCart = () => {
     const user = userInfo ? userInfo.User : null;
     const [amount, setAmount] = useState(0);
     const [cartItems, setCartItems] = useState([]);
+    const [cartid, setCartId] = useState()
     const toast = useToast();
     var hotelName = JSON.parse(localStorage.getItem('hotelname'));
 
@@ -55,7 +56,7 @@ const AddToCart = () => {
                 },
             };
 
-            const { data } = await axios.post(
+            const { data, status } = await axios.post(
                 `http://localhost:5000/api/v1/cart/hotel/${hotelid}`,
                 {
                     userID: user._id
@@ -68,9 +69,11 @@ const AddToCart = () => {
                 amount1 += (data.items[i].price) * (data.items[i].quantity)
             }
 
+
+
             setAmount(amount1)
             setCartItems(data.items);
-
+            setCartId(data.cartid)
 
         } catch (error) {
             console.log(error)
@@ -264,6 +267,8 @@ const AddToCart = () => {
                 config
             );
 
+            GetAllItems();
+
         } catch (error) {
             console.log(error)
         }
@@ -284,7 +289,7 @@ const AddToCart = () => {
     const [display, setDisplay] = useState(0);
     const [code, setCode] = useState('');
 
-    const AddtoGroup = () => {
+    const AddtoGroup = async () => {
         setCode("")
         setDisplay(0)
         setGeneratedNumber(null)
@@ -398,6 +403,64 @@ const AddToCart = () => {
             console.log(error)
             setLoading(false);
         }
+    }
+
+    const Additemtogroup = async () => {
+
+        setLoading(true);
+        setDisplay(0);
+
+        try {
+            if (code != "") {
+
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/groups/addCartToGroup",
+                    {
+                        "userName": user.userName,
+                        "userId": user._id,
+                        "groupId": code,
+                        "cartId": cartid,
+                    },
+                    config
+                );
+
+
+
+                setTimeout(() => {
+                    toast({
+                        title: "Item Added Successful",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom",
+                    });
+                    setDisplay(1)
+                    setLoading(false);
+                    DirectDeleteCart();
+                }, 1000);
+
+            }
+            else {
+                toast({
+                    title: "Enter Group Number",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error)
+            setLoading(false);
+        }
+
     }
 
 
@@ -525,7 +588,7 @@ const AddToCart = () => {
                                             <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
                                             <HStack justify="space-between">
                                                 <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
-                                                <Text fontSize="lg" color="black">$300</Text>
+                                                <Text fontSize="lg" color="black">₹{amount}</Text>
                                             </HStack>
                                             <HStack justify="space-between">
                                                 <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
@@ -537,7 +600,7 @@ const AddToCart = () => {
                                             </HStack>
                                             <HStack justify="space-between">
                                                 <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
-                                                <Text fontSize="lg" color="black">{amount}Rs</Text>
+                                                <Text fontSize="lg" color="black">₹{amount}</Text>
                                             </HStack>
                                             <Box>
                                                 <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
@@ -626,7 +689,7 @@ const AddToCart = () => {
                                         <Button
                                             colorScheme="blue"
                                             size="md"
-                                            onClick={JoinGroup}
+                                            onClick={Additemtogroup}
                                             mt={4}
                                             ml={1}
                                             pl={5}

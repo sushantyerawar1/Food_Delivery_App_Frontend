@@ -250,7 +250,7 @@ const Header = () => {
                                     (path != "/" && hotelid) &&
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/addtocart`) }}>
                                         <FaShoppingCart />
-                                        {numberOfItemsInCart > 0 && (
+                                        {/* {numberOfItemsInCart > 0 && (
                                             <Badge
                                                 colorScheme="red"
                                                 borderRadius="50%"
@@ -261,7 +261,7 @@ const Header = () => {
                                             >
                                                 {numberOfItemsInCart}
                                             </Badge>
-                                        )}
+                                        )} */}
                                     </Button>
                                 )}
 
@@ -269,7 +269,7 @@ const Header = () => {
                                     role == "user" &&
                                     <Button colorScheme='blue' size='sm' variant='outline' onClick={() => { navigate(`/notification`) }}>
                                         <FaBell />
-                                        {numberOfItemsInCart > 0 && (
+                                        {/* {numberOfItemsInCart > 0 && (
                                             <Badge
                                                 colorScheme="red"
                                                 borderRadius="50%"
@@ -280,7 +280,7 @@ const Header = () => {
                                             >
                                                 {numberOfItemsInCart}
                                             </Badge>
-                                        )}
+                                        )} */}
                                     </Button>
 
                                 }
