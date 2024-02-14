@@ -49,7 +49,7 @@ const Homedetails = () => {
                                         <Box display='flex' alignItems='baseline'>
 
                                             <Box
-                                                color='white'
+                                                color='black'
                                                 fontWeight='semibold'
                                                 letterSpacing='wide'
                                                 fontSize='2xl'
@@ -82,7 +82,7 @@ const Homedetails = () => {
                                         <Box display='flex' alignItems='baseline'>
 
                                             <Box
-                                                color='white'
+                                                color='black'
                                                 fontWeight='semibold'
                                                 letterSpacing='wide'
                                                 fontSize='2xl'
@@ -114,7 +114,7 @@ const Homedetails = () => {
                                         <Box display='flex' alignItems='baseline'>
 
                                             <Box
-                                                color='white'
+                                                color='black'
                                                 fontWeight='semibold'
                                                 letterSpacing='wide'
                                                 fontSize='2xl'
@@ -146,7 +146,7 @@ const Homedetails = () => {
                                         <Box display='flex' alignItems='baseline'>
 
                                             <Box
-                                                color='white'
+                                                color='black'
                                                 fontWeight='semibold'
                                                 letterSpacing='wide'
                                                 fontSize='2xl'
