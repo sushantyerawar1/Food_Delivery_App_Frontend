@@ -106,7 +106,7 @@ const AcceptedOrders = () => {
 
             if (status == 201) {
                 // setAllOrders(data.hotelOrders)
-                setTimeout(() => { setAllOrders(data.hotelOrders); setAllGroupOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setAllOrders(data.hotelOrders); }, 800);
                 setTimeout(() => { setLoading(false) }, 1000);
             }
 
@@ -125,17 +125,15 @@ const AcceptedOrders = () => {
     useEffect(() => {
 
         var neworders = [];
-        var newgrouporders = [];
+
         allorders.forEach((order) => {
             if (order.orderAcceptOrDecline == "Accepted") {
                 neworders.push(order);
-                newgrouporders.push(order)
-
             }
         })
 
         setOrders(neworders);
-        setGroupOrders(newgrouporders);
+
 
     }, [allorders])
 
@@ -163,38 +161,54 @@ const AcceptedOrders = () => {
     };
 
 
-    // const GetHotelGroupOrders = async () => {
+    const getGroupOrderByHotel = async () => {
+        setLoading(true);
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${userInfo?.Token['token']}`
+                },
+            };
 
-    //     try {
-    //         const config = {
-    //             headers: {
-    //                 "Content-type": "application/json",
-    //                 "Authorization": `Bearer ${userInfo?.Token['token']}`
-    //             },
-    //         };
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/gethotelgrouporders`,
+                {
+                    hotelId: user._id
+                },
+                config
+            );
 
-    //         const { data, status } = await axios.post(
-    //             `http://localhost:5000/api/orders/getOrderByHotel`,
-    //             {
-    //                 hotelId: user._id
-    //             },
-    //             config
-    //         );
+            if (status == 201) {
+                setAllGroupOrders(data.hotelOrders);
+                setTimeout(() => { setLoading(false) }, 1000);
+            }
+
+        } catch (error) {
+            setTimeout(() => { setLoading(false) }, 800);
+            console.log("Error")
+
+        }
+    };
+
+    useEffect(() => {
+        getGroupOrderByHotel()
+    }, [])
 
 
-    //         if (status == 201) {
-    //             setAllOrders(data.hotelOrders);
-    //         }
+    useEffect(() => {
 
-    //     } catch (error) {
-    //         console.log(error)
+        var newgrouporders = [];
+        allgrouporders.forEach((order) => {
+            if (order.orderStatus == "ORDER_ACCEPTED" || order.orderStatus == "ORDER_DELIVERED") {
+                newgrouporders.push(order)
+            }
+        })
 
-    //     }
-    // };
+        setGroupOrders(newgrouporders);
 
-    // useEffect(() => {
-    //     GetHotelGroupOrders()
-    // }, [])
+    }, [allgrouporders])
+
 
 
     const UpdateGroupStatus = async (groupId) => {
@@ -216,7 +230,7 @@ const AcceptedOrders = () => {
                 );
 
                 if (status == 200) {
-                    // GetHotelGroupOrders()
+                    getGroupOrderByHotel()
                 }
             } catch (error) {
                 console.log(error)
@@ -329,14 +343,14 @@ const AcceptedOrders = () => {
                                         {currentGroupOrders.map((order) => (
                                             <Tr key={order._id}>
                                                 {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
-                                                <Td color="black">{order.userName}</Td>
+                                                <Td color="black">{order.groupName}</Td>
                                                 {/* <Td color="black">{order.items.join(', ')}</Td> */}
-                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.items); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.items[0].name}...</Td>
                                                 <Td color="black">{order.amount}</Td>
-                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"60%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"60%"} p={3} color="black" bg="green.300">{order.orderStatus == "ORDER_ACCEPTED" ? "Processed" : "Delivered"}</Box></Td>
                                                 <Td>
                                                     <Button
-                                                        isDisabled={order.orderStatus == "Processed" ? false : true}
+                                                        isDisabled={order.orderStatus == "ORDER_ACCEPTED" ? false : true}
                                                         colorScheme="green"
                                                         onClick={() => UpdateGroupStatus(order.groupId)}
                                                     >
@@ -360,12 +374,24 @@ const AcceptedOrders = () => {
 
                                 {orders.length == 0 && personalOrder &&
                                     <Tbody >
-                                        <Box color="black" >-- No Orders --</Box>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black">-- No Orders --</Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
                                     </Tbody>
                                 }
-                                {orders.length == 0 && !personalOrder &&
+                                {grouporders.length == 0 && !personalOrder &&
                                     <Tbody >
-                                        <Box color="black"  >-- No Orders --</Box>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black">-- No Orders --</Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
                                     </Tbody>
                                 }
                             </Table>

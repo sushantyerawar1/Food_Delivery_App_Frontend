@@ -165,11 +165,11 @@ const NewOrders = () => {
                 config
             );
 
-            console.log(data)
+
 
             if (status == 201) {
                 // setAllOrders(data.hotelOrders)
-                setTimeout(() => { setAllOrders(data.hotelOrders); setAllGroupOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setAllOrders(data.hotelOrders); }, 800);
                 setTimeout(() => { setLoading(false) }, 1000);
             }
 
@@ -180,8 +180,6 @@ const NewOrders = () => {
         }
     };
 
-
-
     useEffect(() => {
         GetHotelOrders()
     }, [])
@@ -189,19 +187,15 @@ const NewOrders = () => {
     useEffect(() => {
 
         var neworders = [];
-        var newgrouporders = [];
         allorders.forEach((order) => {
             if (order.orderAcceptOrDecline == "NULL") {
                 neworders.push(order)
-                newgrouporders.push(order)
             }
         })
 
         setOrders(neworders);
-        setGroupOrders(newgrouporders);
 
     }, [allorders])
-
 
 
 
@@ -218,6 +212,7 @@ const NewOrders = () => {
     const indexOfFirstGroupOrder = indexOfLastGroupOrder - groupordersPerPage;
     const currentGroupOrders = grouporders.slice(indexOfFirstGroupOrder, indexOfLastGroupOrder);
 
+
     const handleGroupPageChange = (newPage) => {
         setCurrentGroupPage(newPage);
     };
@@ -229,38 +224,54 @@ const NewOrders = () => {
 
 
 
-    // const GetHotelGroupOrders = async () => {
+    const getGroupOrderByHotel = async () => {
+        setLoading(true);
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${userInfo?.Token['token']}`
+                },
+            };
 
-    //     try {
-    //         const config = {
-    //             headers: {
-    //                 "Content-type": "application/json",
-    //                 "Authorization": `Bearer ${userInfo?.Token['token']}`
-    //             },
-    //         };
-
-    //         const { data, status } = await axios.post(
-    //             `http://localhost:5000/api/orders/getOrderByHotel`,
-    //             {
-    //                 hotelId: user._id
-    //             },
-    //             config
-    //         );
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/gethotelgrouporders`,
+                {
+                    hotelId: user._id
+                },
+                config
+            );
 
 
-    //         if (status == 201) {
-    //             setAllOrders(data.hotelOrders);
-    //         }
+            if (status == 201) {
+                setAllGroupOrders(data.hotelOrders);
+                setTimeout(() => { setLoading(false) }, 1000);
+            }
 
-    //     } catch (error) {
-    //         console.log(error)
+        } catch (error) {
+            setTimeout(() => { setLoading(false) }, 800);
+            console.log("Error")
 
-    //     }
-    // };
+        }
+    };
 
-    // useEffect(() => {
-    //     GetHotelGroupOrders()
-    // }, [])
+    useEffect(() => {
+        getGroupOrderByHotel()
+    }, [])
+
+
+    useEffect(() => {
+
+        var newgrouporders = [];
+        allgrouporders.forEach((order) => {
+            if (order.orderStatus == "ORDER_PENDING") {
+                newgrouporders.push(order)
+            }
+        })
+
+        setGroupOrders(newgrouporders);
+
+    }, [allgrouporders])
 
 
     const handleGroupAccept = async (groupId) => {
@@ -283,7 +294,7 @@ const NewOrders = () => {
                 );
 
                 if (status == 200) {
-                    // GetHotelGroupOrders()
+                    getGroupOrderByHotel()
                 }
 
             } catch (error) {
@@ -311,7 +322,7 @@ const NewOrders = () => {
                 );
 
                 if (status == 200) {
-                    // GetHotelGroupOrders()
+                    getGroupOrderByHotel()
                 }
 
             } catch (error) {
@@ -440,12 +451,10 @@ const NewOrders = () => {
                                     <Tbody>
                                         {currentGroupOrders.map((order) => (
                                             <Tr key={order._id}>
-                                                {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
-                                                <Td color="black">{order.userName}</Td>
-                                                {/* <Td color="black">{order.items.join(', ')}</Td> */}
-                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black">{order.groupName}</Td>
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.items); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.items[0].name}...</Td>
                                                 <Td color="black">{order.amount}</Td>
-                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">{order.orderStatus}</Box></Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"55%"} p={3} color="black" bg="green.300">Pending</Box></Td>
                                                 <Td>
 
                                                     <Button
@@ -483,12 +492,24 @@ const NewOrders = () => {
                                 }
                                 {orders.length == 0 && personalOrder &&
                                     <Tbody >
-                                        <Box color="black" >-- No Orders --</Box>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black">-- No Orders --</Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
                                     </Tbody>
                                 }
-                                {orders.length == 0 && !personalOrder &&
-                                    <Tbody >
-                                        <Box color="black"  >-- No Orders --</Box>
+                                {grouporders.length == 0 && !personalOrder &&
+                                    <Tbody>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black">-- No Orders --</Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
                                     </Tbody>
                                 }
                             </Table>

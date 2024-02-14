@@ -50,10 +50,11 @@ const Group = () => {
     const [cartItems, setCartItems] = useState([]);
     const toast = useToast();
     var hotelName = JSON.parse(localStorage.getItem('hotelname'));
+    const [admin, setAdmin] = useState();
+    const [totalamount, setTotalAmount] = useState()
 
 
-
-
+    console.log(user)
     useEffect(() => {
         if (!user) navigate('/login');
     }, [user]);
@@ -69,27 +70,36 @@ const Group = () => {
                 },
             };
 
-            const { data } = await axios.post(
-                `http://localhost:5000/api/v1/cart/hotel/${hotelid}`,
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/fetchgroup`,
                 {
-                    userID: user._id
+                    groupId: GroupId
                 },
                 config
             );
 
-            var amount1 = 0;
-            for (let i = 0; i < data.items.length; i++) {
-                amount1 += (data.items[i].price) * (data.items[i].quantity)
+            console.log(data, status, "allldatttttttttttttttttttt")
+            if (status == 201) {
+                setAdmin(data.adminId);
+                setCartItems(data.cart);
+                setTotalAmount(data.total);
+                setIndividualtotal(data.indvtotal)
             }
 
-            setAmount(amount1)
-            setCartItems(data.items);
+            // var amount1 = 0;
+            // for (let i = 0; i < data.items.length; i++) {
+            //     amount1 += (data.items[i].price) * (data.items[i].quantity)
+            // }
+
+            // setAmount(amount1)
+            // setCartItems(data.items);
 
 
         } catch (error) {
             console.log(error)
         }
     };
+
 
 
     useEffect(() => {
@@ -107,15 +117,187 @@ const Group = () => {
     const [code, setCode] = useState('');
     const [iseditable, setIsEditable] = useState(false);
     const [count, setCount] = useState(5);
+    const [individualtotal, setIndividualtotal] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
 
-    const Payment = () => {
-        console.log(HotelId, GroupId)
+    const increaseQuantity = async (item) => {
+        onClose();
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json"
+                },
+            };
+
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/groups/addItem`,
+                {
+                    "groupId": GroupId,
+                    "item": item,
+                    "userId": user._id,
+                    "userName": user.userName
+
+                },
+                config
+            );
+
+            if (status == 200) {
+                setTimeout(() => { GetAllItems() }, 500);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const decreaseQuantity = async (item) => {
+        onClose();
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json"
+                },
+            };
+
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/groups/removeItem`,
+                {
+                    "groupId": GroupId,
+                    "item": item,
+                    "userId": user._id,
+                    "userName": user.userName
+                },
+                config
+            );
+
+            if (status == 200) {
+                setTimeout(() => { GetAllItems() }, 500);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const Payment = async () => {
+
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
+
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    "http://localhost:5000/api/groupOrders/placeGroupOrder",
+                    {
+                        "groupId": GroupId
+                    },
+                    config
+                );
+
+                if (status == 200) {
+                    toast({
+                        title: "Order Placed Successful",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom",
+                    });
+
+                    navigate(`/congrats/${GroupId}`)
+                }
+
+            } catch (error) {
+                toast({
+                    title: "unable to Placed Order ",
+                    description: error.response.data.message,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            }
+        }
     }
+
+
+    const DeleteIndividualCart = async () => {
+
+        const answer = window.confirm('Are you sure?');
+        if (answer) {
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                };
+
+                const { data, status } = await axios.post(
+                    `http://localhost:5000/api/groupOrders/groups/deleteCart`, {
+                    "groupId": GroupId,
+                    "userId": user._id,
+                    "userName": user.userName
+                },
+                    config
+                );
+
+
+                if (status == 200) {
+                    toast({
+                        title: "Cart Deleted Successful",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom",
+                    });
+                    setTimeout(() => { navigate(`/addtocart`) }, 500);
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+
+    const DeleteItem = async (item) => {
+        onClose();
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            };
+
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/groups/deleteItem`, {
+                "groupId": GroupId,
+                "userId": user._id,
+                "userName": user.userName,
+                "item": item
+            },
+                config
+            );
+
+            if (status == 200)
+                setTimeout(() => { GetAllItems() }, 500);
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+
 
     const Delete = () => {
         console.log(HotelId, GroupId)
     }
 
+    console.log(selectedItems, "selected")
+    console.log(cartItems)
 
     return (
         <>
@@ -133,140 +315,129 @@ const Group = () => {
                 p={20}
             >
                 <Box width={"100%"} padding={30} align={'center'} justify={'center'}>
-                    {
-                        cartItems.length > 0 &&
-                        <Text fontSize={"50px"} align={'center'} color={"black"} mb={3}>
-                            {GroupName}
-                        </Text>
-                    }
+
+                    <Text fontSize={"50px"} align={'center'} color={"black"} mb={3}>
+                        {GroupName}
+                    </Text>
 
 
-                    {cartItems.length > 0 ? (
-                        <Flex>
-                            <Box w="80%">
-                                {[1, 2, 3].length > 0 ? (
-                                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
-                                        {/* <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
-                                            Orders
-                                        </Text> */}
-                                        <Table variant="striped">
-                                            <Thead >
-                                                <Tr >
-                                                    <Th>Name</Th>
-                                                    <Th>Items</Th>
-                                                    <Th>Total</Th>
-                                                    <Th>View</Th>
-                                                    <Th>Edit</Th>
-                                                    <Th>Delete</Th>
-                                                </Tr>
-                                            </Thead>
-                                            <Tbody >
-                                                {[1, 2, 3].map((order, ind) => (
-                                                    <Tr key={ind}>
-                                                        <Td color="black">Sushant</Td>
-                                                        <Td color="black">Maggie</Td>
-                                                        <Td color="black">25</Td>
-                                                        <Td color="black">
-                                                            <IconButton
-                                                                color="blue.400"
-                                                                size="lg"
-                                                                fontSize="md"
-                                                                icon={<ViewIcon />}
-                                                                onClick={() => { onOpen(); setIsEditable(false) }}
-                                                                aria-label="View"
-                                                            />
-                                                        </Td>
-                                                        <Td color="black">
-                                                            <IconButton
-                                                                color="green"
-                                                                size="lg"
-                                                                fontSize="md"
-                                                                icon={<EditIcon />}
-                                                                onClick={() => { onOpen(); setIsEditable(true) }}
-                                                                aria-label="Edit"
-                                                                isDisabled={ind != 1}
 
-                                                            />
-                                                        </Td>
-                                                        <Td color="black">
-                                                            <IconButton
-                                                                color="red.400"
-                                                                size="lg"
-                                                                fontSize="md"
-                                                                icon={<DeleteIcon />}
-                                                                aria-label="Delete"
-                                                                isDisabled={ind != 1}
-                                                            />
-                                                        </Td>
-                                                    </Tr>
-                                                ))}
-                                            </Tbody>
-                                        </Table>
+                    <Flex>
+                        <Box w="80%">
 
+                            <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                                <Table variant="striped">
+                                    <Thead >
+                                        <Tr >
+                                            <Th>Name</Th>
+                                            {/* <Th>Items</Th> */}
+                                            <Th>Total</Th>
+                                            <Th>Items</Th>
+                                            <Th>Edit</Th>
+                                            <Th>Delete</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody >
+                                        {cartItems.map((items, ind) => (
+                                            <Tr key={items.userId}>
+                                                <Td color="black">{items.userName}</Td>
+                                                {/* <Td color="black">Maggie</Td> */}
+                                                <Td color="black">{individualtotal[ind]}</Td>
+                                                <Td color="black">
+                                                    <IconButton
+                                                        color="blue.400"
+                                                        size="lg"
+                                                        fontSize="md"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => { onOpen(); setIsEditable(false); setSelectedItems(items.items) }}
+                                                        aria-label="View"
+                                                    />
+                                                </Td>
+                                                <Td color="black">
+                                                    <IconButton
+                                                        color="green"
+                                                        size="lg"
+                                                        fontSize="md"
+                                                        icon={<EditIcon />}
+                                                        onClick={() => { onOpen(); setIsEditable(true); setSelectedItems(items.items) }}
+                                                        aria-label="Edit"
+                                                        isDisabled={items.userId == user._id ? false : true}
+                                                    />
+                                                </Td>
+                                                <Td color="black">
+                                                    <IconButton
+                                                        color="red.400"
+                                                        size="lg"
+                                                        fontSize="md"
+                                                        icon={<DeleteIcon />}
+                                                        aria-label="Delete"
+                                                        onClick={DeleteIndividualCart}
+                                                        isDisabled={items.userId == user._id ? false : true}
+                                                    />
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
+
+                            </Box>
+                        </Box>
+                        <Box w="30%" pl={5}>
+                            <Flex
+                                direction="column"
+                                justify="space-between"
+                                mb={4}
+                                p={4}
+                                bg="white"
+                                boxShadow="md"
+                                borderRadius="md"
+                                height="320px"
+
+                            >
+                                <Stack spacing="4" align="left">
+                                    <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
+                                        <Text fontSize="lg" color="black">₹{totalamount}</Text>
+                                    </HStack>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
+                                        <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
+                                    </HStack>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
+                                        <Text fontSize="lg" color="black">Add coupon code</Text>
+                                    </HStack>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
+                                        <Text fontSize="lg" color="black">₹{totalamount}</Text>
+                                    </HStack>
+                                    <Box>
+                                        <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment} isDisabled={admin == user._id ? false : true}>
+                                            Payment
+                                        </Button>
                                     </Box>
-                                ) : (
-                                    <Text p={8} fontSize="2xl" color="white" align="center">
-                                        -- There are no orders from you. --
-                                    </Text>
-                                )}
+                                    {/* <Box>
+                                        <Button size="lg" fontSize="md" width={320} onClick={Delete} isDisabled={admin == user._id ? false : true}>
+                                            Delete Cart
+                                        </Button>
+                                    </Box> */}
+                                </Stack>
+                            </Flex>
+                        </Box>
 
-                            </Box>
-                            <Box w="30%" pl={5}>
-                                <Flex
-                                    direction="column"
-                                    justify="space-between"
-                                    mb={4}
-                                    p={4}
-                                    bg="white"
-                                    boxShadow="md"
-                                    borderRadius="md"
-                                    height="350px"
+                    </Flex>
+                    {/* ) : (
 
-                                >
-                                    <Stack spacing="4" align="left">
-                                        <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
-                                            <Text fontSize="lg" color="black">$300</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
-                                            <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
-                                            <Text fontSize="lg" color="black">Add coupon code</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
-                                            <Text fontSize="lg" color="black">{amount}Rs</Text>
-                                        </HStack>
-                                        <Box>
-                                            <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
-                                                Payment
-                                            </Button>
-                                        </Box>
-                                        <Box>
-                                            <Button size="lg" fontSize="md" width={320} onClick={Delete}>
-                                                Delete Cart
-                                            </Button>
-                                        </Box>
-                                    </Stack>
-                                </Flex>
-                            </Box>
+                    hotelid ?
+                    <Text fontSize={"50px"} color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
+                    <Text fontSize={"50px"} color="white" align={"center"}>-- Please Select Hotel --</Text>
 
-                        </Flex>
-                    ) : (
-
-                        hotelid ?
-                            <Text fontSize={"50px"} color="white" align={"center"}>-- Nothing is Added to the Cart --</Text> :
-                            <Text fontSize={"50px"} color="white" align={"center"}>-- Please Select Hotel --</Text>
-
-                    )}
+                    )} */}
                 </Box>
 
 
-                <Modal size="2xl" onClose={onClose} isOpen={isOpen} isCentered>
+                <Modal size="3xl" onClose={onClose} isOpen={isOpen} isCentered>
                     <ModalOverlay />
                     <ModalContent >
                         <ModalHeader align={"center"} fontSize={"40px"} color="black" fontWeight="bold" >Sushant</ModalHeader>
@@ -276,44 +447,54 @@ const Group = () => {
                                 <Table variant="striped">
                                     <Thead>
                                         <Tr>
-
                                             <Th color="black">Item</Th>
                                             <Th color="black">Price</Th>
                                             <Th color="black">Qnt.</Th>
-                                            <Th color="black">Inc</Th>
-                                            <Th color="black">Dec</Th>
+                                            {iseditable && <Th color="black">Inc</Th>}
+                                            {iseditable && <Th color="black">Dec</Th>}
                                             <Th color="black">Total</Th>
-                                            <Th color="black">Delete</Th>
+                                            {iseditable && <Th color="black">Delete</Th>}
 
                                         </Tr>
                                     </Thead>
                                     <Tbody >
-                                        {[1, 2, 3].map((item) => (
+                                        {selectedItems.map((item) => (
                                             <Tr key={item._id}>
-                                                <Td color="black">name</Td>
-                                                <Td color="black">price</Td>
-                                                <Td color="black">{count}</Td>
-                                                <Td>
-                                                    <Button size="sm" variant="outline" onClick={() => { setCount(count + 1) }} isDisabled={!iseditable}>
-                                                        +
-                                                    </Button>
-                                                </Td>
-                                                <Td>
-                                                    <Button size="sm" variant="outline" onClick={() => { setCount(count - 1 > -1 ? count - 1 : 0) }} isDisabled={!iseditable}>
-                                                        -
-                                                    </Button>
-                                                </Td>
-                                                <Td color="black">25</Td>
-                                                <Td color="black">
-                                                    <IconButton
-                                                        color="red.400"
-                                                        size="lg"
-                                                        fontSize="md"
-                                                        icon={<DeleteIcon />}
-                                                        aria-label="Delete"
-                                                        isDisabled={!iseditable}
-                                                    />
-                                                </Td>
+                                                <Td color="black">{item.name}</Td>
+                                                <Td color="black">{item.price}</Td>
+                                                <Td color="black">{item.quantity}</Td>
+                                                {
+                                                    iseditable &&
+                                                    <Td>
+                                                        <Button size="sm" variant="outline" onClick={() => { increaseQuantity(item) }} >
+                                                            +
+                                                        </Button>
+                                                    </Td>
+                                                }
+                                                {
+                                                    iseditable &&
+                                                    <Td>
+                                                        <Button size="sm" variant="outline" onClick={() => { decreaseQuantity(item) }}>
+                                                            -
+                                                        </Button>
+                                                    </Td>
+                                                }
+                                                <Td color="black">{item.price * item.quantity}</Td>
+                                                {
+
+                                                    iseditable &&
+                                                    <Td color="black">
+                                                        <IconButton
+                                                            color="red.400"
+                                                            size="lg"
+                                                            fontSize="md"
+                                                            icon={<DeleteIcon />}
+                                                            aria-label="Delete"
+                                                            isDisabled={!iseditable}
+                                                            onClick={() => { DeleteItem(item); }}
+                                                        />
+                                                    </Td>
+                                                }
                                             </Tr>
                                         ))}
                                     </Tbody>
@@ -321,7 +502,7 @@ const Group = () => {
                             </Box>
                         </ModalBody>
                         <ModalFooter>
-                            <Button colorScheme="blue" mr={3}>
+                            <Button colorScheme="blue" mr={3} onClick={() => { onClose(); setSelectedItems([]) }}>
                                 Close
                             </Button>
                         </ModalFooter>

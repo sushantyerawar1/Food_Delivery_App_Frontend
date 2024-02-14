@@ -124,7 +124,7 @@ const RejectedOrders = () => {
 
             if (status == 201) {
                 // setAllOrders(data.hotelOrders)
-                setTimeout(() => { setAllOrders(data.hotelOrders); setAllGroupOrders(data.hotelOrders) }, 800);
+                setTimeout(() => { setAllOrders(data.hotelOrders); }, 800);
                 setTimeout(() => { setLoading(false) }, 1000);
             }
 
@@ -144,16 +144,13 @@ const RejectedOrders = () => {
     useEffect(() => {
 
         var neworders = [];
-        var newgrouporders = [];
         allorders.forEach((order) => {
             if (order.orderAcceptOrDecline == "Rejected") {
                 neworders.push(order)
-                newgrouporders.push(order)
             }
         })
 
         setOrders(neworders);
-        setGroupOrders(newgrouporders);
 
     }, [allorders])
 
@@ -182,41 +179,57 @@ const RejectedOrders = () => {
         setPersonalOrder(!personalOrder);
     };
 
+    const getGroupOrderByHotel = async () => {
+        setLoading(true);
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${userInfo?.Token['token']}`
+                },
+            };
 
-    // const GetHotelGroupOrders = async () => {
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/gethotelgrouporders`,
+                {
+                    hotelId: user._id
+                },
+                config
+            );
 
-    //     try {
-    //         const config = {
-    //             headers: {
-    //                 "Content-type": "application/json",
-    //                 "Authorization": `Bearer ${userInfo?.Token['token']}`
-    //             },
-    //         };
+            console.log(data)
 
-    //         const { data, status } = await axios.post(
-    //             `http://localhost:5000/api/orders/getOrderByHotel`,
-    //             {
-    //                 hotelId: user._id
-    //             },
-    //             config
-    //         );
+            if (status == 201) {
+                setAllGroupOrders(data.hotelOrders);
+                setTimeout(() => { setLoading(false) }, 1000);
+            }
 
+        } catch (error) {
+            setTimeout(() => { setLoading(false) }, 800);
+            console.log("Error")
 
-    //         if (status == 201) {
-    //             setAllOrders(data.hotelOrders);
-    //         }
+        }
+    };
 
-    //     } catch (error) {
-    //         console.log(error)
-
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     GetHotelGroupOrders()
-    // }, [])
+    useEffect(() => {
+        getGroupOrderByHotel()
+    }, [])
 
 
+    useEffect(() => {
+
+        var newgrouporders = [];
+        allgrouporders.forEach((order) => {
+            if (order.orderStatus == "ORDER_REJECTED") {
+                newgrouporders.push(order)
+            }
+        })
+
+        setGroupOrders(newgrouporders);
+
+    }, [allgrouporders])
+
+    console.log(grouporders)
 
     return (
         <>
@@ -304,11 +317,11 @@ const RejectedOrders = () => {
                                         {currentGroupOrders.map((order) => (
                                             <Tr key={order._id}>
                                                 {/* <Td color="black">{order?._id.slice(0, 10)}....</Td> */}
-                                                <Td color="black">{order.userName}</Td>
+                                                <Td color="black">{order.groupName}</Td>
                                                 {/* <Td color="black">{order.items.join(', ')}</Td> */}
-                                                <Td color="black" onClick={() => { setSelectedOrder(order?.cartItems); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.cartItems[0].name}...</Td>
+                                                <Td color="black" onClick={() => { setSelectedOrder(order?.items); onOpen(); }} _hover={{ cursor: "pointer" }}>{order.items[0].name}...</Td>
                                                 <Td color="black">{order.amount}</Td>
-                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"45%"} p={3} color="black" bg="red.300">{order.orderAcceptOrDecline}</Box></Td>
+                                                <Td color="red"><Box border={"1px solid pale"} borderRadius={"10px"} w={"45%"} p={3} color="black" bg="red.300">{"Rejected"}</Box></Td>
                                                 {/* <Td color="black">
                                             <IconButton
                                                 color="blue.400"
@@ -325,12 +338,18 @@ const RejectedOrders = () => {
                                 }
                                 {orders.length == 0 && personalOrder &&
                                     <Tbody >
-                                        <Box color="black" >-- No Orders --</Box>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black">-- No Orders --</Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
                                     </Tbody>
                                 }
-                                {orders.length == 0 && !personalOrder &&
+                                {grouporders.length == 0 && !personalOrder &&
                                     <Tbody >
-                                        <Box color="black"  >-- No Orders --</Box>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
+                                        <Td> <Box color="black">-- No Orders --</Box></Td>
+                                        <Td> <Box color="black"></Box></Td>
                                     </Tbody>
                                 }
 

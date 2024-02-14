@@ -70,6 +70,56 @@ const GroupOrder = () => {
     const [code, setCode] = useState('');
     const [iseditable, setIsEditable] = useState(false);
     const [count, setCount] = useState(5);
+    const [totalamount, setTotalAmount] = useState()
+    const [individualtotal, setIndividualtotal] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const GetAllItems = async () => {
+
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${userInfo?.Token['token']}`
+                },
+            };
+
+            const { data, status } = await axios.post(
+                `http://localhost:5000/api/groupOrders/fetchgroup`,
+                {
+                    groupId: GroupId
+                },
+                config
+            );
+
+            console.log(data, status, "allldatttttttttttttttttttt")
+            if (status == 201) {
+                // setAdmin(data.adminId);
+                setCartItems(data.cart);
+                setTotalAmount(data.total);
+                setIndividualtotal(data.indvtotal)
+            }
+
+            // var amount1 = 0;
+            // for (let i = 0; i < data.items.length; i++) {
+            //     amount1 += (data.items[i].price) * (data.items[i].quantity)
+            // }
+
+            // setAmount(amount1)
+            // setCartItems(data.items);
+
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+
+
+    useEffect(() => {
+        GetAllItems()
+    }, []);
+
 
 
 
@@ -94,167 +144,109 @@ const GroupOrder = () => {
                         {GroupName}
                     </Text>
 
-                    {1 ? (
-                        <Flex>
-                            <Box w="80%">
-                                {[1, 2, 3].length > 0 ? (
-                                    <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
-                                        {/* <Text fontSize={"50px"} align={'center'} mb={6} color={"black"}>
-                                            Orders
-                                        </Text> */}
-                                        <Table variant="striped">
-                                            <Thead >
-                                                <Tr >
-                                                    <Th>Name</Th>
-                                                    <Th>Items</Th>
-                                                    <Th>Total</Th>
-                                                    <Th>View</Th>
 
-                                                </Tr>
-                                            </Thead>
-                                            <Tbody >
-                                                {[1, 2, 3].map((order, ind) => (
-                                                    <Tr key={ind}>
-                                                        <Td color="black">Sushant</Td>
-                                                        <Td color="black">Maggie</Td>
-                                                        <Td color="black">25</Td>
-                                                        <Td color="black">
-                                                            <IconButton
-                                                                color="blue.400"
-                                                                size="lg"
-                                                                fontSize="md"
-                                                                icon={<ViewIcon />}
-                                                                onClick={() => { onOpen(); setIsEditable(false) }}
-                                                                aria-label="View"
-                                                            />
-                                                        </Td>
-                                                    </Tr>
-                                                ))}
-                                            </Tbody>
-                                        </Table>
 
-                                    </Box>
-                                ) : (
-                                    <Text p={8} fontSize="2xl" color="white" align="center">
-                                        -- There are no orders from you. --
-                                    </Text>
-                                )}
+                    <Flex>
+                        <Box w="80%">
+
+                            <Box p={8} width="80%" bg="white" borderRadius="md" boxShadow="md">
+                                <Table variant="striped">
+                                    <Thead >
+                                        <Tr >
+                                            <Th>Name</Th>
+                                            {/* <Th>Items</Th> */}
+                                            <Th>Total</Th>
+                                            <Th>Items</Th>
+
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody >
+                                        {cartItems.map((items, ind) => (
+                                            <Tr key={items.userId}>
+                                                <Td color="black">{items.userName}</Td>
+                                                {/* <Td color="black">Maggie</Td> */}
+                                                <Td color="black">{individualtotal[ind]}</Td>
+                                                <Td color="black">
+                                                    <IconButton
+                                                        color="blue.400"
+                                                        size="lg"
+                                                        fontSize="md"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => { onOpen(); setIsEditable(false); setSelectedItems(items.items) }}
+                                                        aria-label="View"
+                                                    />
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
 
                             </Box>
-                            <Box w="30%" pl={5}>
-                                <Flex
-                                    direction="column"
-                                    justify="space-between"
-                                    mb={4}
-                                    p={4}
-                                    bg="white"
-                                    boxShadow="md"
-                                    borderRadius="md"
-                                    height="250px"
+                        </Box>
+                        <Box w="30%" pl={5}>
+                            <Flex
+                                direction="column"
+                                justify="space-between"
+                                mb={4}
+                                p={4}
+                                bg="white"
+                                boxShadow="md"
+                                borderRadius="md"
+                                height="260px"
 
-                                >
-                                    <Stack spacing="4" align="left">
-                                        <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
-                                            <Text fontSize="lg" color="black">$300</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
-                                            <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
-                                            <Text fontSize="lg" color="black">Add coupon code</Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
-                                            <Text fontSize="lg" color="black">{amount}Rs</Text>
-                                        </HStack>
-                                        {/* <Box>
-                                            <Button colorScheme="green" size="lg" fontSize="md" width={320} onClick={Payment}>
-                                                Payment
-                                            </Button>
-                                        </Box>
-                                        <Box>
-                                            <Button size="lg" fontSize="md" width={320} onClick={Delete}>
-                                                Delete Cart
-                                            </Button>
-                                        </Box> */}
-                                    </Stack>
-                                </Flex>
-                                {/* {
-                                    role == "hotel" &&
-                                    <Box display={"flex"} ml="15%">
-                                        <Button colorScheme="green" size="lg" fontSize="md"  >
-                                            Accept
-                                        </Button>
-                                        <Button size="lg" fontSize="md" ml={10}>
-                                            Reject
-                                        </Button>
-                                    </Box>
-                                } */}
-                            </Box>
+                            >
+                                <Stack spacing="4" align="left">
+                                    <Text fontSize="xl" color="black" fontWeight="semibold">Order Summary</Text>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Subtotal:</Text>
+                                        <Text fontSize="lg" color="black">₹{totalamount}</Text>
+                                    </HStack>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Shipping + Tax:</Text>
+                                        <Text fontSize="lg" align="right" color="black">Calculate shipping</Text>
+                                    </HStack>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Coupon Code:</Text>
+                                        <Text fontSize="lg" color="black">Add coupon code</Text>
+                                    </HStack>
+                                    <HStack justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold" color="black">Total:</Text>
+                                        <Text fontSize="lg" color="black">₹{totalamount}</Text>
+                                    </HStack>
+                                </Stack>
+                            </Flex>
+                        </Box>
 
-                        </Flex>
-                    ) : (
+                    </Flex>
 
-                        <Text p={8} fontSize="2xl" color="white" align="center">
-                            -- There are no orders from you. --
-                        </Text>
-
-                    )}
                 </Box>
 
 
-                <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
+                <Modal size="3xl" onClose={onClose} isOpen={isOpen} isCentered>
                     <ModalOverlay />
                     <ModalContent >
                         <ModalHeader align={"center"} fontSize={"40px"} color="black" fontWeight="bold" >Sushant</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <Box maxW="100%" borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
+                            <Box maxW="140%" borderWidth='1px' borderRadius='lg' overflow='hidden' ml={10} color="white">
                                 <Table variant="striped">
                                     <Thead>
                                         <Tr>
-
                                             <Th color="black">Item</Th>
                                             <Th color="black">Price</Th>
                                             <Th color="black">Qnt.</Th>
-                                            {/* <Th color="black">Inc</Th>
-                                            <Th color="black">Dec</Th> */}
                                             <Th color="black">Total</Th>
-                                            {/* <Th color="black">Delete</Th> */}
+
 
                                         </Tr>
                                     </Thead>
                                     <Tbody >
-                                        {[1, 2, 3].map((item) => (
+                                        {selectedItems.map((item) => (
                                             <Tr key={item._id}>
-                                                <Td color="black">name</Td>
-                                                <Td color="black">price</Td>
-                                                <Td color="black">{count}</Td>
-                                                {/* <Td>
-                                                    <Button size="sm" variant="outline" onClick={() => { setCount(count + 1) }} isDisabled={!iseditable}>
-                                                        +
-                                                    </Button>
-                                                </Td>
-                                                <Td>
-                                                    <Button size="sm" variant="outline" onClick={() => { setCount(count - 1 > -1 ? count - 1 : 0) }} isDisabled={!iseditable}>
-                                                        -
-                                                    </Button>
-                                                </Td> */}
-                                                <Td color="black">25</Td>
-                                                {/* <Td color="black">
-                                                    <IconButton
-                                                        color="red.400"
-                                                        size="lg"
-                                                        fontSize="md"
-                                                        icon={<DeleteIcon />}
-                                                        aria-label="Delete"
-                                                        isDisabled={!iseditable}
-                                                    />
-                                                </Td> */}
+                                                <Td color="black">{item.name}</Td>
+                                                <Td color="black">{item.price}</Td>
+                                                <Td color="black">{item.quantity}</Td>
+                                                <Td color="black">{item.price * item.quantity}</Td>
                                             </Tr>
                                         ))}
                                     </Tbody>
@@ -262,7 +254,7 @@ const GroupOrder = () => {
                             </Box>
                         </ModalBody>
                         <ModalFooter>
-                            <Button colorScheme="blue" mr={3}>
+                            <Button colorScheme="blue" mr={3} onClick={() => { onClose(); setSelectedItems([]) }}>
                                 Close
                             </Button>
                         </ModalFooter>
@@ -273,5 +265,6 @@ const GroupOrder = () => {
         </>
     );
 };
+
 
 export default GroupOrder;
