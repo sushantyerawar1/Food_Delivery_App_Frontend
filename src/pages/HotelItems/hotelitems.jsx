@@ -138,6 +138,8 @@ const HotelItems = () => {
         }
     };
 
+    console.log(catalogItems, "catalogItemscatalogItemscatalogItems")
+
 
 
     const handleUpdateItem = async () => {
@@ -182,7 +184,7 @@ const HotelItems = () => {
                         "price": selectedItem.price,
                         "imageLink": selectedItem.pic,
                         "quantity": 1,
-                        "availabilityStatus": true,
+                        "availabilityStatus": selectedItem.availabilityStatus,
                         "description": selectedItem.description,
                         "rating": selectedItem.rating,
                         "category": selectedItem.category
@@ -681,6 +683,17 @@ const HotelItems = () => {
                                     onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}
                                 />
                             </FormControl>
+                            <FormControl id="availabilityStatus" isRequired>
+                                <FormLabel>Availability Status</FormLabel>
+                                <Select placeholder='Select option'
+                                    value={selectedItem?.availabilityStatus}
+                                    onChange={(e) => setSelectedItem({ ...selectedItem, availabilityStatus: e.target.value })}
+                                >
+                                    <option value='true'>Yes</option>
+                                    <option value='false'>No</option>
+                                </Select>
+                            </FormControl>
+
 
                             <FormControl id="price" isRequired>
                                 <FormLabel>Price</FormLabel>
